@@ -14,6 +14,7 @@ public class AuthService {
 	private EmployeeDAO daoe;
 
 	public LoginResponseDTO findByLoginIdAndPw(LoginDTO dto) {
+		System.out.println("1");
 		return daoe.findByLoginIdAndPw(dto);
 	}
 	
