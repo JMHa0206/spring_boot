@@ -23,6 +23,7 @@ public class AuthController {
 	
 	@Autowired
 	private JWTUtil jwt;
+	@Autowired
 	private AuthService aServ;
 
 	@PostMapping("/login")
