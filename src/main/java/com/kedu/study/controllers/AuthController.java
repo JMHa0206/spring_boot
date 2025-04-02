@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kedu.study.dto.LoginDTO;
+import com.kedu.study.dto.LoginResponseDTO;
+import com.kedu.study.service.AuthService;
 import com.kedu.study.utils.JWTUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,15 +23,16 @@ public class AuthController {
 	
 	@Autowired
 	private JWTUtil jwt;
+	private AuthService aServ;
 
 	@PostMapping("/login")
 	public ResponseEntity<String> login(@RequestBody LoginDTO dto){
 		System.out.println(dto.getId()+"  :  입력된 아이디"+dto.getPw()+"   :   입력된 PW");
 		
-		//DB 조회하는 코드가 여기에 있겠쥬..??
+		LoginResponseDTO userinfo = aServ.findByLoginIdAndPw(dto);
 		
 		if(true) {
-			String token = jwt.createToken(dto.getId());
+			String token = jwt.createToken(dto.getId(), userinfo.getPer_secure(), userinfo.getPer_function());
 			System.out.println(token);
 			return ResponseEntity.ok(token);
 		}
