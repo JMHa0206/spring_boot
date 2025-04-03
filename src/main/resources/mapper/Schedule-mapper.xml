@@ -5,7 +5,16 @@
 <mapper namespace="schedule">
 
 	<insert id="inputEvent" parameterType="com.kedu.study.dto.ScheduleDTO">
-		INSERT into schedule values (#{schedule_id}, #{s_category_id}, #{s_emp_id}, #{s_dept_id}, #{schedule_title}, #{schedule_content}, #{start_date}, #{end_date}, #{startTime}, #{endTime});
+		INSERT into schedule values ( #{schedule_id},
+    #{s_category_id},
+    #{s_emp_id},
+    #{s_dept_id},
+    #{schedule_title, jdbcType=VARCHAR},
+    #{schedule_content, jdbcType=VARCHAR},
+    #{start_date, jdbcType=DATE},
+    #{end_date, jdbcType=DATE},
+    #{startTime, jdbcType=VARCHAR},
+    #{endTime, jdbcType=VARCHAR});
 	</insert>
 
 </mapper>
