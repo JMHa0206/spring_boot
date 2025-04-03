@@ -1,5 +1,12 @@
 package com.kedu.study.service.EDMS;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.kedu.study.dao.EDMS.EDMSFileDAO;
+import com.kedu.study.dto.EDMSFileDTO;
+
 @Service
 public class EDMSFileService {
 

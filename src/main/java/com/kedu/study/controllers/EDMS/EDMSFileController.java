@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kedu.study.dto.EDMSFileDTO;
+import com.kedu.study.service.EDMS.EDMSFileService;
 
 @RestController
 @RequestMapping("/api/files")
