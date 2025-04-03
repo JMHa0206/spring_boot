@@ -2,7 +2,7 @@ package com.kedu.study.dto;
 
 import java.security.Timestamp;
 
-public class activityDTO {
+public class ActivityDTO {
 	private int activity_id;
 	private int attendance_id;
 	private String activity_type;
@@ -10,9 +10,9 @@ public class activityDTO {
 	private Timestamp end_time;
 	private Double activity_hours;
 	
-	public activityDTO() {}
+	public ActivityDTO() {}
 	
-	public activityDTO(int activity_id, int attendance_id, String activity_type, Timestamp start_time,
+	public ActivityDTO(int activity_id, int attendance_id, String activity_type, Timestamp start_time,
 			Timestamp end_time, Double activity_hours) {
 		super();
 		this.activity_id = activity_id;
