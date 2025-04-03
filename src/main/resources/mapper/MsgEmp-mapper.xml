@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="MsgEmp">
+
+	<select id="select" resultType="com.kedu.study.dto.MsgEmpDTO">
+		SELECT e.emp_code_id AS emp_code_id, e.emp_name AS emp_name, d.dept_name AS dept_name
+		FROM employee e
+		JOIN department d 
+		ON e.emp_dept_id = d.dept_id
+	</select>
+
+</mapper>
