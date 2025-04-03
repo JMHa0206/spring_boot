@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="AttendanceMapper">
+    <!-- 출근 기록 등록 (attendance 테이블) -->
+    <insert id="checkIn" parameterType="com.kedu.study.dto.AttendanceDTO">
+        INSERT INTO attendance (
+            attendance_id,
+            emp_loginId,
+            record_date,
+            check_in_time,
+            status,
+            created_at
+        ) VALUES (
+            attendance_seq.nextval,
+            #{emp_loginId},
+            #{record_date},
+            #{check_in_time},
+            '출근',
+            SYSDATE
+        )
+    </insert>
+    
+    <!-- 출근 활동 등록 (activity 테이블) -->
+    <insert id="insertActivity" parameterType="com.kedu.study.dto.ActivityDTO">
+        INSERT INTO activity (
+            activity_id,
+            attendance_id,
+            activity_type,
+            start_time,
+            end_time,
+            activity_hours
+        ) VALUES (
+            activity_seq.NEXTVAL,
+            #{attendance_id},
+            '출근',
+            #{check_in_time},
+            #{check_in_time},
+            0
+        )
+    </insert>
+</mapper>
