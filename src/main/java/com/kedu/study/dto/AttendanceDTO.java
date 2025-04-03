@@ -2,9 +2,9 @@ package com.kedu.study.dto;
 
 import java.sql.Timestamp;
 
-public class attendanceDTO {
+public class AttendanceDTO {
 	private int attendance_id;
-	private int emp_code_id;
+	private String emp_loginId;	//사원아이디
 	private Timestamp record_date ;
 	private Timestamp check_in_time;
 	private Timestamp check_out_time;
@@ -14,14 +14,14 @@ public class attendanceDTO {
 	private Double overtime_hours;
 	private Timestamp created_at;
 	
-	public attendanceDTO() {}
+	public AttendanceDTO() {}
 	
-	public attendanceDTO(int attendance_id, int emp_code_id, Timestamp record_date, Timestamp check_in_time,
+	public AttendanceDTO(int attendance_id, String emp_loginId, Timestamp record_date, Timestamp check_in_time,
 			Timestamp check_out_time, String status, String reason, Double work_hours, Double overtime_hours,
 			Timestamp created_at) {
 		super();
 		this.attendance_id = attendance_id;
-		this.emp_code_id = emp_code_id;
+		this.emp_loginId = emp_loginId;
 		this.record_date = record_date;
 		this.check_in_time = check_in_time;
 		this.check_out_time = check_out_time;
@@ -38,12 +38,15 @@ public class attendanceDTO {
 	public void setAttendance_id(int attendance_id) {
 		this.attendance_id = attendance_id;
 	}
-	public int getEmp_code_id() {
-		return emp_code_id;
+	
+	public String getEmp_loginId() {
+		return emp_loginId;
 	}
-	public void setEmp_code_id(int emp_code_id) {
-		this.emp_code_id = emp_code_id;
+
+	public void setEmp_loginId(String emp_loginId) {
+		this.emp_loginId = emp_loginId;
 	}
+
 	public Timestamp getRecord_date() {
 		return record_date;
 	}
