@@ -10,5 +10,9 @@
 		JOIN department d 
 		ON e.emp_dept_id = d.dept_id
 	</select>
-
+	
+	<select id="selectGroupId" resultType="com.kedu.study.dto.ChattingRoomDTO">
+		select * from msg
+	</select>
+	
 </mapper>
