@@ -1,15 +1,33 @@
 package com.kedu.study.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+public class EDMSSignOffDTO {
+    private Long stateCode;
+    private String stateName;
+    private String signOffName;
 
-/** EDMS_sign_off: 결재상태 DTO */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-class EdmsSignOffDTO {
-    private Long state_code;
-    private String state_name;
-    private String sign_off_name;
+    public EDMSSignOffDTO() {}
+
+    public Long getStateCode() {
+        return stateCode;
+    }
+
+    public void setStateCode(Long stateCode) {
+        this.stateCode = stateCode;
+    }
+
+    public String getStateName() {
+        return stateName;
+    }
+
+    public void setStateName(String stateName) {
+        this.stateName = stateName;
+    }
+
+    public String getSignOffName() {
+        return signOffName;
+    }
+
+    public void setSignOffName(String signOffName) {
+        this.signOffName = signOffName;
+    }
 }
