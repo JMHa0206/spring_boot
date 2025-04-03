@@ -1,6 +1,6 @@
 package com.kedu.study.dto;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 
 public class ActivityDTO {
 	private int activity_id;
