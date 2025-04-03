@@ -1,15 +1,89 @@
 package com.kedu.study.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+public class EDMSFormDTO {
+    private int formId;
+    private String formName;
+    private String formContent;
+    private String formType;
+    private String createdAt;
+    private String createdBy;
+    
+    
+	public EDMSFormDTO() {
+		super();
+	}
 
-/** EDMS_form: 결재양식 DTO */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-class EdmsFormDTO {
-    private Long form_id;
-    private String form_name;        // 양식명
-    private String form_content;     // 양식 내용
+
+	public int getFormId() {
+		return formId;
+	}
+
+
+	public void setFormId(int formId) {
+		this.formId = formId;
+	}
+
+
+	public String getFormName() {
+		return formName;
+	}
+
+
+	public void setFormName(String formName) {
+		this.formName = formName;
+	}
+
+
+	public String getFormContent() {
+		return formContent;
+	}
+
+
+	public void setFormContent(String formContent) {
+		this.formContent = formContent;
+	}
+
+
+	public String getFormType() {
+		return formType;
+	}
+
+
+	public void setFormType(String formType) {
+		this.formType = formType;
+	}
+
+
+	public String getCreatedAt() {
+		return createdAt;
+	}
+
+
+	public void setCreatedAt(String createdAt) {
+		this.createdAt = createdAt;
+	}
+
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+
+	public EDMSFormDTO(int formId, String formName, String formContent, String formType, String createdAt,
+			String createdBy) {
+		super();
+		this.formId = formId;
+		this.formName = formName;
+		this.formContent = formContent;
+		this.formType = formType;
+		this.createdAt = createdAt;
+		this.createdBy = createdBy;
+	}
+    
+    
 }
