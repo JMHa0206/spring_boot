@@ -8,12 +8,12 @@
     SELECT
       e.emp_loginId,
       e.emp_name,
-      r.role_id,
-      r.role_function,
-      r.role_security
+      p.per_id,
+      p.per_function,
+      p.per_secure
     FROM
       employee e
-      JOIN role r ON e.role_id = r.role_id
+      JOIN permission p ON e.emp_per_id = p.per_id
     WHERE
       e.emp_loginId = #{id}
       AND e.emp_pw = #{pw}
