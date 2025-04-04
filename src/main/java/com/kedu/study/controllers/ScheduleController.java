@@ -21,6 +21,7 @@ public class ScheduleController {
 	
 	@PostMapping
 	public ResponseEntity<List<ScheduleDTO>> inputEvent(@RequestBody ScheduleDTO event){
+		System.out.println(event.getCategory_id() + " : " + event.getId() + " : " + event.getTitle() + " : " + event.getContent());;
 		sServ.inputEvent(event);
 		return ResponseEntity.ok().build();
 	}
