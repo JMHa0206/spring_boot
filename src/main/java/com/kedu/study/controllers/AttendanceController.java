@@ -53,7 +53,8 @@ public class AttendanceController {
 	@PostMapping("/checkOut")
 	public ResponseEntity<String> checkOut(@RequestBody AttendanceDTO attendancedto,
 			HttpServletRequest request){
-		
+		System.out.println("퇴근 요청 받은 ID: " + attendancedto.getEmp_loginId());
+
 		String userId = (String)request.getAttribute("userId");
 		
 		attendancedto.setEmp_loginId(userId); // 로그인 아이디
@@ -71,74 +72,3 @@ public class AttendanceController {
 	}
 
 }
-
-//	@PostMapping("/checkOut")
-//	eqwe
-//	@PostMapping("/work")
-//	
-//	@PostMapping("/outing")
-	
-
-
-
-
-
-
-
-
-
-
-//	
-//	@PostMapping("/checkIn")
-//	public String checkIn(@RequestBody ScheduleDTO checkInRequest) {		// insert 하고 나머지는 다 update로 하면됨
-//		
-//		LocalDateTime checkInTime = LocalDateTime.now();
-//
-//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-//		String formattedTime = checkInTime.format(formatter);
-//
-//		System.out.println("출근 시간: " + formattedTime);
-//
-//		return "출근 시간을 기록했습니다: " + formattedTime;
-//	}
-//
-//	@PostMapping("/checkOut")
-//	public String checkOut(@RequestBody ScheduleDTO checkOutRequest) {
-//
-//		LocalDateTime checkOutTime = LocalDateTime.now();
-//
-//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-//		String formattedTime = checkOutTime.format(formatter);
-//
-//		System.out.println("퇴근 시간: " + formattedTime);
-//
-//		return "퇴근 시간을 기록했습니다: " + formattedTime;
-//	}
-//
-//	@PostMapping("/work")
-//	public String work(@RequestBody ScheduleDTO workRequest) {
-//
-//		LocalDateTime workTime = LocalDateTime.now();
-//
-//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-//		String formattedTime = workTime.format(formatter);
-//
-//		System.out.println("업무 시간: " + formattedTime);
-//
-//		return "업무 시간을 기록했습니다: " + formattedTime;
-//	}
-//
-//	@PostMapping("/outing")
-//	public String outing(@RequestBody ScheduleDTO outingRequest) {
-//
-//		LocalDateTime outingTime = LocalDateTime.now();
-//
-//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-//		String formattedTime = outingTime.format(formatter);
-//
-//		System.out.println("외근 시간: " + formattedTime);
-//
-//		return "외근 시간을 기록했습니다: " + formattedTime;
-//	}
-
-

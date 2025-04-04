@@ -13,53 +13,58 @@ import java.time.temporal.ChronoUnit;
 @Service
 public class AttendanceService {
 
-    @Autowired
-    private AttendanceDAO ADao;
+	@Autowired
+	private AttendanceDAO ADao;
 
-    public int checkIn(AttendanceDTO attendancedto) {
-        LocalDateTime checkInTime = attendancedto.getCheck_in_time().toLocalDateTime();
+	public int checkIn(AttendanceDTO attendancedto) {
+		LocalDateTime checkInTime = attendancedto.getCheck_in_time().toLocalDateTime();
 
-        double workHours = 0;
-        double overtimeHours = 0; 
+		double workHours = 0;
+		double overtimeHours = 0;
 
+		attendancedto.setWork_hours(workHours);
+		attendancedto.setOvertime_hours(overtimeHours);
+		attendancedto.setRecord_date(Timestamp.valueOf(LocalDateTime.now()));
+		return ADao.checkIn(attendancedto);
+	}
 
-        attendancedto.setWork_hours(workHours);
-        attendancedto.setOvertime_hours(overtimeHours);
+	public int checkOut(AttendanceDTO attendancedto) {
+		if (attendancedto.getCheck_out_time() == null) {
+			attendancedto.setCheck_out_time(Timestamp.valueOf(LocalDateTime.now()));
+		}
 
-        return ADao.checkIn(attendancedto);
-    }
+		// DB에서 당일 출근 시간 조회
+		Timestamp checkInTimestamp = ADao.getTodayCheckIn(attendancedto.getEmp_loginId());
 
-    public int checkOut(AttendanceDTO attendancedto) {
-        // 출근 시간이 null인 경우 처리
-        if (attendancedto.getCheck_in_time() == null) {
-            throw new IllegalArgumentException("출근 시간이 기록되지 않았습니다.");
-        }
+		if (checkInTimestamp == null) {
+			throw new IllegalArgumentException("출근 기록이 없습니다.");
+		}
 
-        // 퇴근 시간이 null인 경우 현재 시간을 퇴근 시간으로 설정
-        if (attendancedto.getCheck_out_time() == null) {
-            attendancedto.setCheck_out_time(Timestamp.valueOf(LocalDateTime.now()));  // 현재 시간을 퇴근 시간으로 설정
-        }
+		attendancedto.setCheck_in_time(checkInTimestamp);
 
-        // 출근 시간과 퇴근 시간 변환
-        LocalDateTime checkInTime = attendancedto.getCheck_in_time().toLocalDateTime();
-        LocalDateTime checkOutTime = attendancedto.getCheck_out_time().toLocalDateTime();
+		LocalDateTime checkInTime = checkInTimestamp.toLocalDateTime();
+		LocalDateTime checkOutTime = attendancedto.getCheck_out_time().toLocalDateTime();
 
-        // 근무 시간 계산 (분 단위 차이)
-        long workMinutes = ChronoUnit.MINUTES.between(checkInTime, checkOutTime);
-        double workHours = workMinutes / 60.0;
+		long workMinutes = ChronoUnit.MINUTES.between(checkInTime, checkOutTime);
+		double workHours = workMinutes / 60.0;
 
-        // 초과 근무 시간 계산
-        double overtimeHours = 0;
-        if (workHours > 8) {
-            overtimeHours = workHours - 8;
-        }
+		double overtimeHours = 0;
+		if (workHours > 8) {
+			overtimeHours = workHours - 8;
+		}
 
-        // DTO에 계산된 근무 시간 및 초과 근무 시간 세팅
-        attendancedto.setWork_hours(workHours);
-        attendancedto.setOvertime_hours(overtimeHours);
+		attendancedto.setWork_hours(workHours);
+		attendancedto.setOvertime_hours(overtimeHours);
 
-        // DB에 퇴근 시간 및 근무 시간 업데이트
-        return ADao.checkOut(attendancedto);
-    }
+		int result = ADao.checkOut(attendancedto);
+		System.out.println(result+": result");
+		if (result > 0) {
+			System.out.println("퇴근 기록과 근무 시간이 DB에 성공적으로 업데이트되었습니다.");
+		} else {
+			System.out.println("퇴근 기록 업데이트 실패");
+		}
+
+		return result;
+	}
 
 }
