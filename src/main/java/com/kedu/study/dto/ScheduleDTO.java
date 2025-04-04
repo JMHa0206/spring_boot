@@ -11,8 +11,8 @@ import java.time.LocalTime;public class ScheduleDTO {
 	private int category_id;
 	private String title;
 	private String content;
-	private LocalDate start;
-	private LocalDate end;
+	private LocalDate start_date;
+	private LocalDate end_date;
 	private LocalTime startTime;
 	private LocalTime endTime;
 	
@@ -27,8 +27,8 @@ import java.time.LocalTime;public class ScheduleDTO {
 		this.category_id = category_id;
 		this.title = title;
 		this.content = content;
-		this.start = start;
-		this.end = end;
+		this.start_date = start;
+		this.end_date = end;
 		this.startTime = startTime;
 		this.endTime = endTime;
 	}
@@ -74,23 +74,26 @@ import java.time.LocalTime;public class ScheduleDTO {
 	}
 
 
-	public LocalDate getStart() {
-		return start;
+	
+
+
+	public LocalDate getStart_date() {
+		return start_date;
 	}
 
 
-	public void setStart(LocalDate start) {
-		this.start = start;
+	public void setStart_date(LocalDate start_date) {
+		this.start_date = start_date;
 	}
 
 
-	public LocalDate getEnd() {
-		return end;
+	public LocalDate getEnd_date() {
+		return end_date;
 	}
 
 
-	public void setEnd(LocalDate end) {
-		this.end = end;
+	public void setEnd_date(LocalDate end_date) {
+		this.end_date = end_date;
 	}
 
 
