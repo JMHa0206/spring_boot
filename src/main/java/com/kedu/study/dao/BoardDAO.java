@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 
 import com.kedu.study.dto.BoardDTO;
 
+
+
 @Repository
 public class BoardDAO {
 	@Autowired
@@ -15,15 +17,9 @@ public class BoardDAO {
 	
 	public List<BoardDTO> selectAll(){
 		System.out.println("3");
-		return mybatis.selectList("Contacts.selectAll");
+		return mybatis.selectList("board.selectAll");
+		
 	};
 	
-	public int insert(BoardDTO dto) {
-		return mybatis.insert("Contacts.insertContact",dto);
-		
-	}
-	//아이디로 삭제
-	public int delete(int id) {
-		return mybatis.delete("Contacts.deleteContact",id);
-	}
+
 }
