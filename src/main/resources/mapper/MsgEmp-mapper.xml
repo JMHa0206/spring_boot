@@ -11,8 +11,19 @@
 		ON e.emp_dept_id = d.dept_id
 	</select>
 	
-	<select id="selectGroupId" resultType="com.kedu.study.dto.ChattingRoomDTO">
-		select * from msg
+	<select id="selectMine" resultType="com.kedu.study.dto.MsgEmpMineDTO">
+		select emp_code_id,emp_dept_id,emp_name from employee where emp_loginid = #{userId}
 	</select>
+	
+	<insert id="madeChatRoom" parameterType="map">
+		insert into msg values(chatroom_seq.nextval,#{targetname},#{myname},concat(concat(#{targetname}, ','),#{myname}) ,2)
+	</insert>
+	
+	<select id="checkIfExists" parameterType="map" resultType="int">
+   SELECT COUNT(*) 
+    FROM msg
+    WHERE group_member = CONCAT(CONCAT(#{targetname}, ','), #{myname})
+       OR group_member = CONCAT(CONCAT(#{myname}, ','), #{targetname})
+</select>
 	
 </mapper>
