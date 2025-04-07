@@ -10,5 +10,41 @@
 		JOIN department d 
 		ON e.emp_dept_id = d.dept_id
 	</select>
+	
+	<select id="selectMine" resultType="com.kedu.study.dto.MsgEmpMineDTO">
+		select emp_code_id,emp_dept_id,emp_name from employee where emp_loginid = #{userId}
+	</select>
+	
+	<insert id="madeChatRoom" parameterType="map">
+		insert into msg values(chatroom_seq.nextval,#{targetname},#{myname},concat(concat(#{targetname}, ','),#{myname}) ,2)
+		<selectKey order="AFTER" keyProperty="seq" resultType="int">
+        select chatroom_seq.currval from dual
+    	</selectKey>
+	</insert>
+	
+	<select id="checkIfExists" parameterType="map" resultType="int">
+   SELECT COUNT(*) 
+    FROM msg
+    WHERE group_member = CONCAT(CONCAT(#{targetname}, ','), #{myname})
+       OR group_member = CONCAT(CONCAT(#{myname}, ','), #{targetname})
+	</select>
+	
+	<select id="checkRoomSeqExist" resultType="map">
+    SELECT msg_group_id
+    FROM msg
+     WHERE group_member = CONCAT(CONCAT(#{targetId}, ','), #{myId})
+       OR group_member = CONCAT(CONCAT(#{myId}, ','), #{targetId})
+	</select>
+	
+	<select id="showMessages" resultType="com.kedu.study.dto.MessageDTO">
+    SELECT m.msg_id,m.msg_group_id,m.msg_emp_id,m.msg_content,m.send_date,m.read 
+    FROM messages m
+    join msg g
+    on m.msg_group_id = g.msg_group_id
+    where m.msg_group_id = #{seq}
+    order by m.msg_id asc
 
+	</select>
+
+	
 </mapper>

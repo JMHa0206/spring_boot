@@ -24,6 +24,7 @@ import com.kedu.study.service.BoardService;
 //@CrossOrigin(origins = "http://10.5.5.6:3000") 
 public class BoardController {
 
+
 	 @Autowired
 	    private BoardService boardService;
 
@@ -33,3 +34,5 @@ public class BoardController {
 	        return boardService.getBoardList();
 	    }
 }
+
+

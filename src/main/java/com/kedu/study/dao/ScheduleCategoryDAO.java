@@ -4,16 +4,17 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.kedu.study.dto.MessageDTO;
+import com.kedu.study.dto.ScheduleCategoryDTO;
+
 
 @Repository
-public class MessageDAO {
+public class ScheduleCategoryDAO {
 	
 	@Autowired
 	private SqlSession mybatis;
 	
-	public void saveMessage(MessageDTO message) {
-		mybatis.insert("Message.saveMessage",message);
+	public void inputCalender(ScheduleCategoryDTO calender) {
+		mybatis.insert("schedule.inputCalender", calender);
 	}
-	
+
 }

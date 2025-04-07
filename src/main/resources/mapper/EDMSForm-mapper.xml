@@ -3,30 +3,47 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-
 <mapper namespace="EDMSForm">
 
-    <select id="findAllForms" resultType="com.kedu.study.dto.EDMSFormDTO">
-        SELECT * FROM edms_form
-    </select>
+  <!-- ✅ 1. ResultMap 설정 -->
+  <resultMap id="FormResultMap" type="com.kedu.study.dto.EDMSFormDTO">
+    <id property="formId" column="form_id" />
+    <result property="formName" column="form_name" />
+    <result property="formContent" column="form_content" />
+    <result property="formType" column="form_type" />
+    <result property="createdAt" column="created_at" />
+    <result property="createdBy" column="created_by" />
+  </resultMap>
 
-    <select id="findFormById" parameterType="int" resultType="com.kedu.study.dto.EDMSFormDTO">
-        SELECT * FROM edms_form WHERE form_id = #{formId}
-    </select>
+  <!-- ✅ 2. 전체 조회 -->
+  <select id="findAllForms" resultMap="FormResultMap">
+    SELECT * FROM edms_form
+  </select>
 
-    <insert id="insertForm" parameterType="com.kedu.study.dto.EDMSFormDTO">
-        INSERT INTO edms_form (form_name, form_desc, created_at)
-        VALUES (#{formName}, #{formDesc}, NOW())
-    </insert>
+  <!-- ✅ 3. 단일 조회 -->
+  <select id="findFormById" parameterType="int" resultMap="FormResultMap">
+    SELECT * FROM edms_form WHERE form_id = #{formId}
+  </select>
 
-    <update id="updateForm" parameterType="com.kedu.study.dto.EDMSFormDTO">
-        UPDATE edms_form
-        SET form_name = #{formName}, form_desc = #{formDesc}
-        WHERE form_id = #{formId}
-    </update>
+  <!-- ✅ 4. 등록 -->
+  <insert id="insertForm" parameterType="com.kedu.study.dto.EDMSFormDTO">
+    INSERT INTO edms_form (form_name, form_content, form_type, created_at, created_by)
+    VALUES (#{formName}, #{formContent}, #{formType}, NOW(), #{createdBy})
+  </insert>
 
-    <delete id="deleteForm" parameterType="int">
-        DELETE FROM edms_form WHERE form_id = #{formId}
-    </delete>
+  <!-- ✅ 5. 수정 -->
+  <update id="updateForm" parameterType="com.kedu.study.dto.EDMSFormDTO">
+    UPDATE edms_form
+    SET
+      form_name = #{formName},
+      form_content = #{formContent},
+      form_type = #{formType}
+    WHERE form_id = #{formId}
+  </update>
+
+  <!-- ✅ 6. 삭제 -->
+  <delete id="deleteForm" parameterType="int">
+    DELETE FROM edms_form WHERE form_id = #{formId}
+  </delete>
 
 </mapper>
