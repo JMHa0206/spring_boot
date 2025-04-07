@@ -1,5 +1,6 @@
 package com.kedu.study.controllers;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,16 +13,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.kedu.study.dto.MessageDTO;
 import com.kedu.study.dto.MsgEmpDTO;
 import com.kedu.study.dto.MsgEmpMineDTO;
 import com.kedu.study.service.MsgEmpService;
+import com.kedu.study.serviceImpl.BoardServiceImpl;
 
 @Controller
 @RequestMapping("/Employee")
 public class MsgEmpController {
+
+    private final BoardServiceImpl boardServiceImpl;
 	
 	@Autowired
 	private MsgEmpService eServ;
+
+
+    MsgEmpController(BoardServiceImpl boardServiceImpl) {
+        this.boardServiceImpl = boardServiceImpl;
+    }
 
 	
 	@GetMapping("/SelectEmp")
@@ -39,10 +49,12 @@ public class MsgEmpController {
 	}
 	
 	@PostMapping("/madeChatRoom")
-	public ResponseEntity<Void> madeChatRoom(@RequestBody Map<String,String> names){
-		
+	public ResponseEntity<Map<String,Object>> madeChatRoom(@RequestBody Map<String,Object> names){
 		eServ.madeChatRoom(names);
-		return ResponseEntity.ok(null);
+		Integer seq = (Integer) names.get("seq");
+		Map<String,Object> response = new HashMap<>();
+		response.put("seq", seq);
+		return ResponseEntity.ok(response);
 	}
 	
 	@GetMapping("/checkRoomExist")
@@ -52,6 +64,21 @@ public class MsgEmpController {
 		
 	    boolean exists = eServ.checkRoomExist(targetname, myname);
 	    return ResponseEntity.ok(exists);  // true 또는 false 반환
+	}
+	
+	@GetMapping("/checkRoomSeqExist")
+	public ResponseEntity<Map<String,Object>> checkRoomSeqExist(@RequestParam int targetId,
+			@RequestParam int myId){
+			System.out.println(targetId+ " : "+myId);
+			Map<String,Object> seq = eServ.checkRoomSeqExist(targetId,myId);
+		return ResponseEntity.ok(seq);
+	}
+	
+	@GetMapping("/showMessages")
+	public ResponseEntity<List<MessageDTO>> showMessages(@RequestParam int seq){
+			System.out.println(seq);
+			List<MessageDTO> list = eServ.showMessages(seq);
+		return ResponseEntity.ok(list);
 	}
 	
 }
