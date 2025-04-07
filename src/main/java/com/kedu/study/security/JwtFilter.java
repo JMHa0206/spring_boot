@@ -39,6 +39,7 @@ public class JwtFilter extends OncePerRequestFilter{
 
 	            System.out.println("Decoded Token - userId: " + userId + ", role: " + role);
 	            // 👉 여기! 인증된 사용자 정보를 Request에 저장
+	            System.out.println("ㅇㅇ: " + userId);
 	            request.setAttribute("userId", userId);
 	            request.setAttribute("userRole", role != null ? role : "ROLE_USER");
 	        }

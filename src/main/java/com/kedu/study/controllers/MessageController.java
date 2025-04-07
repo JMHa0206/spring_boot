@@ -9,7 +9,8 @@ import com.kedu.study.service.BoardService;
 
 @Controller
 public class MessageController {
-	@Autowired private BoardService bServ;
+//	@Autowired 
+//	private MessageService mServ
 	
 	@MessageMapping("/send")  // 클라이언트가 보낼 경로
     @SendTo("/topic/messages") // 메시지를 구독하는 경로
