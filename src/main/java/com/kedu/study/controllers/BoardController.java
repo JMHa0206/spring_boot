@@ -26,11 +26,11 @@ public class BoardController {
 	//getmapping은 가져오는것
 	@GetMapping
 	public ResponseEntity<List<BoardDTO>> select() {
-		System.out.println("1");
-		List<BoardDTO> list = boardService.selectAll();
-		System.out.println("4");
-		return ResponseEntity.ok(list);
-
+//		System.out.println("1");
+//		List<BoardDTO> list = boardService.selectAll();
+//		System.out.println("4");
+//		return ResponseEntity.ok(list);
+		return null;
 	}
 
 	//ok에 돌려받는 데이터가 없기 때문에 void를 씀
@@ -39,7 +39,7 @@ public class BoardController {
 	@PostMapping
 	public ResponseEntity<Void> insert(@RequestBody BoardDTO board) {
 		System.out.println(board.getBoard_title()+ " : " +board.getBoard_content());
-		BoardService.write(board);
+		boardService.write(board);
 		return ResponseEntity.ok().build();
 	}
 	
@@ -51,7 +51,7 @@ public class BoardController {
 	//delete 부분
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteById(@PathVariable int id){
-		BoardService.deleteById(id);
+		boardService.deleteById(id);
 		return ResponseEntity.ok().build();
 	}
 }
