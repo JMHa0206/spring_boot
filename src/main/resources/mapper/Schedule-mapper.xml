@@ -26,5 +26,13 @@
 	<select id="getAllEvents" resultType="com.kedu.study.dto.ScheduleDTO">
 		SELECT * from schedule
 	</select>
+	
+	<select id="selectEvent" resultType="com.kedu.study.dto.ScheduleDTO">
+		SELECT * from schedule WHERE id = ${id}
+	</select>
+	
+	<delete id="deleteEvent">
+		DELETE from schedule WHERE id = ${id}
+	</delete>
 
 </mapper>

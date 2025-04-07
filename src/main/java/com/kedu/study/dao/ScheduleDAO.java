@@ -25,4 +25,14 @@ public class ScheduleDAO {
 		List<ScheduleDTO> events = mybatis.selectList("schedule.getAllEvents");
 		return events;
 	}
+	
+	public ScheduleDTO selectEvent(int id) {
+		ScheduleDTO event = mybatis.selectOne("schedule.selectEvent", id);
+		System.out.println("DAO : " + event.getStart_date());
+		return event;
+	}
+	
+	public void deleteById(int id) {
+		mybatis.delete("schedule.deleteEvent",id);
+	}
 }

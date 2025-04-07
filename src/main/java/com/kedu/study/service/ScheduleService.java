@@ -22,5 +22,16 @@ public class ScheduleService {
 	public List<ScheduleDTO> getAllEvents() {
 		return sDao.getAllEvents();
 	}
+	
+	public ScheduleDTO selectEvent(int id) {
+		ScheduleDTO event = sDao.selectEvent(id);
+		System.out.println("Service : " + event.getStart_date());
+		return event;
+	}
+	
+	public void deleteById(int id) {
+		sDao.deleteById(id);
+		
+	}
 
 }

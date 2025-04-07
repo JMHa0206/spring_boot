@@ -4,14 +4,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kedu.study.dto.ScheduleCategoryDTO;
 import com.kedu.study.dto.ScheduleDTO;
 import com.kedu.study.service.ScheduleService;
 
@@ -31,10 +31,20 @@ public class ScheduleController {
 	@GetMapping
 	public ResponseEntity<List<ScheduleDTO>> getAllEvents(){
 		List<ScheduleDTO> events = sServ.getAllEvents();
-		System.out.println(events.get(0).getTitle() + " : " + events.get(1).getTitle() + " : " +events.get(2).getTitle());
 		return  ResponseEntity.ok(events);
 	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<ScheduleDTO> selectEvent(@PathVariable int id) {
+		ScheduleDTO event = sServ.selectEvent(id);
+		System.out.println("Controller : " + event.getStart_date());
+		return ResponseEntity.ok(event);
+	}
 
+	@DeleteMapping("/{id}")
+	public void deleteById(@PathVariable int id) {
+		sServ.deleteById(id);
+	}
 	
 	
 }
