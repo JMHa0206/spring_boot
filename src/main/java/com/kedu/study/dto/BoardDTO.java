@@ -5,21 +5,10 @@ public class BoardDTO {
 	private String board_name;
 	private String board_title;
 	private String board_content;
-	private String board_wire_date;
+	private String board_write_date;
 	private int board_view;
 	
 	BoardDTO(){}
-
-	public BoardDTO(int board_id, String board_name, String board_title, String board_content, String board_wire_date,
-			int board_view) {
-		super();
-		this.board_id = board_id;
-		this.board_name = board_name;
-		this.board_title = board_title;
-		this.board_content = board_content;
-		this.board_wire_date = board_wire_date;
-		this.board_view = board_view;
-	}
 
 	public int getBoard_id() {
 		return board_id;
@@ -53,12 +42,12 @@ public class BoardDTO {
 		this.board_content = board_content;
 	}
 
-	public String getBoard_wire_date() {
-		return board_wire_date;
+	public String getBoard_write_date() {
+		return board_write_date;
 	}
 
-	public void setBoard_wire_date(String board_wire_date) {
-		this.board_wire_date = board_wire_date;
+	public void setBoard_write_date(String board_write_date) {
+		this.board_write_date = board_write_date;
 	}
 
 	public int getBoard_view() {
@@ -68,5 +57,18 @@ public class BoardDTO {
 	public void setBoard_view(int board_view) {
 		this.board_view = board_view;
 	}
+
+	public BoardDTO(int board_id, String board_name, String board_title, String board_content, String board_write_date,
+			int board_view) {
+		super();
+		this.board_id = board_id;
+		this.board_name = board_name;
+		this.board_title = board_title;
+		this.board_content = board_content;
+		this.board_write_date = board_write_date;
+		this.board_view = board_view;
+	}
+
+	
 	
 }
