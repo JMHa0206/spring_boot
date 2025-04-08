@@ -34,5 +34,9 @@
 	<delete id="deleteEvent">
 		DELETE from schedule WHERE id = ${id}
 	</delete>
+	
+	<update id="updateById">
+		UPDATE schedule SET title=#{title}, content=#{content}, start_date=#{start_date}, end_date=#{end_date}, startTime=#{startTime}, endTime=#{endTime} WHERE id=#{id}
+	</update>
 
 </mapper>

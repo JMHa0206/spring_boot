@@ -35,4 +35,9 @@ public class ScheduleDAO {
 	public void deleteById(int id) {
 		mybatis.delete("schedule.deleteEvent",id);
 	}
+	
+	public void updateById(ScheduleDTO evnet) {
+		System.out.println("DAO");
+		mybatis.update("schedule.updateById", evnet);
+	}
 }
