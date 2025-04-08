@@ -1,58 +1,40 @@
+// 📁 FileUploadController.java
 package com.kedu.study.controllers.EDMS;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.kedu.study.dto.EDMSFileDTO;
-import com.kedu.study.service.EDMS.EDMSFileService;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/files")
 public class EDMSFileController {
 
-    private final EDMSFileService edmsFileService;
-
-    @Autowired
-    public EDMSFileController(EDMSFileService edmsFileService) {
-        this.edmsFileService = edmsFileService;
+    @PostMapping("/upload")
+    public ResponseEntity<?> handleUpload(@RequestParam("files") List<MultipartFile> files) {
+        try {
+            List<String> storedFileIds = new ArrayList<>();
+            for (MultipartFile file : files) {
+                // 실제 저장 처리 로직 필요함
+                System.out.println("업로드 파일: " + file.getOriginalFilename());
+                storedFileIds.add(file.getOriginalFilename());
+            }
+            return ResponseEntity.ok().body(new UploadResponse(storedFileIds));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("파일 업로드 실패: " + e.getMessage());
+        }
     }
 
-    @GetMapping
-    public ResponseEntity<List<EDMSFileDTO>> getAllFiles() {
-        return ResponseEntity.ok(edmsFileService.getAllFiles());
-    }
+    static class UploadResponse {
+        public List<String> fileIds;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<EDMSFileDTO> getFile(@PathVariable("id") int id) {
-        return ResponseEntity.ok(edmsFileService.getFileById(id));
-    }
-
-    @PostMapping
-    public ResponseEntity<Void> createFile(@RequestBody EDMSFileDTO file) {
-        edmsFileService.createFile(file);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
-
-    @PutMapping
-    public ResponseEntity<Void> updateFile(@RequestBody EDMSFileDTO file) {
-        edmsFileService.updateFile(file);
-        return ResponseEntity.ok().build();
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteFile(@PathVariable("id") int id) {
-        edmsFileService.deleteFile(id);
-        return ResponseEntity.ok().build();
+        public UploadResponse(List<String> fileIds) {
+            this.fileIds = fileIds;
+        }
     }
 }
