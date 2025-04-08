@@ -18,7 +18,7 @@ public class CalendarDAO {
 	}
 	
 	public List<CalendarDTO> selectAllList(){
-		return mybatis.selectList("calender.selectAllList");
+		return mybatis.selectList("calendar.selectAllList");
 	}
 
 

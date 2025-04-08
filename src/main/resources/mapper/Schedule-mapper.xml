@@ -7,9 +7,10 @@
 	<insert id="inputEvent" parameterType="com.kedu.study.dto.ScheduleDTO">
 		INSERT into schedule values ( 
 			  sche_seq.nextval,
-		      #{category_id, jdbcType=INTEGER},
+		      #{c_id, jdbcType=INTEGER},
 		      #{title, jdbcType=VARCHAR},
 		      #{content, jdbcType=VARCHAR},
+		      #{emp_id},
 		      #{start_date, jdbcType=DATE},
 		      #{end_date, jdbcType=DATE},
 		      #{startTime, jdbcType=TIMESTAMP},

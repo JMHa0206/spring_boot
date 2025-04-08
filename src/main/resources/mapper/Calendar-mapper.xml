@@ -13,7 +13,7 @@
 		      #{color})
 	</insert>
 	
-	<select id="selectAllList">
+	<select id="selectAllList"  resultType="com.kedu.study.dto.CalendarDTO">
 		SELECT * FROM calendar
 	</select>
 
