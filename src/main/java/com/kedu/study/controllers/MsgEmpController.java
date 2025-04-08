@@ -28,8 +28,6 @@ public class MsgEmpController {
 	private MsgEmpService eServ;
 
 
-
-	
 	@GetMapping("/SelectEmp")
 	public ResponseEntity<List<MsgEmpDTO>> select(){
 		List<MsgEmpDTO> list = eServ.select();

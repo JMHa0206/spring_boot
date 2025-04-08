@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="board">
+   
+   
+    <select id="selectAll" resultType="com.kedu.study.dto.BoardDTO">
+        SELECT * FROM board
+    </select>
+    
+    <!-- <select id="findBoardid" parameterType="int" resultType="com.kedu.study.dto.BoardDTO">
+        SELECT * FROM board WHERE board_id = #{board_id}
+    </select>
+
+	<insert id="insertBoard" parameterType="com.kedu.study.dto.BoardDTO">
+		insert into board (board_id,board_name,board_title,board_content,board_write_date,board_view)
+		 values(board_id.nextval, #{board_name}, #{board_title}, #{board_content}, sysdate, 0)
+	</insert>
+
+
+ 	<update id="updateBoard" parameterType="com.kedu.study.dto.BoardDTO">
+        UPDATE board
+        SET board_title = #{board_title}, board_content = #{board_content}
+        WHERE board_id = #{board_id}
+    </update>
+
+	<delete id="deleteBoard" parameterType="com.kedu.study.dto.BoardDTO">
+		delete from board where board_id = #{value}
+	</delete>-->
+
+	</mapper>
