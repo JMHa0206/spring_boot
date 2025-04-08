@@ -17,21 +17,16 @@ import com.kedu.study.dto.MessageDTO;
 import com.kedu.study.dto.MsgEmpDTO;
 import com.kedu.study.dto.MsgEmpMineDTO;
 import com.kedu.study.service.MsgEmpService;
-import com.kedu.study.serviceImpl.BoardServiceImpl;
 
 @Controller
 @RequestMapping("/Employee")
 public class MsgEmpController {
 
-    private final BoardServiceImpl boardServiceImpl;
 	
 	@Autowired
 	private MsgEmpService eServ;
 
 
-    MsgEmpController(BoardServiceImpl boardServiceImpl) {
-        this.boardServiceImpl = boardServiceImpl;
-    }
 
 	
 	@GetMapping("/SelectEmp")
