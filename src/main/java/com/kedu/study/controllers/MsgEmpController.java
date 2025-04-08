@@ -13,25 +13,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.kedu.study.dto.ChatRoomDTO;
 import com.kedu.study.dto.MessageDTO;
 import com.kedu.study.dto.MsgEmpDTO;
 import com.kedu.study.dto.MsgEmpMineDTO;
 import com.kedu.study.service.MsgEmpService;
-import com.kedu.study.serviceImpl.BoardServiceImpl;
 
 @Controller
 @RequestMapping("/Employee")
 public class MsgEmpController {
 
-    private final BoardServiceImpl boardServiceImpl;
 	
 	@Autowired
 	private MsgEmpService eServ;
 
 
-    MsgEmpController(BoardServiceImpl boardServiceImpl) {
-        this.boardServiceImpl = boardServiceImpl;
-    }
 
 	
 	@GetMapping("/SelectEmp")
@@ -78,6 +74,18 @@ public class MsgEmpController {
 	public ResponseEntity<List<MessageDTO>> showMessages(@RequestParam int seq){
 			System.out.println(seq);
 			List<MessageDTO> list = eServ.showMessages(seq);
+		return ResponseEntity.ok(list);
+	}
+	
+	@GetMapping("/selectMyId")
+	public ResponseEntity<Integer> selectMyId(@RequestParam String userId){
+		int id = eServ.selectMyId(userId);
+		return ResponseEntity.ok(id);
+	}
+	
+	@GetMapping("/selectRoom")
+	public ResponseEntity<List<Map<String,Object>>> selectRoom(@RequestParam int myId){
+		List<Map<String,Object>> list = eServ.selectRoom(myId);
 		return ResponseEntity.ok(list);
 	}
 	

@@ -2,13 +2,35 @@ package com.kedu.study.dto;
 
 public class ChatRoomDTO {
 	private int msg_group_id;
-	private String msg_group_name;
-	private String group_creator;
+	private int msg_group_name;
+	private int group_creator;
 	private String group_member;
 	private int num_members;
+	private String emp_name;
 	
 	
-	public ChatRoomDTO(int msg_group_id, String msg_group_name, String group_creator, String group_member,
+	public ChatRoomDTO(int msg_group_id, int msg_group_name, String emp_name) {
+		super();
+		this.msg_group_id = msg_group_id;
+		this.msg_group_name = msg_group_name;
+		this.emp_name = emp_name;
+	}
+
+	public String getEmp_name() {
+		return emp_name;
+	}
+
+	public void setEmp_name(String emp_name) {
+		this.emp_name = emp_name;
+	}
+
+	public ChatRoomDTO(int msg_group_id, int msg_group_name) {
+		super();
+		this.msg_group_id = msg_group_id;
+		this.msg_group_name = msg_group_name;
+	}
+
+	public ChatRoomDTO(int msg_group_id, int msg_group_name, int group_creator, String group_member,
 			int num_members) {
 		super();
 		this.msg_group_id = msg_group_id;
@@ -24,16 +46,16 @@ public class ChatRoomDTO {
 	public void setMsg_group_id(int msg_group_id) {
 		this.msg_group_id = msg_group_id;
 	}
-	public String getMsg_group_name() {
+	public int getMsg_group_name() {
 		return msg_group_name;
 	}
-	public void setMsg_group_name(String msg_group_name) {
+	public void setMsg_group_name(int msg_group_name) {
 		this.msg_group_name = msg_group_name;
 	}
-	public String getGroup_creator() {
+	public int getGroup_creator() {
 		return group_creator;
 	}
-	public void setGroup_creator(String group_creator) {
+	public void setGroup_creator(int group_creator) {
 		this.group_creator = group_creator;
 	}
 	public String getGroup_member() {
