@@ -8,7 +8,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.kedu.study.dto.ScheduleCategoryDTO;
 import com.kedu.study.dto.ScheduleDTO;
 
 @Repository
@@ -34,5 +33,10 @@ public class ScheduleDAO {
 	
 	public void deleteById(int id) {
 		mybatis.delete("schedule.deleteEvent",id);
+	}
+	
+	public void updateById(ScheduleDTO evnet) {
+		System.out.println("DAO");
+		mybatis.update("schedule.updateById", evnet);
 	}
 }

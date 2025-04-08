@@ -10,23 +10,26 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kedu.study.dto.ScheduleCategoryDTO;
-import com.kedu.study.service.ScheduleCategoryService;
-
+import com.kedu.study.dto.CalendarDTO;
+import com.kedu.study.service.CalendarService;
 
 @RestController
-@RequestMapping("/cSchedule")
-public class ScheduleCategoryController {
-	
-	@Autowired
-	private ScheduleCategoryService sCServ;
+@RequestMapping("/calendar")
+public class CalendarController {
+@Autowired
+	private CalendarService cServ;
 	
 	@PostMapping
-	public ResponseEntity<List<ScheduleCategoryDTO>> calender(@RequestBody ScheduleCategoryDTO calender){
-		System.out.println("요청 도착" + calender);
-		sCServ.inputCalender(calender);
+	public ResponseEntity<List<CalendarDTO>> calender(@RequestBody CalendarDTO calender){
+		cServ.inputCalender(calender);
 		return ResponseEntity.ok().build();
 	}
 	
-	
+	@GetMapping
+	public ResponseEntity<List<CalendarDTO>> selectAllList(){
+		List<CalendarDTO> list =cServ.selectAllList();
+		return ResponseEntity.ok(list);
+	}
 }
+
+

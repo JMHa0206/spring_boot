@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kedu.study.dao.ScheduleDAO;
-import com.kedu.study.dto.ScheduleCategoryDTO;
 import com.kedu.study.dto.ScheduleDTO;
 
 @Service
@@ -32,6 +31,12 @@ public class ScheduleService {
 	public void deleteById(int id) {
 		sDao.deleteById(id);
 		
+	}
+	
+	public void updateById(int id, ScheduleDTO event) {
+		System.out.println("Service");
+		event.setId(id);
+		sDao.updateById(event);
 	}
 
 }
