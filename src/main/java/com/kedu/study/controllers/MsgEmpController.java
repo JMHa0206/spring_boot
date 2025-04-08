@@ -83,6 +83,7 @@ public class MsgEmpController {
 	
 	@GetMapping("/selectRoom")
 	public ResponseEntity<List<Map<String,Object>>> selectRoom(@RequestParam int myId){
+	
 		List<Map<String,Object>> list = eServ.selectRoom(myId);
 		return ResponseEntity.ok(list);
 	}
