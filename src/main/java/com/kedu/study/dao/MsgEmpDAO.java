@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kedu.study.dto.ChatRoomDTO;
 import com.kedu.study.dto.MessageDTO;
 import com.kedu.study.dto.MsgEmpDTO;
 import com.kedu.study.dto.MsgEmpMineDTO;
@@ -48,6 +49,14 @@ public class MsgEmpDAO {
 	
 	public List<MessageDTO> showMessages(int seq){
 		return mybatis.selectList("MsgEmp.showMessages",seq);
+	}
+	
+	public int selectMyId(String userId) {
+		return mybatis.selectOne("MsgEmp.selectMyId",userId);
+	}
+	
+	public List<Map<String,Object>> selectRoom(int myId){
+		return mybatis.selectList("MsgEmp.selectRoom",myId);
 	}
 	
 }
