@@ -18,5 +18,11 @@
       e.emp_loginId = #{id}
       AND e.emp_pw = #{pw}
   </select>
+  
+    <select id="findEmpCodeIdByLoginId" parameterType="String" resultType="int">
+    SELECT emp_code_id
+    FROM employee
+    WHERE emp_loginId = #{loginId}
+  </select>
 
 </mapper>
