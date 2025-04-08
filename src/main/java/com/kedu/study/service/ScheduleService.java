@@ -33,5 +33,11 @@ public class ScheduleService {
 		sDao.deleteById(id);
 		
 	}
+	
+	public void updateById(int id, ScheduleDTO event) {
+		System.out.println("Service");
+		event.setId(id);
+		sDao.updateById(event);
+	}
 
 }

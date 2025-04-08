@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,14 +38,20 @@ public class ScheduleController {
 	@GetMapping("/{id}")
 	public ResponseEntity<ScheduleDTO> selectEvent(@PathVariable int id) {
 		ScheduleDTO event = sServ.selectEvent(id);
-		System.out.println("Controller : " + event.getStart_date());
 		return ResponseEntity.ok(event);
 	}
 
 	@DeleteMapping("/{id}")
-	public void deleteById(@PathVariable int id) {
+	public ResponseEntity<Void> deleteById(@PathVariable int id) {
 		sServ.deleteById(id);
+		return ResponseEntity.ok().build();
 	}
 	
+	@PutMapping("/{id}")
+	public ResponseEntity<Void> updateById(@PathVariable int id, @RequestBody ScheduleDTO evnet){
+		System.out.println("Controller");
+		sServ.updateById(id, evnet);
+		return ResponseEntity.ok().build();
+	}
 	
 }

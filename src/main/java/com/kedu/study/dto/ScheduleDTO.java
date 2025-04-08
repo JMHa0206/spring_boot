@@ -1,11 +1,11 @@
 package com.kedu.study.dto;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 
-import java.time.LocalTime;public class ScheduleDTO {
+
+public class ScheduleDTO {
 	
 	private long id;
 	private int category_id;
