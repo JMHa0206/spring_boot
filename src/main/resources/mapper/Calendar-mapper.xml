@@ -4,7 +4,7 @@
   
 <mapper namespace="calendar">
 
-	<insert id="inputCalender" parameterType="com.kedu.study.dto.CalendarDTO">
+	<insert id="inputCalendar" parameterType="com.kedu.study.dto.CalendarDTO">
 		INSERT into calendar values ( 
 		      c_seq.nextval,
 		      #{c_title},
@@ -14,7 +14,11 @@
 	</insert>
 	
 	<select id="selectAllList"  resultType="com.kedu.study.dto.CalendarDTO">
-		SELECT * FROM calendar
+		SELECT * FROM calendar where public_code != 30
+	</select>
+	
+	<select id="selectMyCal" parameterType="int" resultType="com.kedu.study.dto.CalendarDTO">
+		SELECT * from calendar where public_code = ${publicCode}
 	</select>
 
 </mapper>
