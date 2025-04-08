@@ -6,24 +6,40 @@
 <mapper namespace="edmsMapper">
 
     <!-- 전자결재 등록 -->
-    <insert id="insertEDMS" parameterType="com.kedu.study.dto.EDMSDTO">
-        INSERT INTO edms (
-            edms_id,
-            title,
-            content,
-            writer_id,
-            approver_id,
-            status,
-            created_at
-        ) VALUES (
-            #{edmsId},
-            #{title},
-            #{content},
-            #{writerId},
-            #{approverId},
-            #{status},
-            NOW()
-        )
-    </insert>
+<insert id="insertEDMS" parameterType="com.kedu.study.dto.EDMSDTO">
+  INSERT INTO edms (
+    edms_id,
+    form_id,
+    edms_c_id,
+    com_id,
+    state_code,
+    edms_title,
+    edms_content,
+    submit_date,
+    ref_dept,
+    reject_reason,
+    level1,
+    level2,
+    level3,
+    level4,
+    final_level
+  ) VALUES (
+    EDMS_ID_SEQ.nextval,
+    #{formId, jdbcType=NUMERIC},
+    #{edmsCId, jdbcType=NUMERIC},
+    #{comId, jdbcType=NUMERIC},
+    #{stateCode, jdbcType=NUMERIC},
+    #{edmsTitle, jdbcType=VARCHAR},
+    #{edmsContent, jdbcType=VARCHAR},
+    SYSDATE,
+    #{refDept, jdbcType=VARCHAR},
+    #{rejectReason, jdbcType=VARCHAR},
+    #{level1, jdbcType=INTEGER},
+    #{level2, jdbcType=INTEGER},
+    #{level3, jdbcType=INTEGER},
+    #{level4, jdbcType=INTEGER},
+    #{finalLevel, jdbcType=INTEGER}
+  )
+</insert>
 
 </mapper>
