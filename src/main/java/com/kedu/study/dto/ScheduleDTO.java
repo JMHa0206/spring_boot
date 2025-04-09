@@ -1,16 +1,17 @@
 package com.kedu.study.dto;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 
-import java.time.LocalTime;public class ScheduleDTO {
+
+public class ScheduleDTO {
 	
 	private long id;
-	private int category_id;
+	private int c_id;
 	private String title;
 	private String content;
+	private int emp_id;
 	private LocalDate start_date;
 	private LocalDate end_date;
 	private LocalTime startTime;
@@ -20,18 +21,41 @@ import java.time.LocalTime;public class ScheduleDTO {
 	public ScheduleDTO() {}
 
 
-	public ScheduleDTO(long id, int category_id, String title, String content, LocalDate start, LocalDate end,
-			LocalTime startTime, LocalTime endTime) {
+	
+
+
+	public ScheduleDTO(long id, int c_id, String title, String content, int emp_id, LocalDate start_date,
+			LocalDate end_date, LocalTime startTime, LocalTime endTime) {
 		super();
 		this.id = id;
-		this.category_id = category_id;
+		this.c_id = c_id;
 		this.title = title;
 		this.content = content;
-		this.start_date = start;
-		this.end_date = end;
+		this.emp_id = emp_id;
+		this.start_date = start_date;
+		this.end_date = end_date;
 		this.startTime = startTime;
 		this.endTime = endTime;
 	}
+
+
+
+
+
+	public int getEmp_id() {
+		return emp_id;
+	}
+
+
+
+
+
+	public void setEmp_id(int emp_id) {
+		this.emp_id = emp_id;
+	}
+
+
+
 
 
 	public long getId() {
@@ -44,13 +68,13 @@ import java.time.LocalTime;public class ScheduleDTO {
 	}
 
 
-	public int getCategory_id() {
-		return category_id;
+	public int getC_id() {
+		return c_id;
 	}
 
 
-	public void setCategory_id(int category_id) {
-		this.category_id = category_id;
+	public void setC_id(int c_id) {
+		this.c_id = c_id;
 	}
 
 

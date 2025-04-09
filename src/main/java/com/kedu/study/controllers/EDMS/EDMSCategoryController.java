@@ -21,16 +21,14 @@ import com.kedu.study.service.EDMS.EDMSCategoryService;
 @RequestMapping("/api/category")
 public class EDMSCategoryController {
 
-    private final EDMSCategoryService edmsCategoryService;
-
     @Autowired
-    public EDMSCategoryController(EDMSCategoryService edmsCategoryService) {
-        this.edmsCategoryService = edmsCategoryService;
-    }
+    private EDMSCategoryService edmsCategoryService;
 
     @GetMapping
     public ResponseEntity<List<EDMSCategoryDTO>> getAllCategories() {
-        return ResponseEntity.ok(edmsCategoryService.getAllCategories());
+        List<EDMSCategoryDTO> result = edmsCategoryService.getAllCategories();
+        System.out.println("🔍 categories loaded: " + result);
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/{id}")
