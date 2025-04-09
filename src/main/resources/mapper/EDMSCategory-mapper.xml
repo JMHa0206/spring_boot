@@ -7,33 +7,33 @@
 
   <resultMap id="EDMSCategoryResultMap" type="com.kedu.study.dto.EDMSCategoryDTO">
     <result column="EDMS_C_ID" property="edmsCId"/>
-    <result column="DEMS_C_NAME" property="edmsCName"/>
+    <result column="EDMS_C_NAME" property="edmsCName"/>
   </resultMap>
 
   <select id="findAllCategories" resultMap="EDMSCategoryResultMap">
     SELECT 
       EDMS_C_ID, 
-      DEMS_C_NAME
+      EDMS_C_NAME
     FROM edms_category
   </select>
 
   <select id="findCategoryById" parameterType="int" resultMap="EDMSCategoryResultMap">
     SELECT 
       EDMS_C_ID, 
-      DEMS_C_NAME
+      EDMS_C_NAME
     FROM edms_category
     WHERE EDMS_C_ID = #{categoryId}
   </select>
 
   <insert id="insertCategory" parameterType="com.kedu.study.dto.EDMSCategoryDTO">
-    INSERT INTO edms_category (EDMS_C_ID, DEMS_C_NAME)
+    INSERT INTO edms_category (EDMS_C_ID, EDMS_C_NAME)
     VALUES (#{edmsCId}, #{edmsCName})
   </insert>
 
   <update id="updateCategory" parameterType="com.kedu.study.dto.EDMSCategoryDTO">
     UPDATE edms_category
     SET 
-      DEMS_C_NAME = #{edmsCName}
+      EDMS_C_NAME = #{edmsCName}
     WHERE EDMS_C_ID = #{edmsCId}
   </update>
 
