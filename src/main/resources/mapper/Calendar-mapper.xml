@@ -4,17 +4,23 @@
   
 <mapper namespace="calendar">
 
-	<insert id="inputCalender" parameterType="com.kedu.study.dto.CalendarDTO">
+	<insert id="inputCalendar" parameterType="com.kedu.study.dto.CalendarDTO">
 		INSERT into calendar values ( 
 		      c_seq.nextval,
 		      #{c_title},
+		      #{emp_id},
 		      #{dept_code},
 		      #{public_code},
+		      sysdate,
 		      #{color})
 	</insert>
 	
 	<select id="selectAllList"  resultType="com.kedu.study.dto.CalendarDTO">
 		SELECT * FROM calendar
+	</select>
+	
+	<select id="selectMyCal" parameterType="int" resultType="com.kedu.study.dto.CalendarDTO">
+		SELECT * from calendar where public_code = ${publicCode}
 	</select>
 
 </mapper>

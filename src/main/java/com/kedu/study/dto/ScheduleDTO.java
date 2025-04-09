@@ -16,6 +16,7 @@ public class ScheduleDTO {
 	private LocalDate end_date;
 	private LocalTime startTime;
 	private LocalTime endTime;
+	private String color;
 	
 	
 	public ScheduleDTO() {}
@@ -25,7 +26,7 @@ public class ScheduleDTO {
 
 
 	public ScheduleDTO(long id, int c_id, String title, String content, int emp_id, LocalDate start_date,
-			LocalDate end_date, LocalTime startTime, LocalTime endTime) {
+			LocalDate end_date, LocalTime startTime, LocalTime endTime, String color) {
 		super();
 		this.id = id;
 		this.c_id = c_id;
@@ -36,6 +37,23 @@ public class ScheduleDTO {
 		this.end_date = end_date;
 		this.startTime = startTime;
 		this.endTime = endTime;
+		this.color = color;
+	}
+
+
+
+
+
+	public String getColor() {
+		return color;
+	}
+
+
+
+
+
+	public void setColor(String color) {
+		this.color = color;
 	}
 
 

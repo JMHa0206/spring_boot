@@ -22,7 +22,9 @@
     level2,
     level3,
     level4,
-    final_level
+    final_level,
+    start_date,
+    end_date
   ) VALUES (
     EDMS_ID_SEQ.nextval,
     #{formId, jdbcType=NUMERIC},
@@ -39,6 +41,8 @@
     #{level3, jdbcType=INTEGER},
     #{level4, jdbcType=INTEGER},
     #{finalLevel, jdbcType=INTEGER}
+    #{startDate, jdbcType=DATE},
+	#{endDate, jdbcType=DATE}
   )
 </insert>
 
