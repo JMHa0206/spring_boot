@@ -18,7 +18,7 @@
 	</insert>
 	
 	<select id="getAllEvents" resultType="com.kedu.study.dto.ScheduleDTO">
-		SELECT * from schedule
+		SELECT s.*, c.color from schedule s join calendar c ON s.c_id = c.c_id
 	</select>
 	
 	<select id="selectEvent" resultType="com.kedu.study.dto.ScheduleDTO">

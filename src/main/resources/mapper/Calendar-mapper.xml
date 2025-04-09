@@ -8,8 +8,10 @@
 		INSERT into calendar values ( 
 		      c_seq.nextval,
 		      #{c_title},
+		      #{emp_id},
 		      #{dept_code},
 		      #{public_code},
+		      sysdate,
 		      #{color})
 	</insert>
 	
