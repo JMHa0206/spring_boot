@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kedu.study.dto.EmployeeDTO;
+import com.kedu.study.dto.ProfileImgDTO;
 
 @Repository
 public class MypageDAO {
@@ -20,4 +21,8 @@ public class MypageDAO {
 	public int userupdate(EmployeeDTO Empdto) {
 		return mybatis.update(nameSpace+".userupdate",Empdto);
 	}
+	public void saveProfile(ProfileImgDTO profileDTO) {
+	    mybatis.insert(nameSpace + ".saveProfile", profileDTO);
+	}
+
 }
