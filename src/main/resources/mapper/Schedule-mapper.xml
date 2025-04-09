@@ -22,7 +22,7 @@
 	</select>
 	
 	<select id="getMyEvents" resultType="com.kedu.study.dto.ScheduleDTO">
-		SELECT s.*, c.color from schedule s join calendar c ON s.c_id = c.c_id where c.emp_id = #{emp_code_id}
+		SELECT s.*, c.color from schedule s join calendar c ON s.c_id = c.c_id where c.emp_id = ${emp_code_id}
 	</select>
 	
 	<select id="selectEvent" resultType="com.kedu.study.dto.ScheduleDTO">

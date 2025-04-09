@@ -2,8 +2,8 @@ package com.kedu.study.dto;
 
 public class EmployeeDTO {
 
-    private String emp_code_id;
-    private String emp_per_id;
+    private int emp_code_id;
+    private int emp_per_id;
     private int emp_dept_id;
     private int emp_job_id;
     private String emp_loginId;
@@ -26,14 +26,26 @@ public class EmployeeDTO {
     public EmployeeDTO() {}
 
     // --- Getter / Setter ---
-    public String getEmp_code_id() { return emp_code_id; }
-    public void setEmp_code_id(String emp_code_id) { this.emp_code_id = emp_code_id; }
 
-    public String getEmp_per_id() { return emp_per_id; }
-    public void setEmp_per_id(String emp_per_id) { this.emp_per_id = emp_per_id; }
 
     public int getEmp_dept_id() { return emp_dept_id; }
-    public void setEmp_dept_id(int emp_dept_id) { this.emp_dept_id = emp_dept_id; }
+    public int getEmp_code_id() {
+		return emp_code_id;
+	}
+
+	public void setEmp_code_id(int emp_code_id) {
+		this.emp_code_id = emp_code_id;
+	}
+
+	public int getEmp_per_id() {
+		return emp_per_id;
+	}
+
+	public void setEmp_per_id(int emp_per_id) {
+		this.emp_per_id = emp_per_id;
+	}
+
+	public void setEmp_dept_id(int emp_dept_id) { this.emp_dept_id = emp_dept_id; }
 
     public int getEmp_job_id() { return emp_job_id; }
     public void setEmp_job_id(int emp_job_id) { this.emp_job_id = emp_job_id; }

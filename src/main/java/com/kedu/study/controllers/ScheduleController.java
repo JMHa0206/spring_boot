@@ -37,8 +37,9 @@ public class ScheduleController {
 	}
 	
 	@GetMapping("/myEvents/{emp_code_id}")
-	public ResponseEntity<List<ScheduleDTO>> getMyEvents(@PathVariable String emp_code_id){
+	public ResponseEntity<List<ScheduleDTO>> getMyEvents(@PathVariable int emp_code_id){
 		List<ScheduleDTO> events = sServ.getMyEvents(emp_code_id);
+		System.out.println(events.get(0).getTitle());
 		return  ResponseEntity.ok(events);
 	}
 	

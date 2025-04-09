@@ -22,7 +22,7 @@ public class ScheduleService {
 		return sDao.getComEvents();
 	}
 	
-	public List<ScheduleDTO> getMyEvents(String emp_cod_id) {
+	public List<ScheduleDTO> getMyEvents(int emp_cod_id) {
 		return sDao.getMyEvents(emp_cod_id);
 	}
 	
