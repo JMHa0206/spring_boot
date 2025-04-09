@@ -21,6 +21,11 @@ public class BoardService {
 	        return list;
 	    }
 	    
+	    //insert 부분
+	    public void insertBoard(BoardDTO board) {
+	    	bdao.insertBoard(board);
+	    }
+	    
 	    //board_id로 제목이랑 내용불러오는 부분
 	    public BoardDTO getBoardById(int board_id) {
 	   	  System.out.println("2"); 

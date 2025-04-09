@@ -14,11 +14,11 @@
         SELECT * FROM board WHERE board_id = #{board_id}
     </select>
 
-<!--
+
 	<insert id="insertBoard" parameterType="com.kedu.study.dto.BoardDTO">
 		insert into board (board_id,board_name,board_title,board_content,board_write_date,board_view)
 		 values(board_id.nextval, #{board_name}, #{board_title}, #{board_content}, sysdate, 0)
-	</insert>-->
+	</insert>
 
 
  	<select id="updateBoard" parameterType="com.kedu.study.dto.BoardDTO">

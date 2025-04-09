@@ -21,6 +21,11 @@ public class BoardDAO {
 		
 	};
 	
+	//insert 부분
+	public int insertBoard(BoardDTO board) {
+		return mybatis.insert("board.insertBoard",board);
+	}
+	
 	 //board_id로 제목이랑 내용불러오는 부분
 	public BoardDTO findBoardid(int board_id) {
 		return mybatis.selectOne("board.findBoardid",board_id);

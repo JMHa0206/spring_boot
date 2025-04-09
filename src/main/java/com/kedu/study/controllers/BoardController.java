@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.kedu.study.controllers.EDMS.EDMSCategoryController;
 import com.kedu.study.dto.BoardDTO;
-
 import com.kedu.study.service.BoardService;
 
 
@@ -35,6 +34,15 @@ public class BoardController {
 	    	List<BoardDTO> list= boardService.selectAll();
 	        return ResponseEntity.ok(list);
 	    }
+	    
+	    //insert부분
+	    @PostMapping("/insert")
+		public ResponseEntity<Void> insertBoard(@RequestBody BoardDTO board) {
+			boardService.insertBoard(board);
+			return ResponseEntity.ok().build();
+		}
+	    
+	    
 	    
 	    //board_id로 제목이랑 내용불러오는 부분
 	    @GetMapping("/{board_id}")
