@@ -16,7 +16,7 @@
 	</insert>
 	
 	<select id="selectAllList"  resultType="com.kedu.study.dto.CalendarDTO">
-		SELECT * FROM calendar where public_code != 30
+		SELECT * FROM calendar
 	</select>
 	
 	<select id="selectMyCal" parameterType="int" resultType="com.kedu.study.dto.CalendarDTO">
