@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MypageMapper">
+
+    <resultMap id="EmpWithJoin" type="com.kedu.study.dto.EmployeeDTO">
+        <!-- 기본 필드 -->
+        <result property="emp_code_id" column="emp_code_id"/>
+        <result property="emp_per_id" column="emp_per_id"/>
+        <result property="emp_dept_id" column="emp_dept_id"/>
+        <result property="emp_job_id" column="emp_job_id"/>
+        <result property="emp_loginId" column="emp_loginId"/>
+        <result property="emp_pw" column="emp_pw"/>
+        <result property="emp_name" column="emp_name"/>
+        <result property="emp_rrn" column="emp_rrn"/>
+        <result property="emp_phone" column="emp_phone"/>
+        <result property="emp_email" column="emp_email"/>
+        <result property="postcode" column="postcode"/>
+        <result property="address1" column="address1"/>
+        <result property="address2" column="address2"/>
+        <result property="hire_date" column="hire_date"/>
+        <result property="salary" column="salary"/>
+        <result property="isDeft" column="isDeft"/>
+
+        <!-- 직급 매핑 -->
+        <association property="jobDTO" javaType="com.kedu.study.dto.JobDTO">
+            <result property="job_id" column="job_id"/>
+            <result property="job_name" column="job_name"/>
+        </association>
+
+        <!-- 부서 매핑 -->
+        <association property="departDTO" javaType="com.kedu.study.dto.DepartDTO">
+            <result property="dept_id" column="dept_id"/>
+            <result property="dept_name" column="dept_name"/>
+        </association>
+    </resultMap>
+
+    <select id="userinfo" parameterType="String" resultMap="EmpWithJoin">
+        SELECT  
+            e.emp_code_id,
+            e.emp_per_id,
+            e.emp_dept_id,
+            e.emp_job_id,
+            e.emp_loginId,
+            e.emp_pw,
+            e.emp_name,
+            e.emp_rrn,
+            e.emp_phone,
+            e.emp_email,
+            e.postcode,
+            e.address1,
+            e.address2,
+            e.hire_date,
+            e.salary,
+            e.isDeft,
+
+            j.job_id as job_id,
+            j.job_name as job_name,
+
+            d.dept_id,
+            d.dept_name
+
+        FROM employee e
+        LEFT JOIN job j ON e.emp_job_id = j.job_id
+        LEFT JOIN department d ON e.emp_dept_id = d.dept_id
+        WHERE e.emp_loginId = #{userId}
+    </select>
+    
+    <update id="userupdate" parameterType="com.kedu.study.dto.EmployeeDTO">
+    	UPDATE employee 
+    	set 
+    	emp_email = #{emp_email},
+    	emp_phone = #{emp_phone},
+    	postcode = #{postcode},
+    	address1 = #{address1},
+    	address2 = #{address2}
+    	where
+    	emp_loginId = #{emp_loginId}
+  
+    </update>
+
+</mapper>

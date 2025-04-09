@@ -11,12 +11,8 @@ import com.kedu.study.dto.EDMSFormDTO;
 @Service
 public class EDMSFormService {
 
-    private final EDMSFormDAO edmsFormDAO;
-
     @Autowired
-    public EDMSFormService(EDMSFormDAO edmsFormDAO) {
-        this.edmsFormDAO = edmsFormDAO;
-    }
+    private EDMSFormDAO edmsFormDAO;
 
     public List<EDMSFormDTO> getAllForms() {
         return edmsFormDAO.findAllForms();

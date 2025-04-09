@@ -5,24 +5,40 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import com.kedu.study.dao.BoardDAO;
 import com.kedu.study.dto.BoardDTO;
 
 @Service
 public class BoardService {
 	
-	@Autowired
-	private BoardDAO bDao;
-	 
-	public void selectAll(){
-		
-	};
-	
-	public void write(BoardDTO board) {
-		
-	};
-	
-	public void deleteById(int id) {
-		
-	};
+	  @Autowired
+	    public BoardDAO bdao;
+	  
+	  	//테이블 전체를 불러오는 부분
+	    public List<BoardDTO> selectAll() {
+	    	List<BoardDTO> list = bdao.selectAll();
+	        return list;
+	    }
+	    
+	    //insert 부분
+	    public void insertBoard(BoardDTO post) {
+	    	bdao.insertBoard(post);
+	    }
+	    
+	    //board_id로 제목이랑 내용불러오는 부분
+	    public BoardDTO getBoardById(int post_id) {
+	    	return bdao.findBoardid(post_id);
+	    }
+
+	    //수정부분
+	    public void updateBoard(BoardDTO post) {
+	    	bdao.updateBoard(post);
+	    }
+	    
+	    //삭제부분
+	    public void deleteBoard(int post_id) {
+	    	bdao.deleteBoard(post_id);
+	    }
+	    
 }

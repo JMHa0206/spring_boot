@@ -1,72 +1,116 @@
 package com.kedu.study.dto;
 
+import java.util.Date;
+
 public class BoardDTO {
-	private int board_id;
-	private String board_name;
-	private String board_title;
-	private String board_content;
-	private String board_wire_date;
-	private int board_view;
+	private Integer post_id; 
+    private Integer parent_board;//
+    private String post_writer;
+    private String post_title;
+    private String post_content;
+    private Date post_date;
+    private Integer post_view;
+    private Integer post_like;//
+    private String post_per;//
+    private String post_tag;//
 	
 	BoardDTO(){}
 
-	public BoardDTO(int board_id, String board_name, String board_title, String board_content, String board_wire_date,
-			int board_view) {
+	public Integer getPost_id() {
+		return post_id;
+	}
+
+	public void setPost_id(Integer post_id) {
+		this.post_id = post_id;
+	}
+
+	public Integer getParent_board() {
+		return parent_board;
+	}
+
+	public void setParent_board(Integer parent_board) {
+		this.parent_board = parent_board;
+	}
+
+	public String getPost_writer() {
+		return post_writer;
+	}
+
+	public void setPost_writer(String post_writer) {
+		this.post_writer = post_writer;
+	}
+
+	public String getPost_title() {
+		return post_title;
+	}
+
+	public void setPost_title(String post_title) {
+		this.post_title = post_title;
+	}
+
+	public String getPost_content() {
+		return post_content;
+	}
+
+	public void setPost_content(String post_content) {
+		this.post_content = post_content;
+	}
+
+	public Date getPost_date() {
+		return post_date;
+	}
+
+	public void setPost_date(Date post_date) {
+		this.post_date = post_date;
+	}
+
+	public Integer getPost_view() {
+		return post_view;
+	}
+
+	public void setPost_view(Integer post_view) {
+		this.post_view = post_view;
+	}
+
+	public Integer getPost_like() {
+		return post_like;
+	}
+
+	public void setPost_like(Integer post_like) {
+		this.post_like = post_like;
+	}
+
+	public String getPost_per() {
+		return post_per;
+	}
+
+	public void setPost_per(String post_per) {
+		this.post_per = post_per;
+	}
+
+	public String getPost_tag() {
+		return post_tag;
+	}
+
+	public void setPost_tag(String post_tag) {
+		this.post_tag = post_tag;
+	}
+
+	public BoardDTO(Integer post_id, Integer parent_board, String post_writer, String post_title, String post_content,
+			Date post_date, Integer post_view, Integer post_like, String post_per, String post_tag) {
 		super();
-		this.board_id = board_id;
-		this.board_name = board_name;
-		this.board_title = board_title;
-		this.board_content = board_content;
-		this.board_wire_date = board_wire_date;
-		this.board_view = board_view;
+		this.post_id = post_id;
+		this.parent_board = parent_board;
+		this.post_writer = post_writer;
+		this.post_title = post_title;
+		this.post_content = post_content;
+		this.post_date = post_date;
+		this.post_view = post_view;
+		this.post_like = post_like;
+		this.post_per = post_per;
+		this.post_tag = post_tag;
 	}
+	
 
-	public int getBoard_id() {
-		return board_id;
-	}
-
-	public void setBoard_id(int board_id) {
-		this.board_id = board_id;
-	}
-
-	public String getBoard_name() {
-		return board_name;
-	}
-
-	public void setBoard_name(String board_name) {
-		this.board_name = board_name;
-	}
-
-	public String getBoard_title() {
-		return board_title;
-	}
-
-	public void setBoard_title(String board_title) {
-		this.board_title = board_title;
-	}
-
-	public String getBoard_content() {
-		return board_content;
-	}
-
-	public void setBoard_content(String board_content) {
-		this.board_content = board_content;
-	}
-
-	public String getBoard_wire_date() {
-		return board_wire_date;
-	}
-
-	public void setBoard_wire_date(String board_wire_date) {
-		this.board_wire_date = board_wire_date;
-	}
-
-	public int getBoard_view() {
-		return board_view;
-	}
-
-	public void setBoard_view(int board_view) {
-		this.board_view = board_view;
-	}
 	
 }

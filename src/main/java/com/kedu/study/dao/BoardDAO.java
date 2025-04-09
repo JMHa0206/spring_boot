@@ -8,22 +8,36 @@ import org.springframework.stereotype.Repository;
 
 import com.kedu.study.dto.BoardDTO;
 
+
+
 @Repository
 public class BoardDAO {
 	@Autowired
 	public SqlSession mybatis;
 	
+	//테이블 전체를 불러오는 부분
 	public List<BoardDTO> selectAll(){
-		System.out.println("3");
-		return mybatis.selectList("Contacts.selectAll");
+		return mybatis.selectList("board.selectAll");
+		
 	};
 	
-	public int insert(BoardDTO dto) {
-		return mybatis.insert("Contacts.insertContact",dto);
-		
+	//insert 부분
+	public int insertBoard(BoardDTO post) {
+		return mybatis.insert("board.insertBoard",post);
 	}
-	//아이디로 삭제
-	public int delete(int id) {
-		return mybatis.delete("Contacts.deleteContact",id);
+	
+	 //board_id로 제목이랑 내용불러오는 부분
+	public BoardDTO findBoardid(int post_id) {
+		return mybatis.selectOne("board.findBoardid",post_id);
+	};
+	
+	//수정부분
+	public void updateBoard(BoardDTO post) {
+	    mybatis.update("board.updateBoard", post);
+	}
+
+	//삭제부분
+	public void deleteBoard(int post_id) {
+		mybatis.delete("board.deleteBoard",post_id);
 	}
 }
