@@ -16,4 +16,8 @@ public class MypageService {
 		return MyDao.userinfo(userId);
 	}
 	
+	public int userupdate(EmployeeDTO Empdto) {
+		return MyDao.userupdate(Empdto);
+	}
+	
 }
