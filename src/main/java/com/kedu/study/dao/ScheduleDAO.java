@@ -20,8 +20,13 @@ public class ScheduleDAO {
 		mybatis.insert("schedule.inputEvent", event);
 	}
 
-	public List<ScheduleDTO> getAllEvents(){
-		List<ScheduleDTO> events = mybatis.selectList("schedule.getAllEvents");
+	public List<ScheduleDTO> getComEvents(){
+		List<ScheduleDTO> events = mybatis.selectList("schedule.getComEvents");
+		return events;
+	}
+	
+	public List<ScheduleDTO> getMyEvents(String emp_code_id){
+		List<ScheduleDTO> events = mybatis.selectList("schedule.getMyEvents", emp_code_id);
 		return events;
 	}
 	
