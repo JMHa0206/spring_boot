@@ -30,7 +30,7 @@ public class AuthController {
 	public ResponseEntity<String> login(@RequestBody LoginDTO dto,HttpServletRequest request){
 		System.out.println(dto.getId()+"  :  입력된 아이디"+dto.getPw()+"   :   입력된 PW");
 		String id =dto.getId();
-		request.setAttribute("loginId", id);
+		request.setAttribute("userId", id);
 		LoginResponseDTO userinfo = aServ.findByLoginIdAndPw(dto);
 		
 		if(true) {
