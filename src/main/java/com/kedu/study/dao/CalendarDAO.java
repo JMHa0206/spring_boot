@@ -13,12 +13,16 @@ public class CalendarDAO {
 	@Autowired
 	private SqlSession mybatis;
 	
-	public void inputCalender(CalendarDTO calender) {
-		mybatis.insert("calender.inputCalender", calender);
+	public void inputCalendar(CalendarDTO calender) {
+		mybatis.insert("calendar.inputCalendar", calender);
 	}
 	
 	public List<CalendarDTO> selectAllList(){
 		return mybatis.selectList("calendar.selectAllList");
+	}
+	
+	public List<CalendarDTO> selectMyCal(int publicCode){
+		return mybatis.selectList("calendar.selectMyCal", publicCode);
 	}
 
 
