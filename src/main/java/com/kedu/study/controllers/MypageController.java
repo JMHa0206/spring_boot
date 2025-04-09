@@ -14,7 +14,7 @@ import com.kedu.study.dto.EmployeeDTO;
 import com.kedu.study.service.MypageService;
 
 import jakarta.servlet.http.HttpServletRequest;
-
+// 조휘영
 @RestController
 @RequestMapping("/mypage")
 public class MypageController {
