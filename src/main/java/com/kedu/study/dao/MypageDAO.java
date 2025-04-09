@@ -17,4 +17,7 @@ public class MypageDAO {
 	public EmployeeDTO userinfo(String userId) {
 		return mybatis.selectOne(nameSpace+".userinfo",userId);
 	}
+	public int userupdate(EmployeeDTO Empdto) {
+		return mybatis.update(nameSpace+".userupdate",Empdto);
+	}
 }
