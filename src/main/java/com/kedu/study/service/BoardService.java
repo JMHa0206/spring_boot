@@ -22,24 +22,23 @@ public class BoardService {
 	    }
 	    
 	    //insert 부분
-	    public void insertBoard(BoardDTO board) {
-	    	bdao.insertBoard(board);
+	    public void insertBoard(BoardDTO post) {
+	    	bdao.insertBoard(post);
 	    }
 	    
 	    //board_id로 제목이랑 내용불러오는 부분
-	    public BoardDTO getBoardById(int board_id) {
-	   	  System.out.println("2"); 
-	    	return bdao.findBoardid(board_id);
+	    public BoardDTO getBoardById(int post_id) {
+	    	return bdao.findBoardid(post_id);
 	    }
 
 	    //수정부분
-	    public void updateBoard(BoardDTO board) {
-	    	bdao.updateBoard(board);
+	    public void updateBoard(BoardDTO post) {
+	    	bdao.updateBoard(post);
 	    }
 	    
 	    //삭제부분
-	    public void deleteBoard(int board_id) {
-	    	bdao.deleteBoard(board_id);
+	    public void deleteBoard(int post_id) {
+	    	bdao.deleteBoard(post_id);
 	    }
 	    
 }

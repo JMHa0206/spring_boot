@@ -22,22 +22,22 @@ public class BoardDAO {
 	};
 	
 	//insert 부분
-	public int insertBoard(BoardDTO board) {
-		return mybatis.insert("board.insertBoard",board);
+	public int insertBoard(BoardDTO post) {
+		return mybatis.insert("board.insertBoard",post);
 	}
 	
 	 //board_id로 제목이랑 내용불러오는 부분
-	public BoardDTO findBoardid(int board_id) {
-		return mybatis.selectOne("board.findBoardid",board_id);
+	public BoardDTO findBoardid(int post_id) {
+		return mybatis.selectOne("board.findBoardid",post_id);
 	};
 	
 	//수정부분
-	public void updateBoard(BoardDTO board) {
-	    mybatis.update("board.updateBoard", board);
+	public void updateBoard(BoardDTO post) {
+	    mybatis.update("board.updateBoard", post);
 	}
 
 	//삭제부분
-	public void deleteBoard(int board_id) {
-		mybatis.delete("board.deleteBoard",board_id);
+	public void deleteBoard(int post_id) {
+		mybatis.delete("board.deleteBoard",post_id);
 	}
 }

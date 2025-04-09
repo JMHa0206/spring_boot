@@ -37,32 +37,32 @@ public class BoardController {
 	    
 	    //insert부분
 	    @PostMapping("/insert")
-		public ResponseEntity<Void> insertBoard(@RequestBody BoardDTO board) {
-			boardService.insertBoard(board);
+		public ResponseEntity<Void> insertBoard(@RequestBody BoardDTO post) {
+			boardService.insertBoard(post);
 			return ResponseEntity.ok().build();
 		}
 	    
 	    
 	    
 	    //board_id로 제목이랑 내용불러오는 부분
-	    @GetMapping("/{board_id}")
-	    public ResponseEntity<BoardDTO> getBoardById(@PathVariable int board_id) {
-	    	BoardDTO blist = boardService.getBoardById(board_id);
+	    @GetMapping("/{post_id}")
+	    public ResponseEntity<BoardDTO> getBoardById(@PathVariable int post_id) {
+	    	BoardDTO blist = boardService.getBoardById(post_id);
 	    	return ResponseEntity.ok(blist);
 	    		
 	    }
 	    
 	    //수정부분
 	    @PutMapping("/update")
-	    public ResponseEntity<Void> updateBoard(@RequestBody BoardDTO board) {
-	        boardService.updateBoard(board); // Service 호출
+	    public ResponseEntity<Void> updateBoard(@RequestBody BoardDTO post) {
+	        boardService.updateBoard(post); // Service 호출
 	        return ResponseEntity.ok().build(); // 성공 응답
 	    }
 	    
 	    //삭제부분
-	    @DeleteMapping("/{board_id}")
-	    public ResponseEntity<Void> deleteBoard(@PathVariable int board_id){
-	    	boardService.deleteBoard(board_id);
+	    @DeleteMapping("/{post_id}")
+	    public ResponseEntity<Void> deleteBoard(@PathVariable int post_id){
+	    	boardService.deleteBoard(post_id);
 	    	return ResponseEntity.ok().build();
 	    }
 	    
