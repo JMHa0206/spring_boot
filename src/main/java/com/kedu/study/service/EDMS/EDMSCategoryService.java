@@ -2,6 +2,7 @@ package com.kedu.study.service.EDMS;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kedu.study.dao.EDMS.EDMSCategoryDAO;
@@ -10,11 +11,8 @@ import com.kedu.study.dto.EDMSCategoryDTO;
 @Service
 public class EDMSCategoryService {
 
-    private final EDMSCategoryDAO edmsCategoryDAO;
-
-    public EDMSCategoryService(EDMSCategoryDAO edmsCategoryDAO) {
-        this.edmsCategoryDAO = edmsCategoryDAO;
-    }
+	@Autowired
+    private EDMSCategoryDAO edmsCategoryDAO;
 
     public List<EDMSCategoryDTO> getAllCategories() {
         return edmsCategoryDAO.findAllCategories();

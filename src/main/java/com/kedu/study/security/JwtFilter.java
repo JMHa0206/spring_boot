@@ -16,34 +16,38 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Component
-public class JwtFilter extends OncePerRequestFilter{
-	
-	@Autowired
-	private JWTUtil jwt;
-	
-	@Override
-	protected void doFilterInternal(HttpServletRequest request,
-	                                HttpServletResponse response,
-	                                FilterChain filterChain) throws ServletException, IOException {
-	    String header = request.getHeader("Authorization");
-	    System.out.println(header+" dd");
-	    if (header != null && header.startsWith("Bearer ")) {
-			System.out.println("jeoasasd");
+public class JwtFilter extends OncePerRequestFilter {
 
-	    	String token = header.substring(7);
+    @Autowired
+    private JWTUtil jwt;
 
-	        if (jwt.validataion(token)) {
-	            DecodedJWT decoded = JWT.decode(token);
-	            String userId = decoded.getSubject();
-	            String role = decoded.getClaim("role").asString();
+    @Override
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain) throws ServletException, IOException {
 
-	            System.out.println("Decoded Token - userId: " + userId + ", role: " + role);
-	            // 👉 여기! 인증된 사용자 정보를 Request에 저장
-	            request.setAttribute("userId", userId);
-	            request.setAttribute("userRole", role != null ? role : "ROLE_USER");
-	        }
-	    }
+        String header = request.getHeader("Authorization");
+        System.out.println("Authorization Header: " + header);
 
-	    filterChain.doFilter(request, response);
-	}
+        if (header != null && header.startsWith("Bearer ")) {
+            String token = header.substring(7);
+
+            if (!jwt.validataion(token)) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().write("Invalid Token");
+                return;
+            }
+
+            DecodedJWT decoded = JWT.decode(token);
+            String userId = decoded.getSubject();
+            String role = decoded.getClaim("per_function").asString();
+
+            System.out.println("Decoded Token - userId: " + userId + ", role: " + role);
+
+            request.setAttribute("userId", userId);
+            request.setAttribute("userRole", role != null ? role : "ROLE_USER");
+        }
+
+        filterChain.doFilter(request, response);
+    }
 }

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="schedule">
+
+	<insert id="inputEvent" parameterType="com.kedu.study.dto.ScheduleDTO">
+		INSERT into schedule values ( 
+			  sche_seq.nextval,
+		      #{c_id, jdbcType=INTEGER},
+		      #{title, jdbcType=VARCHAR},
+		      #{content, jdbcType=VARCHAR},
+		      #{emp_id},
+		      #{start_date, jdbcType=DATE},
+		      #{end_date, jdbcType=DATE},
+		      #{startTime, jdbcType=TIMESTAMP},
+		      #{endTime, jdbcType=TIMESTAMP})
+	</insert>
+	
+	<select id="getAllEvents" resultType="com.kedu.study.dto.ScheduleDTO">
+		SELECT s.*, c.color from schedule s join calendar c ON s.c_id = c.c_id where 
+	</select>
+	
+	<select id="selectEvent" resultType="com.kedu.study.dto.ScheduleDTO">
+		SELECT * from schedule WHERE id = ${id}
+	</select>
+	
+	<delete id="deleteEvent">
+		DELETE from schedule WHERE id = ${id}
+	</delete>
+	
+	<update id="updateById">
+		UPDATE schedule SET title=#{title}, content=#{content}, start_date=#{start_date}, end_date=#{end_date}, startTime=#{startTime}, endTime=#{endTime} WHERE id=#{id}
+	</update>
+
+</mapper>

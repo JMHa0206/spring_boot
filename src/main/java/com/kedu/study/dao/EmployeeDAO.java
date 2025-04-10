@@ -12,9 +12,9 @@ public class EmployeeDAO {
 
 	@Autowired
 	private SqlSessionTemplate mybatis;
-	  private static final String NameSpace = "EmployeeMapper"; // 너가 xml에서 설정한 namespace
+	private static final String NameSpace = "EmployeeMapper"; // 너가 xml에서 설정한 namespace
 
-	    public LoginResponseDTO findByLoginIdAndPw(LoginDTO dto) {
+	public LoginResponseDTO findByLoginIdAndPw(LoginDTO dto) {
 	        return mybatis.selectOne(NameSpace + ".findByLoginIdAndPw", dto);
 	}
 

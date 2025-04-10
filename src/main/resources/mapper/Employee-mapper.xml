@@ -18,5 +18,31 @@
       e.emp_loginId = #{id}
       AND e.emp_pw = #{pw}
   </select>
-
+  
+    <select id="findEmpCodeIdByLoginId" parameterType="String" resultType="int">
+    SELECT emp_code_id
+    FROM employee
+    WHERE emp_loginId = #{loginId}
+  </select>
+  
+  <select id="takeAllemployee" resultType="com.kedu.study.dto.ApproverInfoDTO">
+  SELECT 
+    e.emp_code_id AS empCodeId,
+    e.emp_name AS empName,
+    e.emp_job_id AS empJobId,
+    j.job_name AS jobName
+  FROM employee e
+  LEFT JOIN job j ON e.emp_job_id = j.job_id
+  </select>
+  
+  <select id="takeEmployeeById" parameterType="int" resultType="com.kedu.study.dto.ApproverInfoDTO">
+  SELECT 
+    e.emp_code_id AS empCodeId,
+    e.emp_name AS empName,
+    e.emp_job_id AS empJobId,
+    j.job_name AS jobName
+  FROM employee e
+  LEFT JOIN job j ON e.emp_job_id = j.job_id
+  WHERE e.emp_code_id = #{id}
+</select>
 </mapper>
