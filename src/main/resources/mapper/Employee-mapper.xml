@@ -45,4 +45,19 @@
   LEFT JOIN job j ON e.emp_job_id = j.job_id
   WHERE e.emp_code_id = #{id}
 </select>
+
+<select id="selectAllEmps" resultType="com.kedu.study.dto.EmployeeDTO">
+	select 
+		e.*, 
+		dept_name, 
+		job_name 
+	from employee e
+	JOIN job j ON e.emp_job_id = j.job_id
+	JOIN department d ON e.emp_dept_id = d.dept_id
+</select>
+
+<select id="selectAllDepts" resultType="com.kedu.study.dto.DepartDTO">
+	select * from department
+</select>
+
 </mapper>
