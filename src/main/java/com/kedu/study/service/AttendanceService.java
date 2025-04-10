@@ -3,6 +3,7 @@ package com.kedu.study.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.kedu.study.dao.AttendanceDAO;
+import com.kedu.study.dto.ActivityDTO;
 import com.kedu.study.dto.AttendanceDTO;
 
 import java.sql.Timestamp;
@@ -57,7 +58,6 @@ public class AttendanceService {
 		attendancedto.setOvertime_hours(overtimeHours);
 
 		int result = ADao.checkOut(attendancedto);
-		System.out.println(result+": result");
 		if (result > 0) {
 			System.out.println("퇴근 기록과 근무 시간이 DB에 성공적으로 업데이트되었습니다.");
 		} else {
@@ -65,6 +65,52 @@ public class AttendanceService {
 		}
 
 		return result;
+	}
+	
+	public int outing(AttendanceDTO attendancedto) {	// 외근
+		// 출근 기록이 있다는 가정 하에 그 기록의 ID를 가져옴.
+		Integer attendanceId = ADao.findTodayAttendanceId(attendancedto.getEmp_loginId());
+
+		if (attendanceId == null) {
+		    throw new IllegalArgumentException("출근 기록이 없습니다.");
+		}
+		LocalDateTime startTime = attendancedto.getCheck_in_time().toLocalDateTime();
+	    LocalDateTime endTime = attendancedto.getCheck_out_time().toLocalDateTime();
+	    
+	    long minutes = ChronoUnit.MINUTES.between(startTime, endTime);
+	    double hours = minutes / 60.0;
+	    
+	    ActivityDTO activity = new ActivityDTO();
+	    activity.setAttendance_id(attendanceId);
+	    activity.setActivity_type("외근"); // 또는 "업무"
+	    activity.setStart_time(attendancedto.getCheck_in_time());
+	    activity.setEnd_time(attendancedto.getCheck_out_time());
+	    activity.setActivity_hours(hours);
+	    
+	    return ADao.outing(activity);
+	}
+	
+	public int work(AttendanceDTO attendancedto) {	// 업무e
+		// 출근 기록이 있다는 가정 하에 그 기록의 ID를 가져옴.
+		Integer attendanceId = ADao.findTodayAttendanceId(attendancedto.getEmp_loginId());
+
+		if (attendanceId == null) {
+		    throw new IllegalArgumentException("출근 기록이 없습니다.");
+		}
+		LocalDateTime startTime = attendancedto.getCheck_in_time().toLocalDateTime();
+	    LocalDateTime endTime = attendancedto.getCheck_out_time().toLocalDateTime();
+	    
+	    long minutes = ChronoUnit.MINUTES.between(startTime, endTime);
+	    double hours = minutes / 60.0;
+	    
+	    ActivityDTO activity = new ActivityDTO();
+	    activity.setAttendance_id(attendanceId);
+	    activity.setActivity_type("업무"); // 또는 "업무"
+	    activity.setStart_time(attendancedto.getCheck_in_time());
+	    activity.setEnd_time(attendancedto.getCheck_out_time());
+	    activity.setActivity_hours(hours);
+	    
+	    return ADao.work(activity);
 	}
 
 }
