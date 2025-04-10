@@ -15,11 +15,15 @@ public class CalendarService {
 	private CalendarDAO cDao;
 	
 	public void inputCalender(CalendarDTO calender) {
-		cDao.inputCalender(calender);
+		cDao.inputCalendar(calender);
 	}
 	
 	public List<CalendarDTO> selectAllList() {
 		return cDao.selectAllList();
+	}
+	
+	public List<CalendarDTO> selectMyCal(int publicCode){
+		return cDao.selectMyCal(publicCode);
 	}
 
 }

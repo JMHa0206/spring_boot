@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="reply">
+   
+   
+    <select id="selectAll" parameterType="int" resultType="com.kedu.study.dto.BoardReplyDTO">
+        SELECT * FROM reply WHERE board_id = #{board_id} ORDER BY reply_id
+    </select>
+    
+    
+    <select id="findReplyid" parameterType="int" resultType="com.kedu.study.dto.BoardReplyDTO">
+        SELECT * FROM reply WHERE reply_id = #{reply_id}
+    </select>
+
+
+	<insert id="insertReply" parameterType="com.kedu.study.dto.BoardReplyDTO">
+		insert into reply (reply_id,board_id, reply_coontent,reply_writer,reply_date)
+		 values(reply_id_seq.nextval, #{board_id}, #{reply_coontent}, #{reply_writer}, sysdate)
+	</insert>
+
+
+ 	<select id="updateReply" parameterType="com.kedu.study.dto.BoardReplyDTO">
+        UPDATE reply
+        SET reply_coontent = #{reply_coontent}, reply_writer = #{reply_writer}
+        WHERE reply_id = #{reply_id}
+    </select>
+    
+
+	<delete id="deleteReply" parameterType="com.kedu.study.dto.BoardReplyDTO">
+		delete from reply where reply_id = #{value}
+	</delete>
+
+ 	</mapper>
