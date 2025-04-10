@@ -28,15 +28,18 @@
 		SELECT * from calendar where public_code = ${publicCode}
 	</select>
 	
-	<insert id="updateCalShare" parameterType="map">
-	  <foreach collection="list" item="item" separator=";">
-	  	INSERT INTO calendar_share VALUES (
-			calshare_seq.nextval,
-			#{c_id},
-			#{item.target_type},
-			#{item.target_id}
-		)
-	  </foreach>
+	<insert id="calendarShare" parameterType="com.kedu.study.dto.CalendarShareDTO">
+	   INSERT INTO calendar_share (
+	    id,
+	    c_id,
+	    target_type,
+	    target_id
+	  ) VALUES (
+	    calshare_seq.NEXTVAL,
+	    #{c_id},
+	    #{target_type},
+	    #{target_id}
+	  )
 	</insert>
 
 </mapper>

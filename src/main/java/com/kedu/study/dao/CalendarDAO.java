@@ -27,8 +27,8 @@ public class CalendarDAO {
 		return mybatis.selectList("calendar.selectMyCal", publicCode);
 	}
 	
-	public void caledarShare(List<CalendarShareDTO> calendarShare) {
-		mybatis.update("calendar.updateCalShare", calendarShare);
+	public void caledarShare(CalendarShareDTO calendarShare) {
+		mybatis.update("calendar.calendarShare", calendarShare);
 	}
 
 

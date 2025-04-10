@@ -1,6 +1,8 @@
 package com.kedu.study.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,16 +24,15 @@ public class CalendarController {
 	private CalendarService cServ;
 	
 	@PostMapping
-	public ResponseEntity<List<CalendarDTO>> calender(@RequestBody CalendarDTO calender){
+	public ResponseEntity<Map<String, Object>> calender(@RequestBody CalendarDTO calender){
 		cServ.inputCalender(calender);
-		return ResponseEntity.ok().build();
+		 Map<String, Object> response = new HashMap<>();
+		 response.put("c_id", calender.getC_id());
+		return ResponseEntity.ok(response);
 	}
 	
 	@PostMapping("/calendarShare")
 	public ResponseEntity<?> caledarShare(@RequestBody List<CalendarShareDTO> target){
-		for (CalendarShareDTO dto : target) {
-	        System.out.println(dto.getTarget_type() + " / " + dto.getTarget_id());
-	    }
 		cServ.caledarShare(target);
 		return ResponseEntity.ok().build();
 	}

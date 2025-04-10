@@ -27,7 +27,10 @@ public class CalendarService {
 		return cDao.selectMyCal(publicCode);
 	}
 	public void caledarShare(List<CalendarShareDTO> calendarShare) {
-		cDao.caledarShare(calendarShare);
+		for (CalendarShareDTO share : calendarShare) {
+	        cDao.caledarShare(share);
+	    }
+//		cDao.caledarShare(calendarShare);
 	}
 
 }
