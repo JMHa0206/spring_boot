@@ -39,6 +39,10 @@ public class AttendanceDAO {
     public Timestamp getTodayCheckIn(String emp_loginId) {
         return mybatis.selectOne(nameSpace + ".getTodayCheckIn", emp_loginId);
     }
+    public Integer findTodayAttendanceId(String emp_loginId) {
+		return mybatis.selectOne(nameSpace+".findTodayAttendanceId", emp_loginId);
+	}
+
 
 
     
@@ -60,6 +64,13 @@ public class AttendanceDAO {
         }
 
         return result;
+    }
+    
+    public int outing(ActivityDTO activitydto) {
+    	return mybatis.insert(nameSpace+".outing", activitydto);
+    }
+    public int work(ActivityDTO activitydto) {
+    	return mybatis.insert(nameSpace+".work", activitydto);
     }
 
 }
