@@ -1,35 +1,29 @@
 package com.kedu.study.dto;
 
-import java.sql.Date;
-
 public class EmployeeDTO {
 
-	private int emp_code_id;
-	private int emp_per_id;
-	private int emp_dept_id;
-	private int emp_job_id;
-	private String emp_loginId;
-	private String emp_pw;
-	private String emp_name;
-	private String emp_rrn;
-	private String emp_phone;
-	private String emp_email;
-	private String postcode;
-	private String address1;
-	private String address2;
-	private Date hire_date;
-	private int salary;
-	private String isDeft;
-	private DepartDTO departDTO;
-	private JobDTO jobDTO;
+    private int emp_code_id;
+    private int emp_per_id;
+    private int emp_dept_id;
+    private int emp_job_id;
+    private String emp_loginId;
+    private String emp_pw;
+    private String emp_name;
+    private String emp_rrn;
+    private String emp_phone;
+    private String emp_email;
+    private String postcode;
+    private String address1;
+    private String address2;
+    private String hire_date;
+    private int salary;
+    private String isDeft;
+    
+    public EmployeeDTO(){};
 
-	
-	public EmployeeDTO() {};
-	
-	
-	public EmployeeDTO(int emp_code_id, int emp_per_id, int emp_dept_id, int emp_job_id, String emp_loginId,
+    public EmployeeDTO(int emp_code_id, int emp_per_id, int emp_dept_id, int emp_job_id, String emp_loginId,
 			String emp_pw, String emp_name, String emp_rrn, String emp_phone, String emp_email, String postcode,
-			String address1, String address2, Date hire_date, int salary, String isDeft, DepartDTO departDTO, JobDTO jobDTO) {
+			String address1, String address2, String hire_date, int salary, String isDeft) {
 		super();
 		this.emp_code_id = emp_code_id;
 		this.emp_per_id = emp_per_id;
@@ -47,30 +41,12 @@ public class EmployeeDTO {
 		this.hire_date = hire_date;
 		this.salary = salary;
 		this.isDeft = isDeft;
-		this.departDTO = departDTO;
-		this.jobDTO = jobDTO;
 	}
-	
-	public DepartDTO getDepartDTO() {
-		return departDTO;
-	}
-
-
-	public void setDepartDTO(DepartDTO departDTO) {
-		this.departDTO = departDTO;
-	}
-
-
-	public JobDTO getJobDTO() {
-		return jobDTO;
-	}
-
-
-	public void setJobDTO(JobDTO jobDTO) {
-		this.jobDTO = jobDTO;
-	}
-
-
+	// 기본 객체로 초기화
+    private JobDTO jobDTO = new JobDTO();
+    private DepartDTO departDTO = new DepartDTO();
+    private ProfileImgDTO profileDTO;
+   
 	public int getEmp_code_id() {
 		return emp_code_id;
 	}
@@ -149,10 +125,10 @@ public class EmployeeDTO {
 	public void setAddress2(String address2) {
 		this.address2 = address2;
 	}
-	public Date getHire_date() {
+	public String getHire_date() {
 		return hire_date;
 	}
-	public void setHire_date(Date hire_date) {
+	public void setHire_date(String hire_date) {
 		this.hire_date = hire_date;
 	}
 	public int getSalary() {
@@ -167,9 +143,24 @@ public class EmployeeDTO {
 	public void setIsDeft(String isDeft) {
 		this.isDeft = isDeft;
 	}
-	
-	
-	
+	public JobDTO getJobDTO() {
+		return jobDTO;
+	}
+	public void setJobDTO(JobDTO jobDTO) {
+		this.jobDTO = jobDTO;
+	}
+	public DepartDTO getDepartDTO() {
+		return departDTO;
+	}
+	public void setDepartDTO(DepartDTO departDTO) {
+		this.departDTO = departDTO;
+	}
+	public ProfileImgDTO getProfileDTO() {
+		return profileDTO;
+	}
+	public void setProfileDTO(ProfileImgDTO profileDTO) {
+		this.profileDTO = profileDTO;
+	}
 
 
 }

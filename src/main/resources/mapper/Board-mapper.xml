@@ -6,30 +6,31 @@
    
    
     <select id="selectAll" resultType="com.kedu.study.dto.BoardDTO">
-        SELECT * FROM board
+        SELECT * FROM post 
     </select>
     
     
     <select id="findBoardid" parameterType="int" resultType="com.kedu.study.dto.BoardDTO">
-        SELECT * FROM board WHERE board_id = #{board_id}
+        SELECT * FROM post WHERE post_id = #{post_id}
     </select>
 
-<!--
+
 	<insert id="insertBoard" parameterType="com.kedu.study.dto.BoardDTO">
-		insert into board (board_id,board_name,board_title,board_content,board_write_date,board_view)
-		 values(board_id.nextval, #{board_name}, #{board_title}, #{board_content}, sysdate, 0)
-	</insert>-->
+		insert into post (post_id,parent_board,post_writer,post_title,post_content,post_date,post_view,post_like,post_per,post_tag)
+		 values(post_id_seq.nextval,#{parent_board}, #{post_writer}, #{post_title}, #{post_content},sysdate, 0, 0, 	#{post_per},
+		#{post_tag})
+	</insert>
 
 
  	<select id="updateBoard" parameterType="com.kedu.study.dto.BoardDTO">
-        UPDATE board
-        SET board_title = #{board_title}, board_content = #{board_content}
-        WHERE board_id = #{board_id}
+        UPDATE post
+        SET post_writer= #{post_writer}, post_title = #{post_title}, post_content = #{post_content}, post_per= #{post_per}, post_tag = #{post_tag}
+        WHERE post_id = #{post_id}
     </select>
     
 
 	<delete id="deleteBoard" parameterType="com.kedu.study.dto.BoardDTO">
-		delete from board where board_id = #{value}
+		delete from post where post_id = #{value}
 	</delete>
 
  	</mapper>

@@ -7,18 +7,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kedu.study.dto.CalendarDTO;
+import com.kedu.study.dto.CalendarShareDTO;
 
 @Repository
 public class CalendarDAO {
 	@Autowired
 	private SqlSession mybatis;
 	
-	public void inputCalender(CalendarDTO calender) {
-		mybatis.insert("calender.inputCalender", calender);
+	public void inputCalendar(CalendarDTO calendar) {
+		mybatis.insert("calendar.inputCalendar", calendar);
+//		mybatis.insert("calendar.calendarShare)",calendar);
 	}
 	
 	public List<CalendarDTO> selectAllList(){
 		return mybatis.selectList("calendar.selectAllList");
+	}
+	
+	public List<CalendarDTO> selectMyCal(int publicCode){
+		return mybatis.selectList("calendar.selectMyCal", publicCode);
+	}
+	
+	public void caledarShare(CalendarShareDTO calendarShare) {
+		mybatis.update("calendar.calendarShare", calendarShare);
 	}
 
 
