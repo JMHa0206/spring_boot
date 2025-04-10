@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kedu.study.dto.CalendarDTO;
+import com.kedu.study.dto.CalendarShareDTO;
 import com.kedu.study.service.CalendarService;
 
 @RestController
@@ -23,6 +24,15 @@ public class CalendarController {
 	@PostMapping
 	public ResponseEntity<List<CalendarDTO>> calender(@RequestBody CalendarDTO calender){
 		cServ.inputCalender(calender);
+		return ResponseEntity.ok().build();
+	}
+	
+	@PostMapping("/calendarShare")
+	public ResponseEntity<?> caledarShare(@RequestBody List<CalendarShareDTO> target){
+		for (CalendarShareDTO dto : target) {
+	        System.out.println(dto.getTarget_type() + " / " + dto.getTarget_id());
+	    }
+		cServ.caledarShare(target);
 		return ResponseEntity.ok().build();
 	}
 	

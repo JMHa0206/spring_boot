@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.kedu.study.dao.CalendarDAO;
 import com.kedu.study.dto.CalendarDTO;
+import com.kedu.study.dto.CalendarShareDTO;
 
 @Service
 public class CalendarService {
@@ -24,6 +25,9 @@ public class CalendarService {
 	
 	public List<CalendarDTO> selectMyCal(int publicCode){
 		return cDao.selectMyCal(publicCode);
+	}
+	public void caledarShare(List<CalendarShareDTO> calendarShare) {
+		cDao.caledarShare(calendarShare);
 	}
 
 }

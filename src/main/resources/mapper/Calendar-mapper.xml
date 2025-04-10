@@ -5,8 +5,11 @@
 <mapper namespace="calendar">
 
 	<insert id="inputCalendar" parameterType="com.kedu.study.dto.CalendarDTO">
+	  <selectKey keyProperty="c_id" resultType="int" order="BEFORE">
+	    SELECT c_seq.NEXTVAL FROM dual
+	  </selectKey>
 		INSERT into calendar values ( 
-		      c_seq.nextval,
+		      #{c_id},
 		      #{c_title},
 		      #{emp_id},
 		      #{dept_code},
@@ -15,6 +18,8 @@
 		      #{color})
 	</insert>
 	
+	
+	
 	<select id="selectAllList"  resultType="com.kedu.study.dto.CalendarDTO">
 		SELECT * FROM calendar 
 	</select>
@@ -22,5 +27,16 @@
 	<select id="selectMyCal" parameterType="int" resultType="com.kedu.study.dto.CalendarDTO">
 		SELECT * from calendar where public_code = ${publicCode}
 	</select>
+	
+	<insert id="updateCalShare" parameterType="map">
+	  <foreach collection="list" item="item" separator=";">
+	  	INSERT INTO calendar_share VALUES (
+			calshare_seq.nextval,
+			#{c_id},
+			#{item.target_type},
+			#{item.target_id}
+		)
+	  </foreach>
+	</insert>
 
 </mapper>
