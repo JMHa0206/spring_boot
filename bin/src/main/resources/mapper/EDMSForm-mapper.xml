@@ -10,7 +10,7 @@
         SELECT * FROM edms_form
     </select>
 
-    <select id="findFormById" resultType="com.kedu.study.dto.EDMSFormDTO">
+    <select id="findFormById" parameterType="int" resultType="com.kedu.study.dto.EDMSFormDTO">
         SELECT * FROM edms_form WHERE form_id = #{formId}
     </select>
 
