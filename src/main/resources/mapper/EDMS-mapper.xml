@@ -69,7 +69,7 @@
 </insert>
 
   <!-- 내가 결재해야 할 문서 리스트 -->
- <select id="getPendingList" parameterType="int" resultType="com.kedu.study.dto.EDMSDTO">
+<select id="getPendingList" parameterType="int" resultType="com.kedu.study.dto.EDMSDTO">
   SELECT 
     e.edms_id       AS edmsId,
     e.form_id       AS formId,
@@ -95,7 +95,13 @@
   JOIN employee emp ON e.com_id = emp.emp_code_id
   WHERE
     (e.level1 = #{empCodeId} OR e.level2 = #{empCodeId} OR e.level3 = #{empCodeId} OR e.level4 = #{empCodeId} OR e.final_level = #{empCodeId})
-    AND e.state_code = 1
+    AND e.state_code IN (1, 2)
+    AND NOT EXISTS (
+      SELECT 1
+      FROM edms_history h
+      WHERE h.edms_id = e.edms_id
+        AND h.approver_id = #{empCodeId}
+    )
 </select>
 
   <!-- 내가 기안한 문서 리스트 -->
@@ -152,6 +158,60 @@
   JOIN edms_form f ON e.form_id = f.form_id
   JOIN employee emp ON e.com_id = emp.emp_code_id
   WHERE e.edms_id = #{id}
+</select>
+
+<insert id="insertApprovalHistory" parameterType="map">
+  INSERT INTO edms_history (
+    history_id,
+    edms_id,
+    approver_id,
+    action,
+    step_level,
+    reason,
+    action_date
+  ) VALUES (
+    EDMS_HIST_SEQ.nextval,
+    #{edmsId, jdbcType=NUMERIC},
+    #{approverId, jdbcType=NUMERIC}, <!-- ✅ 수정됨: empCodeId -> approverId -->
+    #{action, jdbcType=VARCHAR},
+    #{stepLevel, jdbcType=NUMERIC},
+    #{reason, jdbcType=VARCHAR},
+    SYSDATE
+  )
+</insert>
+
+<update id="updateStateCode" parameterType="map">
+  UPDATE edms
+  SET state_code = #{stateCode}
+  WHERE edms_id = #{edmsId}
+</update>
+
+<update id="updateRejectReason" parameterType="map">
+  UPDATE edms
+  SET reject_reason = #{reason}
+  WHERE edms_id = #{edmsId}
+</update>
+
+<select id="hasAllPriorApprovals" parameterType="map" resultType="int">
+  SELECT COUNT(*)
+  FROM edms_history
+  WHERE edms_id = #{edmsId}
+    AND step_level &lt; #{currentLevel}
+    AND action != 'APPROVED'
+</select>
+
+<select id="getApprovalHistory" parameterType="long" resultType="com.kedu.study.dto.EDMSHistoryDTO">
+    SELECT 
+        history_id AS historyId,
+        edms_id AS edmsId,
+        approver_id AS approverId,
+        action,
+        step_level AS stepLevel,
+        reason,
+        action_date AS actionDate
+    FROM edms_history
+    WHERE edms_id = #{docId}
+    ORDER BY step_level ASC, action_date ASC
 </select>
 
 </mapper>
