@@ -33,8 +33,14 @@
             <result property="dept_id" column="dept_id"/>
             <result property="dept_name" column="dept_name"/>
         </association>
+        <!-- 프로필 -->
+        <association property="profileDTO" javaType="com.kedu.study.dto.ProfileImgDTO">
+        	<result property="profile_id" column="profile_id"/>
+        	<result property="profile_emp_id" column="profile_emp_id"/>
+        	<result property="profile_path" column="profile_path"/>
+        </association>
     </resultMap>
-
+	<!-- 출력 -->
     <select id="userinfo" parameterType="String" resultMap="EmpWithJoin">
         SELECT  
             e.emp_code_id,
@@ -58,14 +64,19 @@
             j.job_name as job_name,
 
             d.dept_id,
-            d.dept_name
+            d.dept_name,
+            
+            p.profile_id,
+       	 	p.profile_emp_id,
+        	p.profile_path
 
         FROM employee e
         LEFT JOIN job j ON e.emp_job_id = j.job_id
         LEFT JOIN department d ON e.emp_dept_id = d.dept_id
+        LEFT JOIN profileImg p on e.emp_code_id = p.profile_emp_id
         WHERE e.emp_loginId = #{userId}
     </select>
-    
+    <!-- 수정 -->
     <update id="userupdate" parameterType="com.kedu.study.dto.EmployeeDTO">
     	UPDATE employee 
     	set 
@@ -78,5 +89,10 @@
     	emp_loginId = #{emp_loginId}
   
     </update>
+    
+    <insert id="saveProfile" parameterType="com.kedu.study.dto.ProfileImgDTO">
+    	INSERT INTO profileImg (profile_id, profile_emp_id, profile_path)
+    	VALUES (profile_id_seq.NEXTVAL, #{profile_emp_id}, #{profile_path})
+	</insert>
 
 </mapper>
