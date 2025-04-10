@@ -90,7 +90,7 @@ public class AttendanceService {
 	    return ADao.outing(activity);
 	}
 	
-	public int work(AttendanceDTO attendancedto) {	// 업무
+	public int work(AttendanceDTO attendancedto) {	// 업무e
 		// 출근 기록이 있다는 가정 하에 그 기록의 ID를 가져옴.
 		Integer attendanceId = ADao.findTodayAttendanceId(attendancedto.getEmp_loginId());
 
