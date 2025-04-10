@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kedu.study.dao.MsgEmpDAO;
-import com.kedu.study.dto.ChatRoomDTO;
+import com.kedu.study.dto.ChattingRoomDTO;
 import com.kedu.study.dto.MessageDTO;
 import com.kedu.study.dto.MsgEmpDTO;
 import com.kedu.study.dto.MsgEmpMineDTO;
@@ -50,6 +50,18 @@ public class MsgEmpService {
 	
 	public List<Map<String, Object>> selectRoom(int myId) {
 		return eDao.selectRoom(myId);
+	}
+	
+	public int madeGroupChat(String selectedStr, Integer myId,Integer numMembers) {
+		return eDao.madeGroupChat(selectedStr,myId,numMembers);
+	}
+	
+	public List<ChattingRoomDTO> selectGroupChat(int myId) {
+		return eDao.selectGroupChat(myId);
+	}
+	
+	public List<String> getNamesIds(List<String> ids) {
+		return eDao.getNamesIds(ids);
 	}
 	
 }

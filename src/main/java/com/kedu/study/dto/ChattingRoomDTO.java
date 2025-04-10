@@ -9,6 +9,12 @@ public class ChattingRoomDTO {
 	
 	
 	
+	public ChattingRoomDTO(Integer msg_group_id, String group_member) {
+		super();
+		this.msg_group_id = msg_group_id;
+		this.group_member = group_member;
+	}
+
 	public ChattingRoomDTO(Integer msg_group_id) {
 		super();
 		this.msg_group_id = msg_group_id;

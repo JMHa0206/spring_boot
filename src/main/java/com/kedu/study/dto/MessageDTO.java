@@ -13,8 +13,29 @@ public class MessageDTO {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
 	private Timestamp send_date;
 	private String read;
+	private String emp_name;
 	
 	
+	public MessageDTO(int msg_id, int msg_group_id, int msg_emp_id, String msg_content, Timestamp send_date,
+			String read, String emp_name) {
+		super();
+		this.msg_id = msg_id;
+		this.msg_group_id = msg_group_id;
+		this.msg_emp_id = msg_emp_id;
+		this.msg_content = msg_content;
+		this.send_date = send_date;
+		this.read = read;
+		this.emp_name = emp_name;
+	}
+	public String getEmp_name() {
+		return emp_name;
+	}
+	public void setEmp_name(String emp_name) {
+		this.emp_name = emp_name;
+	}
+	public MessageDTO() {
+		super();
+	}
 	public MessageDTO(int msg_id, int msg_group_id, int msg_emp_id, String msg_content, Timestamp send_date, String read) {
 		super();
 		this.msg_id = msg_id;
