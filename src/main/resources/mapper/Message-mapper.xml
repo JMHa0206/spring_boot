@@ -5,19 +5,31 @@
 <mapper namespace="Message">
 
  <insert id="saveMessage" parameterType="com.kedu.study.dto.MessageDTO">
+ <selectKey keyProperty="msg_id" resultType="int" order="AFTER">
+        SELECT message_seq.currval FROM dual
+    </selectKey>
+ 
  	insert into messages(
 		msg_id,
         msg_group_id,
         msg_emp_id,
         msg_content,
-        send_date
+        send_date,
+        read,
+        unread_count
         ) 
         values(
 			message_seq.nextval,
 			#{msg_group_id},
 			#{msg_emp_id},
 			#{msg_content},
-			#{send_date}
+			#{send_date},
+			DEFAULT,
+			(
+				SELECT REGEXP_COUNT(group_member, '[^,]+') - 1
+      FROM msg
+      WHERE msg_group_id = #{msg_group_id}
+			)
 			)
  </insert>
 
