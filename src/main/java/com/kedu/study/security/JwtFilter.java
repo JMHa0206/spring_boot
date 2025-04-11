@@ -43,9 +43,14 @@ public class JwtFilter extends OncePerRequestFilter {
             String role = decoded.getClaim("per_function").asString();
 
             System.out.println("Decoded Token - userId: " + userId + ", role: " + role);
+            System.out.println("Filter passed");
 
+            // ✅ 사용자 정보를 HttpServletRequest에 저장
             request.setAttribute("userId", userId);
             request.setAttribute("userRole", role != null ? role : "ROLE_USER");
+
+        } else {
+            System.out.println("❌ Missing or malformed Authorization Header");
         }
 
         filterChain.doFilter(request, response);

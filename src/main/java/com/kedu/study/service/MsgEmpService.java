@@ -64,4 +64,15 @@ public class MsgEmpService {
 		return eDao.getNamesIds(ids);
 	}
 	
+	public List<Map<String,Object>> getGroupInfo(List<Integer> groupId){
+		return eDao.getGroupInfo(groupId);
+	}
+	
+	public int readMessage(Map<String,Integer> data) {
+		return eDao.readMessage(data);
+	}
+	
+	public int readAllMessages(Map<String,Integer> data) {
+		return eDao.readAllMessages(data);
+	}
 }

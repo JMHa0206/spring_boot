@@ -119,5 +119,24 @@ public class MsgEmpController {
 		
 		return ResponseEntity.ok(list);
 	}
+	
+	@GetMapping("/getGroupInfo")
+	public ResponseEntity<List<Map<String,Object>>> getGroupInfo(@RequestParam List<Integer> groupId){
+			List<Map<String,Object>> list = eServ.getGroupInfo(groupId);
+		return ResponseEntity.ok(list);
+	}
+	
+	@PostMapping("/readMessage")
+	public ResponseEntity<?> readMessage(@RequestBody Map<String,Integer> data){
+			eServ.readMessage(data);
+		return ResponseEntity.ok(null);
+	}
+	
+	@PostMapping("/readAllMessages")
+	public ResponseEntity<?> readAllMessages(@RequestBody Map<String,Integer> data){
+			eServ.readAllMessages(data);
+		
+		return ResponseEntity.ok(null);
+	}
 
 }

@@ -44,6 +44,7 @@
         m.msg_content,
         m.send_date,
         m.read,
+        m.unread_count,
         e.emp_name
     FROM messages m
     JOIN msg g ON m.msg_group_id = g.msg_group_id
@@ -113,6 +114,44 @@ ORDER BY m1.SEND_DATE DESC
     <foreach item="id" collection="list" open="(" separator="," close=")">
         #{id}
     </foreach>
-</select>
+	</select>
+	
+	<select id="getGroupInfo" resultType="map" parameterType="list">
+   SELECT
+        mg.msg_group_id AS groupId,
+        ms.msg_content AS last_message,
+        ms.send_date AS last_message_time,
+        m.num_members
+    FROM
+        (SELECT
+            msg_group_id,
+            MAX(send_date) AS latest_time
+         FROM messages
+         WHERE msg_group_id IN
+         <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+         </foreach>
+         GROUP BY msg_group_id) mg
+    JOIN messages ms
+        ON mg.msg_group_id = ms.msg_group_id AND mg.latest_time = ms.send_date
+    JOIN msg m
+        ON m.msg_group_id = mg.msg_group_id
+	</select>
+	
+	<update id="readMessage" parameterType="map">
+		update messages set unread_count = CASE 
+ 		 WHEN unread_count > 0 THEN unread_count - 1
+  		ELSE 0
+		END 
+		where msg_group_id = #{seq} and msg_emp_id != #{empId} and unread_count > 0
+	</update>
+	
+	<update id="readAllMessages" parameterType="map">
+		update messages set read = 'Y', unread_count = CASE 
+ 		 WHEN unread_count > 0 THEN unread_count - 1
+  		ELSE 0
+		END 
+		where msg_group_id = #{groupId} and unread_count > 0 and msg_emp_id != #{empId}
+	</update>
 		
 </mapper>
