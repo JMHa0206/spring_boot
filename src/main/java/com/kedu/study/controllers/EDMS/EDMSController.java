@@ -31,6 +31,7 @@ public class EDMSController {
     public ResponseEntity<String> registerEDMS(@RequestBody EDMSDTO edmsDTO) {
         try {
             int result = edmsService.insertEDMS(edmsDTO);
+            System.out.println("📩 문서 등록 요청: " + edmsDTO.getEdmsTitle());
             return result > 0
                     ? ResponseEntity.ok("전자결재 등록 성공")
                     : ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("전자결재 등록 실패: DB 처리 실패");
@@ -43,63 +44,69 @@ public class EDMSController {
     @GetMapping("/waiting")
     public ResponseEntity<List<EDMSDTO>> getMyPendingApprovals(@RequestAttribute("userId") String loginId) {
         int empCodeId = edmsEmpServ.getEmpCodeIdByLoginId(loginId);
-        System.out.println("🧾 대기 결재자 ID: " + empCodeId);
+        System.out.println("🧾 [대기 문서] loginId=" + loginId + " / empCodeId=" + empCodeId);
         List<EDMSDTO> result = edmsService.getPendingApprovals(empCodeId);
+        System.out.println("📥 대기 문서 수: " + result.size());
         return ResponseEntity.ok(result);
     }
 
     @GetMapping("/mydrafts")
     public ResponseEntity<List<EDMSDTO>> getMyDrafts(@RequestAttribute("userId") String loginId) {
         int empCodeId = edmsEmpServ.getEmpCodeIdByLoginId(loginId);
-        System.out.println("✍️ 기안자 ID: " + empCodeId);
+        System.out.println("✍️ [기안 문서] loginId=" + loginId + " / empCodeId=" + empCodeId);
         List<EDMSDTO> result = edmsService.getMyDrafts(empCodeId);
+        System.out.println("📝 기안 문서 수: " + result.size());
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/completed")
+    public ResponseEntity<List<EDMSDTO>> getCompletedDocs(@RequestAttribute("userId") String loginId) {
+        int empCodeId = edmsEmpServ.getEmpCodeIdByLoginId(loginId);
+        System.out.println("✅ [완료 문서] loginId=" + loginId + " / empCodeId=" + empCodeId);
+        List<EDMSDTO> result = edmsService.getCompletedDocs(empCodeId);
+        System.out.println("✅ 완료 문서 수: " + result.size());
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/rejected")
+    public ResponseEntity<List<EDMSDTO>> getRejectedDocs(@RequestAttribute("userId") String loginId) {
+        int empCodeId = edmsEmpServ.getEmpCodeIdByLoginId(loginId);
+        System.out.println("❌ [반려 문서] loginId=" + loginId + " / empCodeId=" + empCodeId);
+        List<EDMSDTO> result = edmsService.getRejectedDocs(empCodeId);
+        System.out.println("❌ 반려 문서 수: " + result.size());
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/department/ref")
+    public ResponseEntity<List<EDMSDTO>> getRefDocs(@RequestAttribute("userId") String loginId) {
+        int deptId = edmsEmpServ.getDeptIdByLoginId(loginId);
+        System.out.println("📂 [부서 참조 문서] loginId=" + loginId + " / deptId=" + deptId);
+        List<EDMSDTO> result = edmsService.getDeptRefDocs(deptId);
+        System.out.println("📂 참조 문서 수: " + result.size());
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/department/created")
+    public ResponseEntity<List<EDMSDTO>> getDeptCreatedDocs(@RequestAttribute("userId") String loginId) {
+        int deptId = edmsEmpServ.getDeptIdByLoginId(loginId);
+        System.out.println("🏢 [부서 생산 문서] loginId=" + loginId + " / deptId=" + deptId);
+        List<EDMSDTO> result = edmsService.getDeptCreatedDocs(deptId);
+        System.out.println("🏢 생산 문서 수: " + result.size());
         return ResponseEntity.ok(result);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<EDMSDTO> getEdmsDetail(@PathVariable Long id) {
-        System.out.println("📢 들어온 ID: " + id);
+        System.out.println("📢 문서 상세 요청: ID=" + id);
         EDMSDTO result = edmsService.getEdmsDetail(id);
         if (result == null) {
-            System.out.println("❌ 데이터 없음 for id: " + id);
+            System.out.println("❌ 문서 없음 for id: " + id);
             return ResponseEntity.notFound().build();
         }
-        System.out.println("✅ 데이터 찾음: " + result.getEdmsTitle());
+        System.out.println("✅ 문서 확인됨: " + result.getEdmsTitle());
         return ResponseEntity.ok(result);
     }
 
-    @PostMapping("/{id}/approve")
-    public ResponseEntity<String> approveDocument(
-        @PathVariable Long id,
-        @RequestAttribute("userId") String loginId) {
-
-        System.out.println("🧾 들어온 결재 요청 ID: " + id);
-        System.out.println("🙋‍♂️ 로그인한 사용자 ID (loginId): " + loginId);
-
-        int empCodeId = edmsEmpServ.getEmpCodeIdByLoginId(loginId);
-
-        System.out.println("🧑‍💼 매핑된 사원코드 ID (empCodeId): " + empCodeId);
-
-        boolean result = edmsService.approveDocument(id, empCodeId);
-
-        return result
-            ? ResponseEntity.ok("결재 완료")
-            : ResponseEntity.status(HttpStatus.BAD_REQUEST).body("결재 실패");
-    }
-
-
-    @PostMapping("/{id}/reject")
-    public ResponseEntity<String> rejectDocument(@PathVariable Long id,
-                                                 @RequestAttribute("userId") String loginId,
-                                                 @RequestBody String reason) {
-        int empCodeId = edmsEmpServ.getEmpCodeIdByLoginId(loginId);
-        boolean result = edmsService.rejectDocument(id, empCodeId, reason);
-        return result
-                ? ResponseEntity.ok("반려 완료")
-                : ResponseEntity.status(HttpStatus.BAD_REQUEST).body("반려 실패");
-    }
-
-    // ✅ 404 방지 버전: 결재 이력 없을 경우에도 200 OK + 빈 배열
     @GetMapping("/{docId}/history")
     public ResponseEntity<List<EDMSHistoryDTO>> getApprovalHistory(@PathVariable("docId") Long docId) {
         System.out.println("📜 이력 요청 docId: " + docId);
@@ -109,5 +116,35 @@ public class EDMSController {
             return ResponseEntity.ok(Collections.emptyList());
         }
         return ResponseEntity.ok(history);
+    }
+
+    @PostMapping("/{id}/approve")
+    public ResponseEntity<String> approveDocument(
+            @PathVariable Long id,
+            @RequestAttribute("userId") String loginId) {
+
+        System.out.println("🧾 결재 요청: ID=" + id + " / loginId=" + loginId);
+        int empCodeId = edmsEmpServ.getEmpCodeIdByLoginId(loginId);
+        System.out.println("🧑‍💼 empCodeId: " + empCodeId);
+        boolean result = edmsService.approveDocument(id, empCodeId);
+
+        return result
+                ? ResponseEntity.ok("결재 완료")
+                : ResponseEntity.status(HttpStatus.BAD_REQUEST).body("결재 실패");
+    }
+
+    @PostMapping("/{id}/reject")
+    public ResponseEntity<String> rejectDocument(
+            @PathVariable Long id,
+            @RequestAttribute("userId") String loginId,
+            @RequestBody String reason) {
+
+        System.out.println("📤 반려 요청: ID=" + id + " / loginId=" + loginId + " / 사유=" + reason);
+        int empCodeId = edmsEmpServ.getEmpCodeIdByLoginId(loginId);
+        boolean result = edmsService.rejectDocument(id, empCodeId, reason);
+
+        return result
+                ? ResponseEntity.ok("반려 완료")
+                : ResponseEntity.status(HttpStatus.BAD_REQUEST).body("반려 실패");
     }
 }

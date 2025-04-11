@@ -46,5 +46,19 @@ public class EDMSDAO {
 	public void updateRejectReason(Long edmsId, String reason) {
 	    mybatis.update(namespace + ".updateRejectReason", Map.of("edmsId", edmsId, "reason", reason));
 	}
+	public List<EDMSDTO> getCompletedDocs(int empCodeId) {
+	    return mybatis.selectList(namespace + ".getCompletedDocs", empCodeId);
+	}
 
+	public List<EDMSDTO> getRejectedDocs(int empCodeId) {
+	    return mybatis.selectList(namespace + ".getRejectedDocs", empCodeId);
+	}
+
+	public List<EDMSDTO> getDeptRefDocs(int deptId) {
+	    return mybatis.selectList(namespace + ".getDeptRefDocs", deptId);
+	}
+
+	public List<EDMSDTO> getDeptCreatedDocs(int deptId) {
+	    return mybatis.selectList(namespace + ".getDeptCreatedDocs", deptId);
+	}
 }
