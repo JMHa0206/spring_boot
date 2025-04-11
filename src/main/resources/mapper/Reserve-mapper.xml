@@ -10,5 +10,17 @@
 	<select id="resourceList" resultType="com.kedu.study.dto.ResourceDTO">
 		SELECT * FROM resources
 	</select>
+	
+	<insert id="addReserve" parameterType="com.kedu.study.dto.ReserveDTO">
+		INSERT INTO reservation VALUES (
+			resv_seq.nextval,
+			#{resource_id},
+			#{resv_emp},
+			#{resv_date},
+			#{resv_stime},
+			#{resv_etime},
+			#{resv_title}
+		)
+	</insert>
 
 </mapper>
