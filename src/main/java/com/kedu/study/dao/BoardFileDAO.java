@@ -1,5 +1,7 @@
 package com.kedu.study.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,13 @@ public class BoardFileDAO {
 	public SqlSession fmybatis;
 	
 	public int insertBoardFile(BoardFileDTO boardFileDTO) {
-		return fmybatis.insert("board.insertBoardFile",boardFileDTO);
+		return fmybatis.insert("files.insertBoardFile",boardFileDTO);
+	}
+	
+	public List<BoardFileDTO> selectFilesByPostId(int postId) {
+	    return fmybatis.selectList("files.selectFilesByPostId", postId);
+	}
+	public int deleteFileById(int fileId) {
+	    return fmybatis.delete("files.deleteFileById", fileId);
 	}
 }

@@ -14,7 +14,7 @@ public class BoardDTO {
     private String post_per;//
     private String post_tag;//
 	
-	BoardDTO(){}
+	public BoardDTO(){}
 
 	public Integer getPost_id() {
 		return post_id;

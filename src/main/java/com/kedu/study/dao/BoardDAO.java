@@ -1,6 +1,8 @@
 package com.kedu.study.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,5 +52,9 @@ public class BoardDAO {
     public int increaseLikeCount(int post_id) {
         return mybatis.update("board.increaseLikeCount", post_id); 
     }
-
+    
+    //네비게이터
+    public List<BoardDTO> selectBoardList(Map<String, Object> paramMap) {
+        return mybatis.selectList("board.selectBoardList", paramMap);
+    }
 }
