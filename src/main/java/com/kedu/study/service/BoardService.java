@@ -1,6 +1,8 @@
 package com.kedu.study.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,5 +51,14 @@ public class BoardService {
 	    //추천수 증가
 	    public void increaseLikeCount(int post_id) {
 	    	bdao.increaseLikeCount(post_id);
+	    }
+	    
+	    //네비게이터
+	    public List<BoardDTO> getBoardList(int offset, int size) {
+	        Map<String, Object> paramMap = new HashMap<>();
+	        paramMap.put("offset", offset);
+	        paramMap.put("size", size);
+
+	        return bdao.selectBoardList(paramMap);
 	    }
 }
