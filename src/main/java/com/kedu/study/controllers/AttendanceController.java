@@ -38,7 +38,7 @@ public class AttendanceController {
 		
 		attendancedto.setEmp_loginId(userId); // 로그인 아이디
 		LocalDateTime now = LocalDateTime.now().withNano(0); // 나노초 제거
-		attendancedto.setRecord_date(Timestamp.valueOf(LocalDateTime.now())); //해당 날짜seqwejnsdfjnsd
+		attendancedto.setRecord_date(Timestamp.valueOf(LocalDateTime.now())); //해당 날짜
 		attendancedto.setCheck_in_time(Timestamp.valueOf(LocalDateTime.now())); // 출근한 날짜 및 시간
 		
 		try {
