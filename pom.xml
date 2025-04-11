@@ -50,6 +50,11 @@
         <version>1.18.30</version> <!-- 최신 안정 버전 -->
         <scope>provided</scope>
     </dependency>
+    <!--출근-->
+    <dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-security</artifactId>
+  </dependency>
 		<dependency>
 			<groupId>com.auth0</groupId>
 			<artifactId>java-jwt</artifactId>
