@@ -23,6 +23,10 @@ public class CalendarService {
 		return cDao.selectAllList();
 	}
 	
+	public List<Integer> sharedList(String userId){
+		return cDao.sharedList(userId);
+	}
+	
 	public List<CalendarDTO> selectMyCal(int publicCode){
 		return cDao.selectMyCal(publicCode);
 	}
