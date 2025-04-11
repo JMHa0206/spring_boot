@@ -50,12 +50,18 @@
 		AND TRUNC(record_date) = TRUNC(SYSDATE)
 	</select>
 	<!-- 출근했으니 그 ID를 가져옴-->
-	<select id="findTodayAttendanceId" resultType="int" parameterType="String">
-		SELECT attendance_id
-    	FROM attendance
-   	 	WHERE emp_loginId = #{emp_loginId}
-      	AND TRUNC(record_date) = TRUNC(SYSDATE)
-	</select>
+	<select id="findTodayAttendanceId" resultType="int" parameterType="map">
+ 		 SELECT attendance_id
+  		  FROM (
+    		SELECT attendance_id
+    		FROM attendance
+    		WHERE emp_loginId = #{emp_loginId}
+      	  AND TRUNC(record_date) = TRUNC(SYSDATE)
+    	ORDER BY created_at DESC
+  		)
+  			WHERE ROWNUM = 1
+</select>
+
 
 	<!-- 퇴근 기록 등록 (attendance 테이블) -->
 	<update id="checkOut" parameterType="com.kedu.study.dto.AttendanceDTO"

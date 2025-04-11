@@ -41,4 +41,13 @@ public class BoardService {
 	    	bdao.deleteBoard(post_id);
 	    }
 	    
+	 // 조회수 증가
+	    public void increaseViewCount(int post_id) {
+	        bdao.increaseViewCount(post_id);  // BoardDAO의 increaseViewCount 메서드 호출
+	    }
+	    
+	    //추천수 증가
+	    public void increaseLikeCount(int post_id) {
+	    	bdao.increaseLikeCount(post_id);
+	    }
 }

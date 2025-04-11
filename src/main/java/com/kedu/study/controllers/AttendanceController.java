@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +17,7 @@ import com.kedu.study.service.AttendanceService;
 import com.kedu.study.utils.JWTUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
-
+// 조휘영
 @RestController
 @RequestMapping("/work")
 public class AttendanceController {
@@ -26,6 +27,14 @@ public class AttendanceController {
 	
 	@Autowired
 	private AttendanceService AServ;
+	
+	@GetMapping("/checkInTime")
+	public ResponseEntity<Timestamp> getTodayCheckInTime(HttpServletRequest request) {
+	    String userId = (String) request.getAttribute("userId");
+	    Timestamp checkInTime = AServ.getTodayCheckInTime(userId); // DAO에서 SELECT
+	    return ResponseEntity.ok(checkInTime);
+	}
+
 	
 	
 	@PostMapping("/checkIn")	//애만 insert하고 나머지 update
@@ -56,7 +65,7 @@ public class AttendanceController {
 		System.out.println("퇴근 요청 받은 ID: " + attendancedto.getEmp_loginId());
 
 		String userId = (String)request.getAttribute("userId");
-		
+		System.out.println(userId + ": 퇴근처리");
 		attendancedto.setEmp_loginId(userId); // 로그인 아이디
 		LocalDateTime now = LocalDateTime.now().withNano(0); // 나노초 제거
 		attendancedto.setRecord_date(Timestamp.valueOf(LocalDateTime.now())); //해당 날짜
@@ -79,6 +88,7 @@ public class AttendanceController {
 		attendancedto.setEmp_loginId(userId); // 로그인 아이디
 		LocalDateTime now = LocalDateTime.now().withNano(0); // 나노초 제거
 		attendancedto.setRecord_date(Timestamp.valueOf(LocalDateTime.now())); //해당 날짜
+		attendancedto.setCheck_in_time(Timestamp.valueOf(LocalDateTime.now()));
 		attendancedto.setCheck_out_time(Timestamp.valueOf(LocalDateTime.now())); // 출근한 날짜 및 시간
 		
 		try {
@@ -99,6 +109,7 @@ public class AttendanceController {
 		attendancedto.setEmp_loginId(userId); // 로그인 아이디
 		LocalDateTime now = LocalDateTime.now().withNano(0); // 나노초 제거
 		attendancedto.setRecord_date(Timestamp.valueOf(LocalDateTime.now())); //해당 날짜
+		attendancedto.setCheck_in_time(Timestamp.valueOf(LocalDateTime.now()));
 		attendancedto.setCheck_out_time(Timestamp.valueOf(LocalDateTime.now())); // 출근한 날짜 및 시간
 		
 		try {

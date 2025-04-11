@@ -26,6 +26,10 @@ public class ScheduleService {
 		return sDao.getMyEvents(emp_cod_id);
 	}
 	
+	public List<ScheduleDTO> shareEvents(int emp_cod_id) {
+		return sDao.shareEvents(emp_cod_id);
+	}
+	
 	public ScheduleDTO selectEvent(int id) {
 		ScheduleDTO event = sDao.selectEvent(id);
 		System.out.println("Service : " + event.getStart_date());
