@@ -1,7 +1,7 @@
 package com.kedu.study.dto;
 
 public class WorkSummaryDTO {
-	private int weeklyWorkedDays;	// 출근한 날 수
+	private int weeklyWorkedDays;	// 출근한 날 수ㅇ
     private double weeklyWorkHours;	
     private String averageCheckIn;
     private String averageCheckOut;
