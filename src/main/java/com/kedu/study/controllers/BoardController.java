@@ -1,5 +1,6 @@
 package com.kedu.study.controllers;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -78,6 +79,18 @@ public class BoardController {
 	    public String increaseLikeCount(@PathVariable int post_id) {
 	    	boardService.increaseLikeCount(post_id);
 	    	return "좋아요수가 증가했습니다";
+	    }
+	    
+	    //네비게이터
+	    @GetMapping("/navigator")
+	    public ResponseEntity<List<BoardDTO>> getPagedList(
+	        @RequestParam("page") int page,
+	        @RequestParam("size") int size
+	    ) {
+	        int offset = (page - 1) * size;
+
+	        List<BoardDTO> list = boardService.getBoardList(offset, size);
+	        return ResponseEntity.ok(list);
 	    }
 	    
 	    
