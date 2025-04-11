@@ -1,5 +1,7 @@
 package com.kedu.study.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,4 +17,12 @@ public class BoardFileService {
     public void insertBoardFile(BoardFileDTO boardFileDTO) {
         boardFileDAO.insertBoardFile(boardFileDTO);
     }
+    
+    public List<BoardFileDTO> getFilesByPostId(int postId) {
+        return boardFileDAO.selectFilesByPostId(postId);
+    }
+    public void deleteFileById(int fileId) {
+        boardFileDAO.deleteFileById(fileId);  // DAO 호출
+    }
+    
 }
