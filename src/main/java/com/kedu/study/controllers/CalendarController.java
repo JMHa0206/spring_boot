@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kedu.study.dto.CalendarDTO;
 import com.kedu.study.dto.CalendarShareDTO;
+import com.kedu.study.dto.EmployeeDTO;
 import com.kedu.study.service.CalendarService;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/calendar")
@@ -41,6 +44,13 @@ public class CalendarController {
 	public ResponseEntity<List<CalendarDTO>> selectAllList(){
 		List<CalendarDTO> list =cServ.selectAllList();
 		return ResponseEntity.ok(list);
+	}
+	
+	@GetMapping("/sharedList")
+	public ResponseEntity<List<Integer>> sharedList(HttpServletRequest request){
+		String userId = (String) request.getAttribute("userId");
+		List<Integer> sharedList = cServ.sharedList(userId);
+		return ResponseEntity.ok(sharedList);
 	}
 	
 	@GetMapping("/myCal")

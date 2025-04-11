@@ -16,11 +16,14 @@ public class CalendarDAO {
 	
 	public void inputCalendar(CalendarDTO calendar) {
 		mybatis.insert("calendar.inputCalendar", calendar);
-//		mybatis.insert("calendar.calendarShare)",calendar);
 	}
 	
 	public List<CalendarDTO> selectAllList(){
 		return mybatis.selectList("calendar.selectAllList");
+	}
+	
+	public List<Integer> sharedList(String userId){
+		return mybatis.selectList("calendar.sharedList", userId);
 	}
 	
 	public List<CalendarDTO> selectMyCal(int publicCode){

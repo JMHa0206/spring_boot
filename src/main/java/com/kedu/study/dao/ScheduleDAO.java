@@ -27,8 +27,12 @@ public class ScheduleDAO {
 	}
 	
 	public List<ScheduleDTO> getMyEvents(int emp_code_id){
-		
 		List<ScheduleDTO> events = mybatis.selectList("schedule.getMyEvents", emp_code_id);
+		return events;
+	}
+	
+	public List<ScheduleDTO> shareEvents(int emp_code_id){
+		List<ScheduleDTO> events = mybatis.selectList("schedule.shareEvents", emp_code_id);
 		return events;
 	}
 	

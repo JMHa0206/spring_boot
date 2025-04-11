@@ -18,7 +18,17 @@
 		      #{color})
 	</insert>
 	
-	
+	<select id="sharedList" parameterType="String" resultType="com.kedu.study.dto.CalendarDTO">
+		SELECT 
+		    c.*
+		FROM calendar_share cs
+		JOIN calendar c ON cs.c_id = c.c_id
+		WHERE cs.target_id IN (
+		    SELECT emp_code_id FROM employee WHERE emp_loginId = #{userId}
+		    UNION
+		    SELECT emp_dept_id FROM employee WHERE emp_loginId = #{userId}
+		);
+	</select>
 	
 	<select id="selectAllList"  resultType="com.kedu.study.dto.CalendarDTO">
 		SELECT * FROM calendar 
