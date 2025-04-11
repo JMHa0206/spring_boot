@@ -3,6 +3,7 @@ package com.kedu.study.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -14,15 +15,16 @@ public class SecurityConfig {
 	  @Autowired
 	    private JwtFilter jwtFilter;
 
-	    @Bean
+	  @Bean
 	    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-	        http.csrf().disable()
-	            .authorizeHttpRequests()
-	            .requestMatchers("/work/**").authenticated() // 필요한 경우 경로 조정
-	            .anyRequest().permitAll()
-	            .and()
-	            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class); // ✅ 필터 등록
-
-	        return http.build();
+	        return http
+	            .csrf(csrf -> csrf.disable()) // ✅ 람다 방식으로 비활성화
+	            .authorizeHttpRequests(auth -> auth
+	            	.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+	                .requestMatchers("/work/**").authenticated()
+	                .anyRequest().permitAll()
+	            )
+	            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+	            .build(); // ✅ .build() 호출로 마무리
 	    }
 }

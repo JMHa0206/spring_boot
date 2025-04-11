@@ -31,6 +31,7 @@ public class MypageController {
 	@GetMapping("/info")
 	public ResponseEntity<EmployeeDTO> userinfo(HttpServletRequest request) {
 		String userId = (String) request.getAttribute("userId");
+		System.out.println(userId +": 마이페이지");
 		EmployeeDTO employee = MyServ.userinfo(userId);
 		return ResponseEntity.ok(employee);
 	}
