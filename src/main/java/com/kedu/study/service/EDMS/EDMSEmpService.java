@@ -26,4 +26,8 @@ public class EDMSEmpService {
 		return daoe.getEmployeeById(id);
 	}
 
+	public int getDeptIdByLoginId(String loginId) {
+		return daoe.getDeptIdByLoginId(loginId);
+	}
+
 }

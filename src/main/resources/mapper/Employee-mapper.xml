@@ -60,4 +60,10 @@
 	select * from department
 </select>
 
+<select id="takeDeptId" resultType="int">
+  SELECT EMP_DEPT_ID
+  FROM employee
+  WHERE EMP_LOGINID = #{loginId}
+</select>
+
 </mapper>
