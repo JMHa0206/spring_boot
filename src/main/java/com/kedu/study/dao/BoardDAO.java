@@ -40,4 +40,15 @@ public class BoardDAO {
 	public void deleteBoard(int post_id) {
 		mybatis.delete("board.deleteBoard",post_id);
 	}
+	
+    //제목으로 게시글 개수 세기
+    public int increaseViewCount(int post_id) {
+        return mybatis.update("board.increaseViewCount", post_id);  
+    }
+    
+    //추천수 증가 부분
+    public int increaseLikeCount(int post_id) {
+        return mybatis.update("board.increaseLikeCount", post_id); 
+    }
+
 }

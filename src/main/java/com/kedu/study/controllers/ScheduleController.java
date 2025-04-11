@@ -30,11 +30,25 @@ public class ScheduleController {
 		return ResponseEntity.ok().build();
 	}
 	
-	@GetMapping
-	public ResponseEntity<List<ScheduleDTO>> getAllEvents(){
-		List<ScheduleDTO> events = sServ.getAllEvents();
+	@GetMapping("/comEvents")
+	public ResponseEntity<List<ScheduleDTO>> getComEvents(){
+		List<ScheduleDTO> events = sServ.getComEvents();
 		return  ResponseEntity.ok(events);
 	}
+	
+	@GetMapping("/myEvents/{emp_code_id}")
+	public ResponseEntity<List<ScheduleDTO>> getMyEvents(@PathVariable int emp_code_id){
+		List<ScheduleDTO> events = sServ.getMyEvents(emp_code_id);
+		return  ResponseEntity.ok(events);
+	}
+	
+	@GetMapping("/shareEvents/{emp_code_id}")
+	public ResponseEntity<List<ScheduleDTO>> shareEvents(@PathVariable int emp_code_id){
+		List<ScheduleDTO> events = sServ.shareEvents(emp_code_id);
+		return  ResponseEntity.ok(events);
+	}
+	
+	
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<ScheduleDTO> selectEvent(@PathVariable int id) {

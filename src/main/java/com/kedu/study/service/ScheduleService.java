@@ -18,8 +18,16 @@ public class ScheduleService {
 			sDao.inputEvent(event);
 	}
 	
-	public List<ScheduleDTO> getAllEvents() {
-		return sDao.getAllEvents();
+	public List<ScheduleDTO> getComEvents() {
+		return sDao.getComEvents();
+	}
+	
+	public List<ScheduleDTO> getMyEvents(int emp_cod_id) {
+		return sDao.getMyEvents(emp_cod_id);
+	}
+	
+	public List<ScheduleDTO> shareEvents(int emp_cod_id) {
+		return sDao.shareEvents(emp_cod_id);
 	}
 	
 	public ScheduleDTO selectEvent(int id) {
