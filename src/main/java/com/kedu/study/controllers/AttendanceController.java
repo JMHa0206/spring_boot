@@ -31,6 +31,7 @@ public class AttendanceController {
 	@GetMapping("/checkInTime")
 	public ResponseEntity<Timestamp> getTodayCheckInTime(HttpServletRequest request) {
 	    String userId = (String) request.getAttribute("userId");
+	    System.out.println(userId+" : userId 로그인했을때");
 	    Timestamp checkInTime = AServ.getTodayCheckInTime(userId); // DAO에서 SELECT
 	    return ResponseEntity.ok(checkInTime);
 	}

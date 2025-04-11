@@ -1,8 +1,11 @@
 package com.kedu.study.security;
 
 import java.io.IOException;
+import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -45,8 +48,14 @@ public class JwtFilter extends OncePerRequestFilter {
             System.out.println("Decoded Token - userId: " + userId + ", role: " + role);
             System.out.println("Filter passed");
 
+            // ✅ 사용자 정보를 HttpServletRequest에 저장
             request.setAttribute("userId", userId);
             request.setAttribute("userRole", role != null ? role : "ROLE_USER");
+
+            // ✅ Spring Security 인증 객체 설정
+            UsernamePasswordAuthenticationToken authentication =
+                    new UsernamePasswordAuthenticationToken(userId, null, Collections.emptyList());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         } else {
             System.out.println("❌ Missing or malformed Authorization Header");
         }
