@@ -12,7 +12,6 @@ public class CORSConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
         .allowedOriginPatterns("*")
             .allowedMethods("*")
-            .allowedHeaders("*")
-        .allowCredentials(true);
+            .allowedHeaders("*");
     }
 }
