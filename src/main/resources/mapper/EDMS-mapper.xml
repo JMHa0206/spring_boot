@@ -5,6 +5,28 @@
 
 <mapper namespace="edmsMapper">
 
+<resultMap id="edmsDetailMap" type="com.kedu.study.dto.EDMSDTO">
+  <id column="edms_id" property="edmsId"/>
+  <result column="form_id" property="formId"/>
+  <result column="edms_c_id" property="edmsCId"/>
+  <result column="com_id" property="comId"/>
+  <result column="state_code" property="stateCode"/>
+  <result column="edms_title" property="edmsTitle"/>
+  <result column="edms_content" property="edmsContent"/>
+  <result column="submit_date" property="submitDate"/>
+  <result column="ref_dept" property="refDept"/>
+  <result column="reject_reason" property="rejectReason"/>
+  <result column="level1" property="level1"/>
+  <result column="level2" property="level2"/>
+  <result column="level3" property="level3"/>
+  <result column="level4" property="level4"/>
+  <result column="final_level" property="finalLevel"/>
+  <result column="start_date" property="startDate"/>
+  <result column="end_date" property="endDate"/>
+  <result column="form_name" property="formName"/>
+  <result column="drafter_name" property="drafterName"/>
+</resultMap>
+
     <!-- 전자결재 등록 -->
 <insert id="insertEDMS" parameterType="com.kedu.study.dto.EDMSDTO">
   INSERT INTO edms (
@@ -40,10 +62,156 @@
     #{level2, jdbcType=INTEGER},
     #{level3, jdbcType=INTEGER},
     #{level4, jdbcType=INTEGER},
-    #{finalLevel, jdbcType=INTEGER}
+    #{finalLevel, jdbcType=INTEGER},
     #{startDate, jdbcType=DATE},
 	#{endDate, jdbcType=DATE}
   )
 </insert>
+
+  <!-- 내가 결재해야 할 문서 리스트 -->
+<select id="getPendingList" parameterType="int" resultType="com.kedu.study.dto.EDMSDTO">
+  SELECT 
+    e.edms_id       AS edmsId,
+    e.form_id       AS formId,
+    e.edms_c_id     AS edmsCId,
+    e.com_id        AS comId,
+    e.state_code    AS stateCode,
+    e.edms_title    AS edmsTitle,
+    e.edms_content  AS edmsContent,
+    e.submit_date   AS submitDate,
+    e.ref_dept      AS refDept,
+    e.reject_reason AS rejectReason,
+    e.level1        AS level1,
+    e.level2        AS level2,
+    e.level3        AS level3,
+    e.level4        AS level4,
+    e.final_level   AS finalLevel,
+    e.start_date    AS startDate,
+    e.end_date      AS endDate,
+    f.form_name     AS formName,
+    emp.emp_name AS drafter_name
+  FROM edms e
+  JOIN edms_form f ON e.form_id = f.form_id
+  JOIN employee emp ON e.com_id = emp.emp_code_id
+  WHERE
+    (e.level1 = #{empCodeId} OR e.level2 = #{empCodeId} OR e.level3 = #{empCodeId} OR e.level4 = #{empCodeId} OR e.final_level = #{empCodeId})
+    AND e.state_code IN (1, 2)
+    AND NOT EXISTS (
+      SELECT 1
+      FROM edms_history h
+      WHERE h.edms_id = e.edms_id
+        AND h.approver_id = #{empCodeId}
+    )
+</select>
+
+  <!-- 내가 기안한 문서 리스트 -->
+  <select id="getMyDrafts" parameterType="int" resultType="com.kedu.study.dto.EDMSDTO">
+  SELECT 
+    e.edms_id       AS edmsId,
+    e.form_id       AS formId,
+    e.edms_c_id     AS edmsCId,
+    e.com_id        AS comId,
+    e.state_code    AS stateCode,
+    e.edms_title    AS edmsTitle,
+    e.edms_content  AS edmsContent,
+    e.submit_date   AS submitDate,
+    e.ref_dept      AS refDept,
+    e.reject_reason AS rejectReason,
+    e.level1        AS level1,
+    e.level2        AS level2,
+    e.level3        AS level3,
+    e.level4        AS level4,
+    e.final_level   AS finalLevel,
+    e.start_date    AS startDate,
+    e.end_date      AS endDate,
+    f.form_name     AS formName,
+    emp.emp_name    AS drafterName
+  FROM edms e
+  JOIN edms_form f ON e.form_id = f.form_id
+  JOIN employee emp ON e.com_id = emp.emp_code_id
+  WHERE
+    e.com_id = #{empCodeId}
+</select>
+
+<select id="getEdmsDetail" parameterType="Long" resultMap="edmsDetailMap">
+  SELECT 
+    e.edms_id       AS edms_id,
+    e.form_id       AS form_id,
+    e.edms_c_id     AS edms_c_id,
+    e.com_id        AS com_id,
+    e.state_code    AS state_code,
+    e.edms_title    AS edms_title,
+    e.edms_content  AS edms_content,
+    e.submit_date   AS submit_date,
+    e.ref_dept      AS ref_dept,
+    e.reject_reason AS reject_reason,
+    e.level1        AS level1,
+    e.level2        AS level2,
+    e.level3        AS level3,
+    e.level4        AS level4,
+    e.final_level   AS final_level,
+    e.start_date    AS start_date,
+    e.end_date      AS end_date,
+    f.form_name     AS form_name,
+    emp.emp_name    AS drafter_name
+  FROM edms e
+  JOIN edms_form f ON e.form_id = f.form_id
+  JOIN employee emp ON e.com_id = emp.emp_code_id
+  WHERE e.edms_id = #{id}
+</select>
+
+<insert id="insertApprovalHistory" parameterType="map">
+  INSERT INTO edms_history (
+    history_id,
+    edms_id,
+    approver_id,
+    action,
+    step_level,
+    reason,
+    action_date
+  ) VALUES (
+    EDMS_HIST_SEQ.nextval,
+    #{edmsId, jdbcType=NUMERIC},
+    #{approverId, jdbcType=NUMERIC}, <!-- ✅ 수정됨: empCodeId -> approverId -->
+    #{action, jdbcType=VARCHAR},
+    #{stepLevel, jdbcType=NUMERIC},
+    #{reason, jdbcType=VARCHAR},
+    SYSDATE
+  )
+</insert>
+
+<update id="updateStateCode" parameterType="map">
+  UPDATE edms
+  SET state_code = #{stateCode}
+  WHERE edms_id = #{edmsId}
+</update>
+
+<update id="updateRejectReason" parameterType="map">
+  UPDATE edms
+  SET reject_reason = #{reason}
+  WHERE edms_id = #{edmsId}
+</update>
+
+<select id="hasAllPriorApprovals" parameterType="map" resultType="int">
+  SELECT COUNT(*)
+  FROM edms_history
+  WHERE edms_id = #{edmsId}
+    AND step_level &lt; #{currentLevel}
+    AND action != 'APPROVED'
+</select>
+
+<select id="getApprovalHistory" parameterType="long" resultType="com.kedu.study.dto.EDMSHistoryDTO">
+    SELECT 
+        history_id AS historyId,
+        edms_id AS edmsId,
+        approver_id AS approverId,
+        action,
+        step_level AS stepLevel,
+        reason,
+        action_date AS actionDate
+    FROM edms_history
+    WHERE edms_id = #{docId}
+    ORDER BY step_level ASC, action_date ASC
+</select>
 
 </mapper>
