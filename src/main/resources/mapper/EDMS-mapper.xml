@@ -214,4 +214,31 @@
     ORDER BY step_level ASC, action_date ASC
 </select>
 
+<select id="getCompletedDocs" parameterType="int" resultMap="edmsDetailMap">
+  SELECT * FROM edms
+  WHERE state_code = 4 AND (
+    level1 = #{empCodeId} OR level2 = #{empCodeId} OR level3 = #{empCodeId} OR level4 = #{empCodeId} OR final_level = #{empCodeId}
+  )
+</select>
+
+<select id="getRejectedDocs" parameterType="int" resultMap="edmsDetailMap">
+  SELECT * FROM edms
+  WHERE state_code = 3 AND (
+    level1 = #{empCodeId} OR level2 = #{empCodeId} OR level3 = #{empCodeId} OR level4 = #{empCodeId} OR final_level = #{empCodeId}
+  )
+</select>
+
+<select id="getDeptRefDocs" parameterType="int" resultMap="edmsDetailMap">
+  SELECT * FROM edms
+  WHERE ref_dept = #{deptId}
+</select>
+
+<select id="getDeptCreatedDocs" resultType="com.kedu.study.dto.EDMSDTO">
+  SELECT *
+  FROM edms e
+  JOIN employee emp ON e.com_id = emp.emp_code_id
+  WHERE emp.EMP_DEPT_ID = #{deptId}
+</select>
+
+
 </mapper>

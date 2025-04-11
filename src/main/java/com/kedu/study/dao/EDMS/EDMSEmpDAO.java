@@ -22,5 +22,8 @@ public class EDMSEmpDAO {
 	public ApproverInfoDTO getEmployeeById(int id) {
 		return mybatis.selectOne("EmployeeMapper.takeEmployeeById",id);
 	}
+	public int getDeptIdByLoginId(String loginId) {
+		return mybatis.selectOne("EmployeeMapper.takeDeptId",loginId);
+	}
 
 }
