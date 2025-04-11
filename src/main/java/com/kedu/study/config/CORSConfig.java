@@ -6,14 +6,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class CORSConfig implements WebMvcConfigurer {
-<<<<<<< HEAD
-=======
+
+
 //
 //    private static final String[] allowedOrigins = {
 //        "http://localhost:3000",
 //        "https://your-production-domain.com"
 //    };
->>>>>>> 1b9d9fca489ae22cb6ceab61449142df325ea092
+
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -21,9 +21,8 @@ public class CORSConfig implements WebMvcConfigurer {
             .allowedOrigins("*")
             .allowedMethods("*")
             .allowedHeaders("*");
-<<<<<<< HEAD
-=======
+
 //            .allowCredentials(true);
->>>>>>> 1b9d9fca489ae22cb6ceab61449142df325ea092
+
     }
 }

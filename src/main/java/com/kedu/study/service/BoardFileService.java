@@ -16,4 +16,3 @@ public class BoardFileService {
         boardFileDAO.insertBoardFile(boardFileDTO);
     }
 }
-아....정말...하기...싫다......ㅎ
