@@ -16,7 +16,7 @@ public class InsaService {
     
     public WorkSummaryDTO getWeeklySummary(String userId) {
         WorkSummaryDTO dto = new WorkSummaryDTO();
-
+        System.out.println("1");
         // 출근한 날 수, 총 근무 시간, 초과 근무 시간 (null-safe)
         Map<String, Object> workStats = IDao.getWeeklyStats(userId);
         if (workStats != null) {
