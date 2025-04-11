@@ -5,7 +5,7 @@ import java.util.Date;
 public class BoardDTO {
 	private Integer post_id; 
     private Integer parent_board;//
-    private String post_writer;
+    private Integer post_writer;
     private String post_title;
     private String post_content;
     private Date post_date;
@@ -32,11 +32,11 @@ public class BoardDTO {
 		this.parent_board = parent_board;
 	}
 
-	public String getPost_writer() {
+	public Integer getPost_writer() {
 		return post_writer;
 	}
 
-	public void setPost_writer(String post_writer) {
+	public void setPost_writer(Integer post_writer) {
 		this.post_writer = post_writer;
 	}
 
@@ -96,7 +96,7 @@ public class BoardDTO {
 		this.post_tag = post_tag;
 	}
 
-	public BoardDTO(Integer post_id, Integer parent_board, String post_writer, String post_title, String post_content,
+	public BoardDTO(Integer post_id, Integer parent_board, Integer post_writer, String post_title, String post_content,
 			Date post_date, Integer post_view, Integer post_like, String post_per, String post_tag) {
 		super();
 		this.post_id = post_id;
@@ -110,6 +110,8 @@ public class BoardDTO {
 		this.post_per = post_per;
 		this.post_tag = post_tag;
 	}
+
+	
 	
 
 	

@@ -66,6 +66,21 @@ public class BoardController {
 	    	return ResponseEntity.ok().build();
 	    }
 	    
+	 // 게시글 조회수 증가
+	    @GetMapping("/increaseViewCount/{post_id}")
+	    public String increaseViewCount(@PathVariable int post_id) {
+	        boardService.increaseViewCount(post_id);  // 서비스에서 조회수 증가
+	        return "조회수가 증가했습니다.";
+	    }
+	    
+	    //추천수 증가 
+	    @PostMapping("/increaseLikeCount/{post_id}")
+	    public String increaseLikeCount(@PathVariable int post_id) {
+	    	boardService.increaseLikeCount(post_id);
+	    	return "좋아요수가 증가했습니다";
+	    }
+	    
+	    
 }
 
 
