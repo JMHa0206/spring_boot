@@ -16,6 +16,11 @@ public class AttendanceService {
 
 	@Autowired
 	private AttendanceDAO ADao;
+	
+	public Timestamp getTodayCheckInTime(String userId) {
+	    return ADao.getTodayCheckIn(userId);
+	}
+
 
 	public int checkIn(AttendanceDTO attendancedto) {
 		LocalDateTime checkInTime = attendancedto.getCheck_in_time().toLocalDateTime();
