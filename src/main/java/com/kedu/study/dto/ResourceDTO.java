@@ -4,19 +4,19 @@ public class ResourceDTO {
 	
 	private int resc_id;
 	private String resc_name;
-	private int resc_type;
+	private int resc_type_id;
 	private int resc_capacity;
 	private String recs_location;
 	private String resc_status;
 	private String resc_description;
 	
 	public ResourceDTO() {};
-	public ResourceDTO(int resc_id, String resc_name, int resc_type, int resc_capacity, String recs_location,
+	public ResourceDTO(int resc_id, String resc_name, int resc_type_id, int resc_capacity, String recs_location,
 			String resc_status, String resc_description) {
 		super();
 		this.resc_id = resc_id;
 		this.resc_name = resc_name;
-		this.resc_type = resc_type;
+		this.resc_type_id = resc_type_id;
 		this.resc_capacity = resc_capacity;
 		this.recs_location = recs_location;
 		this.resc_status = resc_status;
@@ -34,11 +34,11 @@ public class ResourceDTO {
 	public void setResc_name(String resc_name) {
 		this.resc_name = resc_name;
 	}
-	public int getResc_type() {
-		return resc_type;
+	public int getResc_type_id() {
+		return resc_type_id;
 	}
-	public void setResc_type(int resc_type) {
-		this.resc_type = resc_type;
+	public void setResc_type_id(int resc_type_id) {
+		this.resc_type_id = resc_type_id;
 	}
 	public int getResc_capacity() {
 		return resc_capacity;
