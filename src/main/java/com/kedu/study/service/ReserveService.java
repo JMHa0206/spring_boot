@@ -26,5 +26,13 @@ public class ReserveService {
 	public void addReserve(ReserveDTO reservation) {
 		rDao.addReserve(reservation);
 	}
+	
+	public List<ReserveDTO> getAllResv(){
+		return rDao.getAllResv();
+	}
+	
+	public void deleteById(int id) {
+		rDao.deleteById(id);
+	}
 
 }

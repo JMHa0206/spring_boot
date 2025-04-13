@@ -12,15 +12,34 @@
 	</select>
 	
 	<insert id="addReserve" parameterType="com.kedu.study.dto.ReserveDTO">
-		INSERT INTO reservation VALUES (
-			resv_seq.nextval,
-			#{resource_id},
-			#{resv_emp},
-			#{resv_date},
-			#{resv_stime},
-			#{resv_etime},
-			#{resv_title}
-		)
+		INSERT INTO reservation 
+		VALUES (
+				resv_seq.nextval,
+				#{resource_id},
+				#{resv_emp},
+				#{resv_date},
+				#{resv_stime},
+				#{resv_etime},
+				#{resv_title}
+			)
 	</insert>
+	
+	<select id="getAllResv" resultType="com.kedu.study.dto.ReserveDTO">
+		SELECT resv_id
+			 , resource_id
+			 , resv_emp
+			 , TO_CHAR(resv_date, 'yyyy-mm-dd') as resv_date
+			 , resv_stime
+			 , resv_etime
+			 , resv_title			   
+		  FROM reservation
+	</select>
+	
+	
+	<delete id="deleteById" parameterType="int">
+		DELETE 
+		  FROM reservation 
+		 WHERE resv_id = ${id}
+	</delete>
 
 </mapper>

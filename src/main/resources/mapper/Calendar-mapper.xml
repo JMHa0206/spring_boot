@@ -18,24 +18,40 @@
 		      #{color})
 	</insert>
 	
-	<select id="sharedList" parameterType="String" resultType="com.kedu.study.dto.CalendarDTO">
+	<select id="sharedList" parameterType="int" resultType="com.kedu.study.dto.CalendarDTO">
 		SELECT 
-		    c.*
+		    distinct c.c_id,
+            c.c_title,
+            c.color
 		FROM calendar_share cs
 		JOIN calendar c ON cs.c_id = c.c_id
 		WHERE cs.target_id IN (
-		    SELECT emp_code_id FROM employee WHERE emp_loginId = #{userId}
+		    SELECT emp_code_id FROM employee WHERE emp_code_id = #{emp_code_id}
 		    UNION
-		    SELECT emp_dept_id FROM employee WHERE emp_loginId = #{userId}
-		);
+		    SELECT emp_dept_id FROM employee WHERE emp_code_id = #{emp_code_id}
+		)
 	</select>
 	
-	<select id="selectAllList"  resultType="com.kedu.study.dto.CalendarDTO">
-		SELECT * FROM calendar 
+	<select id="selectAllList"  resultType="com.kedu.study.dto.PublicSCalendarDTO">
+		select c.C_ID
+		     , c.C_TITLE
+		     , c.EMP_ID
+		     , c.DEPT_CODE
+		     , c.PUBLIC_CODE
+		     , c.CREATE_DATE
+		     , c.COLOR
+		     , cs.TARGET_TYPE
+		     , cs.TARGET_ID
+		  from calendar c
+		  left join calendar_share cs on c.c_id = cs.c_id
+	</select>
+	
+	<select id="selectComCal" parameterType="int" resultType="com.kedu.study.dto.CalendarDTO">
+		SELECT * from calendar where public_code = 30
 	</select>
 	
 	<select id="selectMyCal" parameterType="int" resultType="com.kedu.study.dto.CalendarDTO">
-		SELECT * from calendar where public_code = ${publicCode}
+		SELECT * from calendar where public_code = 10 and emp_id = #{emp_code_id}
 	</select>
 	
 	<insert id="calendarShare" parameterType="com.kedu.study.dto.CalendarShareDTO">

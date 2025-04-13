@@ -26,5 +26,14 @@ public class ReserveDAO {
 	public void addReserve(ReserveDTO reservation) {
 		mybatis.insert("reserve.addReserve", reservation);
 	}
+	
+	public List<ReserveDTO> getAllResv(){
+		List<ReserveDTO> list = mybatis.selectList("reserve.getAllResv");
+		return list;
+	}
+	
+	public void deleteById(int id) {
+		mybatis.delete("reserve.deleteById", id);
+	}
 
 }
