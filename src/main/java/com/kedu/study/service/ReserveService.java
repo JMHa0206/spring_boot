@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.kedu.study.dao.ReserveDAO;
 import com.kedu.study.dto.RescTypeDTO;
+import com.kedu.study.dto.ReserveDTO;
 import com.kedu.study.dto.ResourceDTO;
 
 @Service
@@ -20,6 +21,18 @@ public class ReserveService {
 	
 	public List<ResourceDTO> resourceList(){
 		return rDao.resourceList();
+	}
+	
+	public void addReserve(ReserveDTO reservation) {
+		rDao.addReserve(reservation);
+	}
+	
+	public List<ReserveDTO> getAllResv(){
+		return rDao.getAllResv();
+	}
+	
+	public void deleteById(int id) {
+		rDao.deleteById(id);
 	}
 
 }

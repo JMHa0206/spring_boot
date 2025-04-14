@@ -46,5 +46,9 @@ public class ScheduleService {
 		event.setId(id);
 		sDao.updateById(event);
 	}
+	
+	public List<ScheduleDTO> todaySchedule(int emp_code_id){
+		return sDao.todaySchedule(emp_code_id);
+	}
 
 }

@@ -74,7 +74,7 @@
         LEFT JOIN job j ON e.emp_job_id = j.job_id
         LEFT JOIN department d ON e.emp_dept_id = d.dept_id
         LEFT JOIN profileImg p on e.emp_code_id = p.profile_emp_id
-        WHERE e.emp_loginId = #{userId}
+        WHERE e.emp_loginId = #{userId, jdbcType=VARCHAR}
     </select>
     <!-- 수정 -->
     <update id="userupdate" parameterType="com.kedu.study.dto.EmployeeDTO">

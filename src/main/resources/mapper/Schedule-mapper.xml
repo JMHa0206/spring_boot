@@ -18,20 +18,59 @@
 	</insert>
 	
 	<select id="getComEvents" resultType="com.kedu.study.dto.ScheduleDTO">
-		SELECT s.*, c.*, c.public_code from schedule s join calendar c ON s.c_id = c.c_id where c.public_code = 30
+		SELECT s.id
+			 , s.c_id
+			 , s.title
+			 , s.content
+			 , s.emp_id
+			 , s.start_date
+			 , s.end_date
+			 , s.startTime
+			 , s.endTime
+			 , c.color
+		  FROM schedule s 
+		  JOIN calendar c ON s.c_id = c.c_id 
+		 WHERE c.public_code = 30
 	</select>
 	
 	<select id="getMyEvents" resultType="com.kedu.study.dto.ScheduleDTO">
-		SELECT s.*, c.color from schedule s join calendar c ON s.c_id = c.c_id where c.emp_id = ${emp_code_id}
+		SELECT s.id
+			 , s.c_id
+			 , s.title
+			 , s.content
+			 , s.emp_id
+			 , s.start_date
+			 , s.end_date
+			 , s.startTime
+			 , s.endTime
+			 , c.color
+		  FROM schedule s 
+		  JOIN calendar c ON s.c_id = c.c_id 
+		 WHERE c.emp_id = ${emp_code_id}
 	</select>
 	
 	<select id="shareEvents" resultType="com.kedu.study.dto.ScheduleDTO">
-		SELECT 
-			s.*, 
-			c.color 
-		from schedule s 
-		join calendar c ON s.c_id = c.c_id 
-		where c.emp_id = ${emp_code_id}
+	SELECT s.id
+		 , s.c_id
+ 		 , s.title
+		 , s.content
+		 , s.emp_id
+		 , s.start_date
+		 , s.end_date
+		 , s.startTime
+		 , s.endTime
+		 , c.color 
+	  FROM SCHEDULE s
+	  JOIN calendar c ON s.c_id = c.c_id 
+	 WHERE c.C_ID IN (
+	SELECT C_ID 
+	  FROM CALENDAR_SHARE
+	 WHERE TARGET_TYPE = 'EMP' AND TARGET_ID = #{emp_code_id}
+	UNION ALL
+	SELECT C_ID 
+	  FROM CALENDAR_SHARE
+	 WHERE TARGET_TYPE = 'DEPT' AND TARGET_ID = (SELECT EMP_DEPT_ID FROM EMPLOYEE WHERE EMP_CODE_ID = #{emp_code_id}))
+
 	</select>
 	
 	<select id="selectEvent" resultType="com.kedu.study.dto.ScheduleDTO">
@@ -45,5 +84,12 @@
 	<update id="updateById">
 		UPDATE schedule SET title=#{title}, content=#{content}, start_date=#{start_date}, end_date=#{end_date}, startTime=#{startTime}, endTime=#{endTime} WHERE id=#{id}
 	</update>
+	
+	<select id="todaySchedule" resultType="com.kedu.study.dto.ScheduleDTO">
+		SELECT * from schedule
+  		 WHERE start_date = to_date(to_char(sysdate,'yyyy-mm-dd'),'yyyy-mm-dd')
+	</select>
+	
+	
 
 </mapper>

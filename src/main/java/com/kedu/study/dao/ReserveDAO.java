@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kedu.study.dto.RescTypeDTO;
+import com.kedu.study.dto.ReserveDTO;
 import com.kedu.study.dto.ResourceDTO;
 
 @Repository
@@ -20,6 +21,19 @@ public class ReserveDAO {
 	
 	public List<ResourceDTO> resourceList(){
 		return mybatis.selectList("reserve.resourceList");
+	}
+	
+	public void addReserve(ReserveDTO reservation) {
+		mybatis.insert("reserve.addReserve", reservation);
+	}
+	
+	public List<ReserveDTO> getAllResv(){
+		List<ReserveDTO> list = mybatis.selectList("reserve.getAllResv");
+		return list;
+	}
+	
+	public void deleteById(int id) {
+		mybatis.delete("reserve.deleteById", id);
 	}
 
 }
