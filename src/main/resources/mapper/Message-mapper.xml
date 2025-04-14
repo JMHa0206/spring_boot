@@ -15,7 +15,6 @@
         msg_emp_id,
         msg_content,
         send_date,
-        read,
         unread_count
         ) 
         values(
@@ -24,7 +23,6 @@
 			#{msg_emp_id},
 			#{msg_content},
 			#{send_date},
-			DEFAULT,
 			(
 				SELECT REGEXP_COUNT(group_member, '[^,]+') - 1
       FROM msg

@@ -34,5 +34,9 @@ public class ReserveService {
 	public void deleteById(int id) {
 		rDao.deleteById(id);
 	}
+	
+	public List<ReserveDTO> getMyResv(int id){
+		return rDao.getMyResv(id);
+	}
 
 }

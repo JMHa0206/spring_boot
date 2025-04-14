@@ -50,11 +50,23 @@
 	
 	<!--네비게이터-->
 	<select id="selectBoardList" resultType="com.kedu.study.dto.BoardDTO" parameterType="map">
-  		SELECT *
-  		FROM post
-  		ORDER BY post_id DESC
-  		OFFSET #{offset} ROWS FETCH NEXT #{size} ROWS ONLY
+  		SELECT * FROM (
+    	SELECT A.*, ROWNUM RNUM
+    	FROM (
+     	 SELECT * FROM post
+     	 WHERE parent_board = #{parent_board}
+     	 ORDER BY post_id DESC
+    	) A
+    	WHERE ROWNUM  &lt;= #{offset} + #{size}
+  		)
+  		WHERE RNUM &gt; #{offset}
 	</select>
+	
+	<select id="countBoard" resultType="int">
+	  SELECT COUNT(*) FROM post WHERE parent_board = #{parent_board}
+	</select>
+
+
 
 
  	</mapper>

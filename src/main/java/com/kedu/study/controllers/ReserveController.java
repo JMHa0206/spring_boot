@@ -36,7 +36,7 @@ public class ReserveController {
 		return ResponseEntity.ok(list);
 	}
 	
-	@PostMapping("addReserve")
+	@PostMapping("/addReserve")
 	public ResponseEntity<?> addReserve(@RequestBody ReserveDTO reservation){
 		rServ.addReserve(reservation);
 		return ResponseEntity.ok().build();
@@ -54,5 +54,10 @@ public class ReserveController {
 		return ResponseEntity.ok().build();
 	}
 	
+	@GetMapping("/myResv/{id}")
+	public ResponseEntity<List<ReserveDTO>> getMyResv(@PathVariable int id){
+		List<ReserveDTO> list = rServ.getMyResv(id);
+		return ResponseEntity.ok(list);
+	}
 	
 }

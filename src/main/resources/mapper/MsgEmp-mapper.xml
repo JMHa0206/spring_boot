@@ -43,7 +43,6 @@
         m.msg_emp_id, 
         m.msg_content,
         m.send_date,
-        m.read,
         m.unread_count,
         e.emp_name
     FROM messages m

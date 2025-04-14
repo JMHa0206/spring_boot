@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="InsaMapper">
+
+	<resultMap id="annualSummaryMap" type="java.util.Map">
+		<result property="totalAnnual" column="total_days" />
+		<result property="usedAnnual" column="used_days" />
+		<result property="remainingAnnual" column="remaining_date" />
+		<result property="expiringThisYear" column="expiring_this_year" />
+	</resultMap>
+
+
+	<!-- ✅ 주간 근무 통계 -->
+	<select
+		id="getWeeklyStats" parameterType="string"
+		resultType="java.util.Map">
+		SELECT
+		COUNT(*) AS worked_days,
+		SUM(work_hours) AS total_hours,
+		SUM(overtime_hours) AS overtime_hours
+		FROM attendance
+		WHERE emp_loginId = #{userId}
+		AND record_date BETWEEN TRUNC(SYSDATE, 'IW') AND TRUNC(SYSDATE, 'IW') +
+		6
+	</select>
+
+	<!-- ✅ 평균 출근 시간 -->
+	<select
+		id="getAvgCheckIn" parameterType="string" resultType="string">
+		SELECT
+		LPAD(FLOOR(AVG_MINS / 60), 2, '0') || ':' || LPAD(FLOOR(MOD(AVG_MINS,
+		60)), 2, '0') AS avg_check_in
+		FROM (
+		SELECT
+		AVG(TO_NUMBER(TO_CHAR(start_time, 'HH24')) * 60 +
+		TO_NUMBER(TO_CHAR(start_time, 'MI'))) AS AVG_MINS
+		FROM activity
+		WHERE activity_type = '출근'
+		AND start_time &gt;= TRUNC(SYSDATE, 'IW')
+		AND start_time &lt; TRUNC(SYSDATE, 'IW') + 7
+		AND attendance_id IN (
+		SELECT attendance_id FROM attendance WHERE emp_loginId = #{userId}
+		))
+	</select>
+
+	<!-- ✅ 평균 퇴근 시간 d-->
+	<select
+		id="getAvgCheckOut" parameterType="string" resultType="string">
+		SELECT
+		LPAD(FLOOR(AVG_MINS / 60), 2, '0') || ':' || LPAD(FLOOR(MOD(AVG_MINS,
+		60)), 2, '0') AS avg_check_out
+		FROM (
+		SELECT
+		AVG(TO_NUMBER(TO_CHAR(end_time, 'HH24')) * 60 +
+		TO_NUMBER(TO_CHAR(end_time, 'MI'))) AS AVG_MINS
+		FROM activity
+		WHERE activity_type = '퇴근'
+		AND end_time &gt;= TRUNC(SYSDATE, 'IW')
+		AND end_time &lt; TRUNC(SYSDATE, 'IW') + 7
+		AND attendance_id IN (
+		SELECT attendance_id FROM attendance WHERE emp_loginId = #{userId}
+		)
+		)
+	</select>
+
+	<!-- ✅ 연속 근속일 계산 (수정된 버전) -->
+	<select
+		id="getConsecutiveWorkDays" parameterType="string" resultType="int">
+		SELECT MAX(CNT) AS consecutive_days
+		FROM (
+		SELECT COUNT(*) AS CNT
+		FROM (
+		SELECT record_date,
+		record_date - ROW_NUMBER() OVER (ORDER BY record_date) AS grp
+		FROM attendance
+		WHERE emp_loginId = #{userId}
+		AND check_in_time IS NOT NULL
+		AND record_date &gt;= TRUNC(SYSDATE) - 14
+		)
+		GROUP BY grp
+		)
+	</select>
+	<!-- ✅ 연차 요약 (완전 수정본) -->
+	<select id="getAnnualSummary" parameterType="string"
+		resultMap="annualSummaryMap">
+		SELECT total_days, used_days,
+		remaining_date, CASE WHEN expired_date &lt;=
+		LAST_DAY(TO_DATE(EXTRACT(YEAR FROM SYSDATE) || '-12-31', 'YYYY-MM-DD'))
+		THEN remaining_date
+		ELSE 0
+		END AS expiring_this_year
+		FROM EMPLOYEE_ANNUAL
+		WHERE parent_emp_id = (
+		SELECT emp_code_id FROM employee WHERE emp_loginId = #{userId}
+		)
+		AND year = EXTRACT(YEAR FROM SYSDATE)
+	</select>
+
+
+	<!-- ✅ 오늘 외근 조회 -->
+	<select id="getTodayTrips" resultType="com.kedu.study.dto.TripDTO">
+		SELECT
+		e.emp_name AS empName, TO_CHAR(a.start_time, 'YYYY-MM-DD') AS tripDate,
+		'출장지' AS location FROM activity a JOIN attendance t ON a.attendance_id =
+		t.attendance_id JOIN employee e ON t.emp_loginId = e.emp_loginId WHERE
+		a.activity_type = '외근' AND TRUNC(a.start_time) = TRUNC(SYSDATE)
+	</select>
+
+
+	<!-- ✅ 오늘 휴가자 조회 -->
+	<select id="getTodayLeaves" resultType="com.kedu.study.dto.LeaveDTO">
+		SELECT
+		e.emp_name AS empName,
+		TO_CHAR(u.start_date, 'YYYY-MM-DD') AS leaveDate,
+		t.type_code AS type
+		FROM LEAVE_USAGE u
+		JOIN LEAVE_TYPE t ON u.type_id = t.type_id
+		JOIN employee e ON u.employee_id = e.emp_code_id
+		WHERE TRUNC(SYSDATE) BETWEEN TRUNC(u.start_date) AND TRUNC(u.end_date)
+		AND TRIM(UPPER(u.approval_status)) = 'APPROVED'
+	</select>
+
+
+	<!-- ✅ 오늘 출근 안 한 인원 -->
+	<select
+		id="getAbsentEmployees" resultType="com.kedu.study.dto.AbsentDTO">
+		SELECT
+		e.emp_name AS empName,
+		d.dept_name AS deptName
+		FROM employee e
+		JOIN department d ON e.emp_dept_id = d.dept_id
+		WHERE e.emp_loginId NOT IN (
+		SELECT emp_loginId
+		FROM attendance
+		WHERE TRUNC(record_date) = TRUNC(SYSDATE)
+		)
+	</select>
+
+</mapper>

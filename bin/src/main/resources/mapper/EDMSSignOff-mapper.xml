@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+  <mapper namespace="com.kedu.study.repository.EDMSSignOffRepository">
+
+    <select id="findAllSignOffs" resultType="com.kedu.study.dto.EDMSSignOffDTO">
+        SELECT * FROM edms_signoff
+    </select>
+
+    <select id="findSignOffById" parameterType="int" resultType="com.kedu.study.dto.EDMSSignOffDTO">
+        SELECT * FROM edms_signoff WHERE sign_id = #{signId}
+    </select>
+
+    <insert id="insertSignOff" parameterType="com.kedu.study.dto.EDMSSignOffDTO">
+        INSERT INTO edms_signoff (form_id, approver_name, status, signed_at)
+        VALUES (#{formId}, #{approverName}, #{status}, NOW())
+    </insert>
+
+    <update id="updateSignOff" parameterType="com.kedu.study.dto.EDMSSignOffDTO">
+        UPDATE edms_signoff
+        SET form_id = #{formId}, approver_name = #{approverName}, status = #{status}
+        WHERE sign_id = #{signId}
+    </update>
+
+    <delete id="deleteSignOff" parameterType="int">
+        DELETE FROM edms_signoff WHERE sign_id = #{signId}
+    </delete>
+
+</mapper>
