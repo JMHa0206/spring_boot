@@ -90,7 +90,7 @@ public class AttendanceController {
 		LocalDateTime now = LocalDateTime.now().withNano(0); // 나노초 제거
 		attendancedto.setRecord_date(Timestamp.valueOf(LocalDateTime.now())); //해당 날짜
 		attendancedto.setCheck_in_time(Timestamp.valueOf(LocalDateTime.now()));
-		attendancedto.setCheck_out_time(Timestamp.valueOf(LocalDateTime.now())); // 출근한 날짜 및 시간
+		attendancedto.setCheck_out_time(Timestamp.valueOf(LocalDateTime.now())); // 출근한 날짜 및 시간eqwe
 		
 		try {
 			AServ.outing(attendancedto);

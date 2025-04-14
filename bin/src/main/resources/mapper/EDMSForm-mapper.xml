@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="EDMSForm">
+
+    <select id="findAllForms" resultType="com.kedu.study.dto.EDMSFormDTO">
+        SELECT * FROM edms_form
+    </select>
+
+    <select id="findFormById" parameterType="int" resultType="com.kedu.study.dto.EDMSFormDTO">
+        SELECT * FROM edms_form WHERE form_id = #{formId}
+    </select>
+
+    <insert id="insertForm" parameterType="com.kedu.study.dto.EDMSFormDTO">
+        INSERT INTO edms_form (form_name, form_desc, created_at)
+        VALUES (#{formName}, #{formDesc}, NOW())
+    </insert>
+
+    <update id="updateForm" parameterType="com.kedu.study.dto.EDMSFormDTO">
+        UPDATE edms_form
+        SET form_name = #{formName}, form_desc = #{formDesc}
+        WHERE form_id = #{formId}
+    </update>
+
+    <delete id="deleteForm" parameterType="int">
+        DELETE FROM edms_form WHERE form_id = #{formId}
+    </delete>
+
+</mapper>
