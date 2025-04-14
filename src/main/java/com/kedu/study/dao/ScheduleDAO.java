@@ -50,4 +50,9 @@ public class ScheduleDAO {
 		System.out.println("DAO");
 		mybatis.update("schedule.updateById", evnet);
 	}
+	
+	public List<ScheduleDTO> todaySchedule(int emp_code_id){
+		return mybatis.selectList("schedule.todaySchedule", emp_code_id);
+	
+	}
 }

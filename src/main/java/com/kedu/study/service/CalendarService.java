@@ -23,18 +23,24 @@ public class CalendarService {
 		return cDao.selectAllList();
 	}
 	
-	public List<Integer> sharedList(String userId){
-		return cDao.sharedList(userId);
+	public List<CalendarDTO> sharedList(int emp_code_id){
+		return cDao.sharedList(emp_code_id);
 	}
 	
-	public List<CalendarDTO> selectMyCal(int publicCode){
-		return cDao.selectMyCal(publicCode);
+	public List<CalendarDTO> selectMyCal(int emp_code_id){
+		return cDao.selectMyCal(emp_code_id);
 	}
+	
+	public List<CalendarDTO> selectComCal(int emp_code_id){
+		return cDao.selectComCal(emp_code_id);
+	}
+	
 	public void caledarShare(List<CalendarShareDTO> calendarShare) {
 		for (CalendarShareDTO share : calendarShare) {
 	        cDao.caledarShare(share);
 	    }
-//		cDao.caledarShare(calendarShare);
 	}
+	
+	
 
 }

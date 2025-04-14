@@ -78,4 +78,20 @@ public class EDMSService {
     private boolean isFinalApprover(EDMSDTO doc, int empCodeId) {
         return doc.getFinalLevel() != null && doc.getFinalLevel().equals(empCodeId);
     }
+    public List<EDMSDTO> getCompletedDocs(int empCodeId) {
+        return daoe.getCompletedDocs(empCodeId);
+    }
+
+    public List<EDMSDTO> getRejectedDocs(int empCodeId) {
+        return daoe.getRejectedDocs(empCodeId);
+    }
+
+    public List<EDMSDTO> getDeptRefDocs(int deptId) {
+        return daoe.getDeptRefDocs(deptId);
+    }
+
+    public List<EDMSDTO> getDeptCreatedDocs(int deptId) {
+        return daoe.getDeptCreatedDocs(deptId);
+    }
+    
 }

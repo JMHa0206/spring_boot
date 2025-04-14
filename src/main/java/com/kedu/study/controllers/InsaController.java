@@ -20,6 +20,7 @@ public class InsaController {
 
 	@GetMapping("/summary")
 	public ResponseEntity<WorkSummaryDTO> getSummary(HttpServletRequest request){
+		System.out.println("33");
 		String userId = (String) request.getAttribute("userId");
 		
 		WorkSummaryDTO summary = IServ.getWeeklySummary(userId);

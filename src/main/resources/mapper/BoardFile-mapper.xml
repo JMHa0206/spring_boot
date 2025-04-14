@@ -2,10 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-  <mapper namespace="com.kedu.study.dao.BoardFileDAO">
+  <mapper namespace="files">
     
-    <insert id="insertBoardFile" parameterType="com.kedu.study.dto.BoardFileDTO">
-        INSERT INTO files (parent_post, b_oriname, b_sysname)
-        VALUES (#{parent_post}, #{b_oriname}, #{b_sysname});
-    </insert>
+  <insert id="insertBoardFile" parameterType="com.kedu.study.dto.BoardFileDTO">
+  <selectKey keyProperty="b_file_id" resultType="int" order="BEFORE">
+    SELECT b_file_id_seq.NEXTVAL FROM dual
+  </selectKey>
+  INSERT INTO files (b_file_id, parent_post, b_oriname, b_sysname)
+  VALUES (#{b_file_id}, #{parent_post}, #{b_oriname}, #{b_sysname})
+</insert>
+
+<select id="selectFilesByPostId" parameterType="int" resultType="com.kedu.study.dto.BoardFileDTO">
+    SELECT * FROM files WHERE parent_post = #{value}
+</select>
+
+    
+<delete id="deleteFileById" parameterType="int">
+    DELETE FROM files WHERE b_file_id = #{fileId}
+</delete>
+
+
+
 </mapper>

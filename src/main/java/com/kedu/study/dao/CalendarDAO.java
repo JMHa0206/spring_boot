@@ -22,12 +22,16 @@ public class CalendarDAO {
 		return mybatis.selectList("calendar.selectAllList");
 	}
 	
-	public List<Integer> sharedList(String userId){
-		return mybatis.selectList("calendar.sharedList", userId);
+	public List<CalendarDTO> sharedList(int emp_code_id){
+		return mybatis.selectList("calendar.sharedList", emp_code_id);
 	}
 	
-	public List<CalendarDTO> selectMyCal(int publicCode){
-		return mybatis.selectList("calendar.selectMyCal", publicCode);
+	public List<CalendarDTO> selectMyCal(int emp_code_id){
+		return mybatis.selectList("calendar.selectMyCal", emp_code_id);
+	}
+	
+	public List<CalendarDTO> selectComCal(int emp_code_id){
+		return mybatis.selectList("calendar.selectComCal", emp_code_id);
 	}
 	
 	public void caledarShare(CalendarShareDTO calendarShare) {

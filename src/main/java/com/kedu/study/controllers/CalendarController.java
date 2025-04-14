@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,10 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kedu.study.dto.CalendarDTO;
 import com.kedu.study.dto.CalendarShareDTO;
-import com.kedu.study.dto.EmployeeDTO;
 import com.kedu.study.service.CalendarService;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/calendar")
@@ -46,28 +44,23 @@ public class CalendarController {
 		return ResponseEntity.ok(list);
 	}
 	
-	@GetMapping("/sharedList")
-	public ResponseEntity<List<Integer>> sharedList(HttpServletRequest request){
-		String userId = (String) request.getAttribute("userId");
-		List<Integer> sharedList = cServ.sharedList(userId);
+	@GetMapping("/sharedList/{emp_code_id}")
+	public ResponseEntity<List<CalendarDTO>> sharedList(@PathVariable("emp_code_id") int emp_code_id){
+		System.out.println("공유캘린더 사원 코드 : " + emp_code_id);
+		List<CalendarDTO> sharedList = cServ.sharedList(emp_code_id);
 		return ResponseEntity.ok(sharedList);
 	}
 	
-	@GetMapping("/myCal")
-	public ResponseEntity<List<CalendarDTO>> myCalendar(@RequestParam("public_code") int publicCode){
-		List<CalendarDTO> myCalList = cServ.selectMyCal(publicCode);
+	@GetMapping("/myCal/{emp_code_id}")
+	public ResponseEntity<List<CalendarDTO>> myCalendar(@PathVariable("emp_code_id") int emp_code_id){
+		List<CalendarDTO> myCalList = cServ.selectMyCal(emp_code_id);
 		return ResponseEntity.ok(myCalList);
 	}
 	
-	@GetMapping("/publicCal")
-	public ResponseEntity<List<CalendarDTO>> publicCalendar(@RequestParam("public_code") int publicCode){
-		List<CalendarDTO> publicCalList = cServ.selectMyCal(publicCode);
-		return ResponseEntity.ok(publicCalList);
-	}
-	
-	@GetMapping("/comCal")
-	public ResponseEntity<List<CalendarDTO>> companyCalendar(@RequestParam("public_code") int publicCode){
-		List<CalendarDTO> companyCalendar = cServ.selectMyCal(publicCode);
+
+	@GetMapping("/comCal/{emp_code_id}")
+	public ResponseEntity<List<CalendarDTO>> companyCalendar(@PathVariable("emp_code_id") int emp_code_id){
+		List<CalendarDTO> companyCalendar = cServ.selectComCal(emp_code_id);
 		return ResponseEntity.ok(companyCalendar);
 	}
 	

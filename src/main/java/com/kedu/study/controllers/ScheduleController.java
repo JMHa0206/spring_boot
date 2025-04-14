@@ -69,4 +69,10 @@ public class ScheduleController {
 		return ResponseEntity.ok().build();
 	}
 	
+	@GetMapping("/todaySchedule/{emp_code_id}")
+	public ResponseEntity<List<ScheduleDTO>> todaySchedule(@PathVariable int emp_code_id) {
+		List<ScheduleDTO> event = sServ.todaySchedule(emp_code_id);
+		return ResponseEntity.ok(event);
+	} 
+	
 }
