@@ -44,6 +44,7 @@ public class InsaService {
 		    dto.setUsedAnnual(((Number) annual.getOrDefault("usedAnnual", 0)).intValue());
 		    dto.setRemainingAnnual(((Number) annual.getOrDefault("remainingAnnual", 0)).intValue());
 		    dto.setExpiringThisYear(((Number) annual.getOrDefault("expiringThisYear", 0)).intValue());
+		
 		}
 
 
@@ -60,6 +61,13 @@ public class InsaService {
 		dto.setPersonalBusinessTrips(trips);
 		dto.setDepartmentLeaves(leaves);
 		dto.setNotCheckedInToday(absents);
+		System.out.println("📋 휴가자 수: " + leaves.size());
+		for (LeaveDTO leave : leaves) {
+		    System.out.println(" - " + leave.getEmpName() + " | " + leave.getLeaveDate() + " | " + leave.getType());
+		}
+
+		
+		
 
 		return dto;
 	}
