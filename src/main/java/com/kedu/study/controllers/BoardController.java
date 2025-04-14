@@ -83,17 +83,28 @@ public class BoardController {
 	    
 	    //네비게이터
 	    @GetMapping("/navigator")
-	    public ResponseEntity<List<BoardDTO>> getPagedList(
+	    public ResponseEntity<Map<String, Object>> getPagedList(
 	        @RequestParam("page") int page,
-	        @RequestParam("size") int size
+	        @RequestParam("size") int size,
+	        @RequestParam("parent_board") int parentBoard 
 	    ) {
 	        int offset = (page - 1) * size;
 
-	        List<BoardDTO> list = boardService.getBoardList(offset, size);
-	        return ResponseEntity.ok(list);
+	        // ✅ 여기! parentBoard를 포함한 버전으로 호출해야 함!
+	        List<BoardDTO> list = boardService.getBoardList(offset, size, parentBoard);
+	        
+	        int totalCount = boardService.getBoardCount(parentBoard);
+	        int totalPages = (int) Math.ceil((double) totalCount / size);
+
+	        Map<String, Object> result = new HashMap<>();
+	        result.put("list", list);
+	        result.put("totalPages", totalPages);
+
+	        return ResponseEntity.ok(result);
 	    }
 	    
-	    
+	  
+
 }
 
 
