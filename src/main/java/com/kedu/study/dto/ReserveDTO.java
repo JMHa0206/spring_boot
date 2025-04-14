@@ -12,11 +12,13 @@ public class ReserveDTO {
 	private String  resv_stime;
 	private String  resv_etime;
 	private String resv_title;
+	private String resc_name;
+	private int resc_type_id;
 	
 	public ReserveDTO() {}
-	
+
 	public ReserveDTO(int resv_id, int resource_id, int resv_emp, Date resv_date, String resv_stime, String resv_etime,
-			String resv_title) {
+			String resv_title, String resc_name, int resc_type_id) {
 		super();
 		this.resv_id = resv_id;
 		this.resource_id = resource_id;
@@ -25,6 +27,8 @@ public class ReserveDTO {
 		this.resv_stime = resv_stime;
 		this.resv_etime = resv_etime;
 		this.resv_title = resv_title;
+		this.resc_name = resc_name;
+		this.resc_type_id = resc_type_id;
 	}
 
 	public int getResv_id() {
@@ -82,10 +86,22 @@ public class ReserveDTO {
 	public void setResv_title(String resv_title) {
 		this.resv_title = resv_title;
 	}
-	
 
-	
+	public String getResc_name() {
+		return resc_name;
+	}
 
+	public void setResc_name(String resc_name) {
+		this.resc_name = resc_name;
+	}
+
+	public int getResc_type_id() {
+		return resc_type_id;
+	}
+
+	public void setResc_type_id(int resc_type_id) {
+		this.resc_type_id = resc_type_id;
+	}
 	
 	
 

@@ -35,6 +35,21 @@
 		  FROM reservation
 	</select>
 	
+	<select id="getMyResv" parameterType="int" resultType="com.kedu.study.dto.ReserveDTO">
+		SELECT rs.resv_id
+			 , rs.resource_id
+			 , rs.resv_emp
+			 , TO_CHAR(rs.resv_date, 'yyyy-mm-dd') as resv_date
+			 , rs.resv_stime
+			 , rs.resv_etime
+			 , rs.resv_title
+			 , rc.resc_name
+			 , rc.resc_type_id		   
+		  FROM reservation rs
+		  JOIN resources rc ON rs.resource_id = rc.resc_id
+		 WHERE resv_emp = ${id}
+	</select>
+	
 	
 	<delete id="deleteById" parameterType="int">
 		DELETE 

@@ -35,5 +35,9 @@ public class ReserveDAO {
 	public void deleteById(int id) {
 		mybatis.delete("reserve.deleteById", id);
 	}
+	
+	public List<ReserveDTO> getMyResv(int id){
+		return mybatis.selectList("reserve.getMyResv", id);
+	}
 
 }
