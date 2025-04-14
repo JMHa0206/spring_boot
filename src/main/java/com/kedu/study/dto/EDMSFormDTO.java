@@ -1,7 +1,7 @@
 package com.kedu.study.dto;
 
 public class EDMSFormDTO {
-    private int formId;
+    private Integer formId;
     private String formName;
     private String formContent;
     private String formType;
@@ -74,7 +74,7 @@ public class EDMSFormDTO {
 	}
 
 
-	public EDMSFormDTO(int formId, String formName, String formContent, String formType, String createdAt,
+	public EDMSFormDTO(Integer formId, String formName, String formContent, String formType, String createdAt,
 			String createdBy) {
 		super();
 		this.formId = formId;

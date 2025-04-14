@@ -16,4 +16,5 @@ public class MessageDAO {
 		mybatis.insert("Message.saveMessage",message);
 	}
 	
+	
 }

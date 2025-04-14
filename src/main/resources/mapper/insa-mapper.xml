@@ -44,7 +44,7 @@
 		))
 	</select>
 
-	<!-- ✅ 평균 퇴근 시간 -->
+	<!-- ✅ 평균 퇴근 시간 d-->
 	<select
 		id="getAvgCheckOut" parameterType="string" resultType="string">
 		SELECT

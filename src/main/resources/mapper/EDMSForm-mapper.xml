@@ -20,6 +20,7 @@
     SELECT * FROM edms_form
   </select>
 
+
   <!-- ✅ 3. 단일 조회 -->
   <select id="findFormById" parameterType="int" resultMap="FormResultMap">
     SELECT * FROM edms_form WHERE form_id = #{formId}

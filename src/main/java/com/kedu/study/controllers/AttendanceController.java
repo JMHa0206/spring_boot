@@ -89,6 +89,7 @@ public class AttendanceController {
 			return ResponseEntity.status(500).body("로그인 아이디가 없습니다.");
 		}
 	}
+
 	@PostMapping("/start")
 	public ResponseEntity<String> startActivity(@RequestBody ActivityDTO dto,
 	                                            HttpServletRequest request) {
@@ -102,48 +103,8 @@ public class AttendanceController {
 	    dto.setAttendance_id(attendanceId);
 	    AServ.handleActivityChange(dto);
 	    return ResponseEntity.ok("활동 전환 완료");
+
 	}
 
-//	@PostMapping("/outing")
-//	public ResponseEntity<String> outing (@RequestBody AttendanceDTO attendancedto,
-//			HttpServletRequest request){
-//		System.out.println("외근 요청 : " + attendancedto.getEmp_loginId());
-//		
-//		String userId = (String)request.getAttribute("userId");
-//		attendancedto.setEmp_loginId(userId); // 로그인 아이디
-//		LocalDateTime now = LocalDateTime.now().withNano(0); // 나노초 제거
-//		attendancedto.setRecord_date(Timestamp.valueOf(LocalDateTime.now())); //해당 날짜
-//		attendancedto.setCheck_in_time(Timestamp.valueOf(LocalDateTime.now()));
-//		attendancedto.setCheck_out_time(Timestamp.valueOf(LocalDateTime.now())); // 출근한 날짜 및 시간
-//		
-//		try {
-//			AServ.outing(attendancedto);
-//			return ResponseEntity.ok("외근 시간이 기록되었습니다.");
-//		}catch (Exception e) {
-//			e.printStackTrace();
-//			return ResponseEntity.status(500).body("로그인 아이디가 없습니다.");
-//		}
-//	}
-//	
-//	@PostMapping("/work")
-//	public ResponseEntity<String> work(@RequestBody AttendanceDTO attendancedto,
-//			HttpServletRequest request){
-//		System.out.println("업무 요청 : "+attendancedto.getEmp_loginId());
-//		
-//		String userId = (String)request.getAttribute("userId");
-//		attendancedto.setEmp_loginId(userId); // 로그인 아이디
-//		LocalDateTime now = LocalDateTime.now().withNano(0); // 나노초 제거
-//		attendancedto.setRecord_date(Timestamp.valueOf(LocalDateTime.now())); //해당 날짜
-//		attendancedto.setCheck_in_time(Timestamp.valueOf(LocalDateTime.now()));
-//		attendancedto.setCheck_out_time(Timestamp.valueOf(LocalDateTime.now())); // 출근한 날짜 및 시간
-//		
-//		try {
-//			AServ.work(attendancedto);
-//			return ResponseEntity.ok("업무 시간이 기록되었습니다.");
-//		}catch (Exception e) {
-//			e.printStackTrace();
-//			return ResponseEntity.status(500).body("로그인 아이디가 없습니다.");
-//		}
-//	}
 
 }

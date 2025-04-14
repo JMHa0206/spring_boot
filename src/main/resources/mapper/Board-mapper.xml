@@ -16,8 +16,11 @@
 
 
 	<insert id="insertBoard" parameterType="com.kedu.study.dto.BoardDTO">
-		insert into post (post_id,parent_board,post_writer,post_title,post_content,post_date,post_view,post_like,post_per,post_tag)
-		 values(post_id_seq.nextval,#{parent_board}, #{post_writer}, #{post_title}, #{post_content},sysdate, 0, 0, #{post_per}, #{post_tag})
+  		<selectKey keyProperty="post_id" resultType="int" order="BEFORE">
+    		SELECT post_id_seq.NEXTVAL FROM dual
+  		</selectKey>
+  			insert into post (post_id, parent_board, post_writer, post_title, post_content, post_date, post_view, post_like, post_per, post_tag)
+  			values (#{post_id}, #{parent_board}, #{post_writer}, #{post_title}, #{post_content}, sysdate, #{post_view}, #{post_like}, #{post_per}, #{post_tag})
 	</insert>
 
 
@@ -44,5 +47,14 @@
 		UPDATE post SET post_like = post_like + 1
 		WHERE post_id = #{post_id}
 	</update>
+	
+	<!--네비게이터-->
+	<select id="selectBoardList" resultType="com.kedu.study.dto.BoardDTO" parameterType="map">
+  		SELECT *
+  		FROM post
+  		ORDER BY post_id DESC
+  		OFFSET #{offset} ROWS FETCH NEXT #{size} ROWS ONLY
+	</select>
+
 
  	</mapper>
