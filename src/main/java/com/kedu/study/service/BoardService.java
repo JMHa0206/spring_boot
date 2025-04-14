@@ -25,6 +25,9 @@ public class BoardService {
 	    
 	    //insert 부분
 	    public void insertBoard(BoardDTO post) {
+	    	if (post.getParent_board() == null) {
+	            throw new IllegalArgumentException("Parent board must not be null");
+	        }
 	    	bdao.insertBoard(post);
 	    }
 	    
@@ -54,11 +57,19 @@ public class BoardService {
 	    }
 	    
 	    //네비게이터
-	    public List<BoardDTO> getBoardList(int offset, int size) {
+	    public List<BoardDTO> getBoardList(int offset, int size, int parentBoard) {
 	        Map<String, Object> paramMap = new HashMap<>();
 	        paramMap.put("offset", offset);
 	        paramMap.put("size", size);
-
+	        paramMap.put("parent_board", parentBoard);
 	        return bdao.selectBoardList(paramMap);
 	    }
+
+	    public int getBoardCount(int parentBoard) {
+	        return bdao.countBoard(parentBoard); 
+	    }
+	    
+	   
+	    
+	    
 }
