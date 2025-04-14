@@ -8,7 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.kedu.study.dto.ChatRoomDTO;
+import com.kedu.study.dto.ChattingRoomDTO;
 import com.kedu.study.dto.MessageDTO;
 import com.kedu.study.dto.MsgEmpDTO;
 import com.kedu.study.dto.MsgEmpMineDTO;
@@ -44,6 +44,7 @@ public class MsgEmpDAO {
 		map.put("targetId", targetId);
 		map.put("myId", myId);
 		return mybatis.selectOne("MsgEmp.checkRoomSeqExist",map);
+		
 				
 	}
 	
@@ -58,5 +59,30 @@ public class MsgEmpDAO {
 	public List<Map<String,Object>> selectRoom(int myId){
 		return mybatis.selectList("MsgEmp.selectRoom",myId);
 	}
+	
+	public int madeGroupChat(String selectedStr, Integer myId, Integer numMembers ) {
+		Map<String,Object> map = new HashMap<>();
+		map.put("selectedStr", selectedStr);
+		map.put("myId", myId);
+		String combinedStr = selectedStr + "," + myId;
+		map.put("combinedStr", combinedStr);
+		map.put("numMembers", numMembers);
+		
+		mybatis.insert("MsgEmp.madeGroupChat",map);
+		return (Integer)map.get("seq");
+	}
+	
+	public List<ChattingRoomDTO> selectGroupChat(int myId) {
+		return mybatis.selectList("MsgEmp.selectGroupChat",myId);
+	}
+	
+	public List<String> getNamesIds(List<String> ids){
+		return mybatis.selectList("MsgEmp.getNamesIds",ids);
+	}
+	
+	public List<Map<String,Object>> getGroupInfo(List<Integer> groupId){
+		return mybatis.selectList("MsgEmp.getGroupInfo",groupId);
+	}
+	
 	
 }

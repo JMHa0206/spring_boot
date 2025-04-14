@@ -1,26 +1,61 @@
 package com.kedu.study.dao;
 
+import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Mapper;
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-@Mapper
-public interface InsaDAO {
-    // 주간 출근일수, 총 근무 시간, 초과 근무 시간
-    Map<String, Object> getWeeklyStats(String userId);
+import com.kedu.study.dto.AbsentDTO;
+import com.kedu.study.dto.LeaveDTO;
+import com.kedu.study.dto.TripDTO;
 
-//    // 평균 출근 시간
-//    String getAvgCheckIn(String userId);
-//
-//    // 평균 퇴근 시간
-//    String getAvgCheckOut(String userId);
-    String getAvgCheckIn(String userId);   // 출근 시간
-    String getAvgCheckOut(String userId);  // 퇴근 시간
+@Repository
+public class InsaDAO {
 
+	@Autowired
+	private SqlSessionTemplate mybatis;
 
-    // 연속 근무 일수
-    int getConsecutiveWorkDays(String userId);
+	private static final String nameSpace = "InsaMapper";
 
-    // 연차 요약 정보
-    Map<String, Object> getAnnualSummary(String userId);
+	//연차
+	public Map<String, Object> getAnnualSummary(String userId) {
+		return mybatis.selectOne(nameSpace + ".getAnnualSummary", userId);
+	}
+
+	//연속 근속일
+	public Map<String, Object> getWeeklyStats(String userId) {
+		return mybatis.selectOne(nameSpace + ".getWeeklyStats", userId);
+	}
+
+	//출근 평균
+	public String getAvgCheckIn(String userId) {
+		return mybatis.selectOne(nameSpace + ".getAvgCheckIn", userId);
+	}
+
+	//퇴근 평균
+	public String getAvgCheckOut(String userId) {
+		return mybatis.selectOne(nameSpace + ".getAvgCheckOut", userId);
+	}
+
+	//주간 근무
+	public int getConsecutiveWorkDays(String userId) {
+		Integer result = mybatis.selectOne(nameSpace + ".getConsecutiveWorkDays", userId);
+		return result != null ? result : 0;
+	}
+	
+	public List<TripDTO> getTodayTrips() {
+	    return mybatis.selectList(nameSpace+".getTodayTrips");
+	}
+
+	public List<LeaveDTO> getTodayLeaves() {
+	    return mybatis.selectList(nameSpace+".getTodayLeaves");
+	}
+
+	public List<AbsentDTO> getAbsentEmployees() {
+	    return mybatis.selectList(nameSpace+".getAbsentEmployees");
+	}
+	
+
 }
