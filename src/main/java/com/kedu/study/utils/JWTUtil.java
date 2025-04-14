@@ -20,7 +20,6 @@ public class JWTUtil {
 		verifier.verify(token);
 		return true;
 	}catch(Exception e) {
-		e.printStackTrace();
 		return false;
 	}
 }
