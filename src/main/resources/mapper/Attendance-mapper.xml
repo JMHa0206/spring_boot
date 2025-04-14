@@ -2,16 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="AttendanceMapper">
-	<!-- 출근 기록 등록 (attendance 테이블) -->
+
+	<!-- 출근 기록 -->
 	<insert id="checkIn" parameterType="com.kedu.study.dto.AttendanceDTO"
 		useGeneratedKeys="true" keyProperty="attendance_id"
 		keyColumn="attendance_id">
 		INSERT INTO attendance (
-		attendance_id,
-		emp_loginId,
-		record_date,
-		check_in_time,
-		status,
+		attendance_id, emp_loginId, record_date, check_in_time, status,
 		created_at
 		) VALUES (
 		attendance_seq.nextval,
@@ -23,110 +20,76 @@
 		)
 	</insert>
 
+	<!-- 퇴근 기록 -->
+	<update id="checkOut" parameterType="com.kedu.study.dto.AttendanceDTO">
+		UPDATE attendance
+		SET check_out_time = #{check_out_time},
+		work_hours = #{work_hours},
+		overtime_hours = #{overtime_hours},
+		status = '퇴근'
+		WHERE emp_loginId = #{emp_loginId}
+		AND TRUNC(record_date) = TRUNC(SYSDATE)
+	</update>
 
-	<!-- 출근 활동 등록 (activity 테이블) -->
+	<!-- 오늘 출근 시간 조회(최신) -->
+	<select id="getTodayCheckIn" parameterType="string"
+		resultType="java.sql.Timestamp">
+		SELECT MAX(check_in_time)
+		FROM attendance
+		WHERE emp_loginId = #{userId}
+		AND TRUNC(record_date) = TRUNC(SYSDATE)
+	</select>
+
+
+	<!-- ✅ 오늘 퇴근 시간 조회 -->
+	<select id="getTodayCheckOut" parameterType="string"
+		resultType="java.sql.Timestamp">
+		SELECT check_out_time
+		FROM (
+		SELECT check_out_time
+		FROM attendance
+		WHERE emp_loginId = #{emp_loginId}
+		AND TRUNC(record_date) = TRUNC(SYSDATE)
+		ORDER BY created_at DESC
+		)
+		WHERE ROWNUM = 1
+	</select>
+
+
+	<!-- 오늘 출근 ID 조회 -->
+	<select id="findTodayAttendanceId" parameterType="string" resultType="int">
+		SELECT attendance_id
+		FROM (
+		SELECT attendance_id
+		FROM attendance
+		WHERE emp_loginId = #{emp_loginId}
+		AND TRUNC(record_date) = TRUNC(SYSDATE)
+		ORDER BY created_at DESC
+		)
+		WHERE ROWNUM = 1
+	</select>
+
+	<!-- 활동 기록 (출근/퇴근/외근/업무 공통) -->
 	<insert id="insertActivity" parameterType="com.kedu.study.dto.ActivityDTO">
 		INSERT INTO activity (
-		activity_id,
-		attendance_id,
-		activity_type,
-		start_time,
-		end_time,
+		activity_id, attendance_id, activity_type, start_time, end_time,
 		activity_hours
 		) VALUES (
 		activity_seq.NEXTVAL,
 		#{attendance_id},
-		'출근',
+		#{activity_type},
 		#{start_time},
-		#{end_time},
-		0
+		#{end_time, jdbcType=TIMESTAMP},
+		#{activity_hours}
 		)
 	</insert>
-	<!-- 출근했냐? -->
-	<select id="getTodayCheckIn" parameterType="java.lang.String" resultType="java.sql.Timestamp">
-		SELECT check_in_time
-		FROM attendance
-		WHERE emp_loginId = #{emp_loginId}
-		AND TRUNC(record_date) = TRUNC(SYSDATE)
-	</select>
-	<!-- 출근했으니 그 ID를 가져옴-->
-	<select id="findTodayAttendanceId" resultType="int" parameterType="map">
- 		 SELECT attendance_id
-  		  FROM (
-    		SELECT attendance_id
-    		FROM attendance
-    		WHERE emp_loginId = #{emp_loginId}
-      	  AND TRUNC(record_date) = TRUNC(SYSDATE)
-    	ORDER BY created_at DESC
-  		)
-  			WHERE ROWNUM = 1
-</select>
 
-
-	<!-- 퇴근 기록 등록 (attendance 테이블) -->
-	<update id="checkOut" parameterType="com.kedu.study.dto.AttendanceDTO"
-		useGeneratedKeys="true" keyProperty="attendance_id"
-		keyColumn="attendance_id">
-		UPDATE attendance
-		SET
-		check_out_time = #{check_out_time},
-		work_hours = #{work_hours},
-		overtime_hours = #{overtime_hours},
-		status = '퇴근'
-		WHERE
-		emp_loginId = #{emp_loginId}
-		AND TRUNC(record_date) = TRUNC(SYSDATE)
+	<!-- 이전 활동 종료 -->
+	<update id="endLastActivity" parameterType="int">
+		UPDATE activity
+		SET end_time = SYSDATE
+		WHERE attendance_id = #{attendance_id}
+		AND end_time IS NULL
 	</update>
-	<!-- 퇴근 활동 등록 (activity 테이블) -->
-	<insert id="updatetActivity" parameterType="com.kedu.study.dto.ActivityDTO">
-		INSERT INTO activity (
-		activity_id,
-		attendance_id,
-		activity_type,
-		start_time,
-		end_time,
-		activity_hours
-		)VALUES (
-		activity_seq.NEXTVAL,
-		#{attendance_id},
-		'퇴근',
-		#{start_time},
-		#{end_time},
-		#{activity_hours})
-	</insert>
-	<!-- 외근! -->
-	<insert id="outing">
-		INSERT INTO activity (
-		activity_id,
-		attendance_id,
-		activity_type,
-		start_time,
-		end_time,
-		activity_hours
-		)VALUES (
-		activity_seq.NEXTVAL,
-		#{attendance_id},
-		'외근',
-		#{start_time},
-		#{end_time},
-		#{activity_hours})
-	</insert>
-	
-		<!-- 업무! -->
-	<insert id="work">
-		INSERT INTO activity (
-		activity_id,
-		attendance_id,
-		activity_type,
-		start_time,
-		end_time,
-		activity_hours
-		)VALUES (
-		activity_seq.NEXTVAL,
-		#{attendance_id},
-		'업무',
-		#{start_time},
-		#{end_time},
-		#{activity_hours})
-	</insert>
+
 </mapper>
