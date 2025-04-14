@@ -84,11 +84,5 @@ public class MsgEmpDAO {
 		return mybatis.selectList("MsgEmp.getGroupInfo",groupId);
 	}
 	
-	public int readMessage(Map<String,Integer> data) {
-		return mybatis.update("MsgEmp.readMessage",data); 
-	}
 	
-	public int readAllMessages(Map<String,Integer> data) {
-		return mybatis.update("MsgEmp.readAllMessages",data);
-	}
 }

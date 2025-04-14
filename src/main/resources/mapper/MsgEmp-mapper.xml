@@ -138,20 +138,6 @@ ORDER BY m1.SEND_DATE DESC
         ON m.msg_group_id = mg.msg_group_id
 	</select>
 	
-	<update id="readMessage" parameterType="map">
-		update messages set unread_count = CASE 
- 		 WHEN unread_count > 0 THEN unread_count - 1
-  		ELSE 0
-		END 
-		where msg_group_id = #{seq} and msg_emp_id != #{empId} and unread_count > 0
-	</update>
 	
-	<update id="readAllMessages" parameterType="map">
-		update messages set read = 'Y', unread_count = CASE 
- 		 WHEN unread_count > 0 THEN unread_count - 1
-  		ELSE 0
-		END 
-		where msg_group_id = #{groupId} and unread_count > 0 and msg_emp_id != #{empId}
-	</update>
 		
 </mapper>

@@ -27,11 +27,5 @@ public class MessageController {
         return message; // 클라이언트에게 다시 전송
     }
 	
-	@MessageMapping("/read/{seq}")
-	@SendTo("/topic/read/{seq}")
-	public int readMessage(@DestinationVariable int seq, @Payload MessageDTO message) {
-
-		return message.getMsg_emp_id();
-	}
 
 }
