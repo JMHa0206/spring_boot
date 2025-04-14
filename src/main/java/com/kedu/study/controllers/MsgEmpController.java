@@ -126,17 +126,12 @@ public class MsgEmpController {
 		return ResponseEntity.ok(list);
 	}
 	
-	@PostMapping("/readMessage")
-	public ResponseEntity<?> readMessage(@RequestBody Map<String,Integer> data){
-			eServ.readMessage(data);
-		return ResponseEntity.ok(null);
-	}
-	
-	@PostMapping("/readAllMessages")
-	public ResponseEntity<?> readAllMessages(@RequestBody Map<String,Integer> data){
-			eServ.readAllMessages(data);
+	@GetMapping("/existGroupRoom")
+	public ResponseEntity<?> existGroupRoom(){
 		
 		return ResponseEntity.ok(null);
 	}
+
+	
 
 }
