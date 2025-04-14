@@ -2,6 +2,8 @@ package com.kedu.study.controllers;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,12 +31,19 @@ public class AttendanceController {
 	private AttendanceService AServ;
 	
 	@GetMapping("/checkInTime")
-	public ResponseEntity<Timestamp> getTodayCheckInTime(HttpServletRequest request) {
+	public ResponseEntity<Map<String, Timestamp>> getTodayCheckInTime(HttpServletRequest request) {
 	    String userId = (String) request.getAttribute("userId");
-	    System.out.println(userId+" : userId 로그인했을때");
-	    Timestamp checkInTime = AServ.getTodayCheckInTime(userId); // DAO에서 SELECT
-	    return ResponseEntity.ok(checkInTime);
+
+	    Timestamp checkInTime = AServ.getTodayCheckIn(userId);
+	    Timestamp checkOutTime = AServ.getTodayCheckOut(userId); // 새로 추가 필요
+
+	    Map<String, Timestamp> map = new HashMap<>();
+	    map.put("checkInTime", checkInTime);
+	    map.put("checkOutTime", checkOutTime);
+
+	    return ResponseEntity.ok(map);
 	}
+
 
 	
 	
@@ -48,7 +57,7 @@ public class AttendanceController {
 		
 		attendancedto.setEmp_loginId(userId); // 로그인 아이디
 		LocalDateTime now = LocalDateTime.now().withNano(0); // 나노초 제거
-		attendancedto.setRecord_date(Timestamp.valueOf(LocalDateTime.now())); //해당 날짜
+		attendancedto.setRecord_date(Timestamp.valueOf(LocalDateTime.now())); //해당 날짜		관리자페이지 점검
 		attendancedto.setCheck_in_time(Timestamp.valueOf(LocalDateTime.now())); // 출근한 날짜 및 시간
 		
 		try {
@@ -80,46 +89,61 @@ public class AttendanceController {
 			return ResponseEntity.status(500).body("로그인 아이디가 없습니다.");
 		}
 	}
-	@PostMapping("/outing")
-	public ResponseEntity<String> outing (@RequestBody AttendanceDTO attendancedto,
-			HttpServletRequest request){
-		System.out.println("외근 요청 : " + attendancedto.getEmp_loginId());
-		
-		String userId = (String)request.getAttribute("userId");
-		attendancedto.setEmp_loginId(userId); // 로그인 아이디
-		LocalDateTime now = LocalDateTime.now().withNano(0); // 나노초 제거
-		attendancedto.setRecord_date(Timestamp.valueOf(LocalDateTime.now())); //해당 날짜
-		attendancedto.setCheck_in_time(Timestamp.valueOf(LocalDateTime.now()));
-		attendancedto.setCheck_out_time(Timestamp.valueOf(LocalDateTime.now())); // 출근한 날짜 및 시간
-		
-		try {
-			AServ.outing(attendancedto);
-			return ResponseEntity.ok("외근 시간이 기록되었습니다.");
-		}catch (Exception e) {
-			e.printStackTrace();
-			return ResponseEntity.status(500).body("로그인 아이디가 없습니다.");
-		}
+	@PostMapping("/start")
+	public ResponseEntity<String> startActivity(@RequestBody ActivityDTO dto,
+	                                            HttpServletRequest request) {
+	    String userId = (String) request.getAttribute("userId");
+
+	    Integer attendanceId = AServ.findTodayAttendanceId(userId);
+	    if (attendanceId == null) {
+	        return ResponseEntity.status(400).body("출근 기록이 없습니다.");
+	    }
+
+	    dto.setAttendance_id(attendanceId);
+	    AServ.handleActivityChange(dto);
+	    return ResponseEntity.ok("활동 전환 완료");
 	}
-	
-	@PostMapping("/work")
-	public ResponseEntity<String> work(@RequestBody AttendanceDTO attendancedto,
-			HttpServletRequest request){
-		System.out.println("업무 요청 : "+attendancedto.getEmp_loginId());
-		
-		String userId = (String)request.getAttribute("userId");
-		attendancedto.setEmp_loginId(userId); // 로그인 아이디
-		LocalDateTime now = LocalDateTime.now().withNano(0); // 나노초 제거
-		attendancedto.setRecord_date(Timestamp.valueOf(LocalDateTime.now())); //해당 날짜
-		attendancedto.setCheck_in_time(Timestamp.valueOf(LocalDateTime.now()));
-		attendancedto.setCheck_out_time(Timestamp.valueOf(LocalDateTime.now())); // 출근한 날짜 및 시간
-		
-		try {
-			AServ.work(attendancedto);
-			return ResponseEntity.ok("업무 시간이 기록되었습니다.");
-		}catch (Exception e) {
-			e.printStackTrace();
-			return ResponseEntity.status(500).body("로그인 아이디가 없습니다.");
-		}
-	}
+
+//	@PostMapping("/outing")
+//	public ResponseEntity<String> outing (@RequestBody AttendanceDTO attendancedto,
+//			HttpServletRequest request){
+//		System.out.println("외근 요청 : " + attendancedto.getEmp_loginId());
+//		
+//		String userId = (String)request.getAttribute("userId");
+//		attendancedto.setEmp_loginId(userId); // 로그인 아이디
+//		LocalDateTime now = LocalDateTime.now().withNano(0); // 나노초 제거
+//		attendancedto.setRecord_date(Timestamp.valueOf(LocalDateTime.now())); //해당 날짜
+//		attendancedto.setCheck_in_time(Timestamp.valueOf(LocalDateTime.now()));
+//		attendancedto.setCheck_out_time(Timestamp.valueOf(LocalDateTime.now())); // 출근한 날짜 및 시간
+//		
+//		try {
+//			AServ.outing(attendancedto);
+//			return ResponseEntity.ok("외근 시간이 기록되었습니다.");
+//		}catch (Exception e) {
+//			e.printStackTrace();
+//			return ResponseEntity.status(500).body("로그인 아이디가 없습니다.");
+//		}
+//	}
+//	
+//	@PostMapping("/work")
+//	public ResponseEntity<String> work(@RequestBody AttendanceDTO attendancedto,
+//			HttpServletRequest request){
+//		System.out.println("업무 요청 : "+attendancedto.getEmp_loginId());
+//		
+//		String userId = (String)request.getAttribute("userId");
+//		attendancedto.setEmp_loginId(userId); // 로그인 아이디
+//		LocalDateTime now = LocalDateTime.now().withNano(0); // 나노초 제거
+//		attendancedto.setRecord_date(Timestamp.valueOf(LocalDateTime.now())); //해당 날짜
+//		attendancedto.setCheck_in_time(Timestamp.valueOf(LocalDateTime.now()));
+//		attendancedto.setCheck_out_time(Timestamp.valueOf(LocalDateTime.now())); // 출근한 날짜 및 시간
+//		
+//		try {
+//			AServ.work(attendancedto);
+//			return ResponseEntity.ok("업무 시간이 기록되었습니다.");
+//		}catch (Exception e) {
+//			e.printStackTrace();
+//			return ResponseEntity.status(500).body("로그인 아이디가 없습니다.");
+//		}
+//	}
 
 }
