@@ -17,8 +17,11 @@ public class AttendanceService {
 	@Autowired
 	private AttendanceDAO ADao;
 	
-	public Timestamp getTodayCheckInTime(String userId) {
+	public Timestamp getTodayCheckIn(String userId) {
 	    return ADao.getTodayCheckIn(userId);
+	}
+	public Timestamp getTodayCheckOut(String userId) {
+	    return ADao.getTodayCheckOut(userId);
 	}
 
 
@@ -39,7 +42,6 @@ public class AttendanceService {
 			attendancedto.setCheck_out_time(Timestamp.valueOf(LocalDateTime.now()));
 		}
 
-		// DB에서 당일 출근 시간 조회
 		Timestamp checkInTimestamp = ADao.getTodayCheckIn(attendancedto.getEmp_loginId());
 
 		if (checkInTimestamp == null) {
@@ -72,50 +74,67 @@ public class AttendanceService {
 		return result;
 	}
 	
-	public int outing(AttendanceDTO attendancedto) {	// 외근
-		// 출근 기록이 있다는 가정 하에 그 기록의 ID를 가져옴.
-		Integer attendanceId = ADao.findTodayAttendanceId(attendancedto.getEmp_loginId());
+	
+	public Integer findTodayAttendanceId(String userId) {
+	    return ADao.findTodayAttendanceId(userId);
+	}
 
-		if (attendanceId == null) {
-		    throw new IllegalArgumentException("출근 기록이 없습니다.");
-		}
-		LocalDateTime startTime = attendancedto.getCheck_in_time().toLocalDateTime();
-	    LocalDateTime endTime = attendancedto.getCheck_out_time().toLocalDateTime();
-	    
-	    long minutes = ChronoUnit.MINUTES.between(startTime, endTime);
-	    double hours = minutes / 60.0;
-	    
-	    ActivityDTO activity = new ActivityDTO();
-	    activity.setAttendance_id(attendanceId);
-	    activity.setActivity_type("외근"); // 또는 "업무"
-	    activity.setStart_time(attendancedto.getCheck_in_time());
-	    activity.setEnd_time(attendancedto.getCheck_out_time());
-	    activity.setActivity_hours(hours);
-	    
-	    return ADao.outing(activity);
+	public void handleActivityChange(ActivityDTO dto) {
+	    // 외근 또는 업무인 경우에만 이전 활동 종료
+	    if ("외근".equals(dto.getActivity_type()) || "업무".equals(dto.getActivity_type())) {
+	    	ADao.endLastActivity(dto.getAttendance_id());
+	    }
+
+	    // 새 활동은 end_time 없이 시작
+	    dto.setEnd_time(null);
+	    dto.setActivity_hours(0.0);
+	    ADao.insertActivity(dto);
 	}
 	
-	public int work(AttendanceDTO attendancedto) {	// 업무e
-		// 출근 기록이 있다는 가정 하에 그 기록의 ID를 가져옴.
-		Integer attendanceId = ADao.findTodayAttendanceId(attendancedto.getEmp_loginId());
-
-		if (attendanceId == null) {
-		    throw new IllegalArgumentException("출근 기록이 없습니다.");
-		}
-		LocalDateTime startTime = attendancedto.getCheck_in_time().toLocalDateTime();
-	    LocalDateTime endTime = attendancedto.getCheck_out_time().toLocalDateTime();
-	    
-	    long minutes = ChronoUnit.MINUTES.between(startTime, endTime);
-	    double hours = minutes / 60.0;
-	    
-	    ActivityDTO activity = new ActivityDTO();
-	    activity.setAttendance_id(attendanceId);
-	    activity.setActivity_type("업무"); // 또는 "업무"
-	    activity.setStart_time(attendancedto.getCheck_in_time());
-	    activity.setEnd_time(attendancedto.getCheck_out_time());
-	    activity.setActivity_hours(hours);
-	    
-	    return ADao.work(activity);
-	}
+//	public int outing(AttendanceDTO attendancedto) {	// 외근
+//		// 출근 기록이 있다는 가정 하에 그 기록의 ID를 가져옴.
+//		Integer attendanceId = ADao.findTodayAttendanceId(attendancedto.getEmp_loginId());
+//
+//		if (attendanceId == null) {
+//		    throw new IllegalArgumentException("출근 기록이 없습니다.");
+//		}
+//		LocalDateTime startTime = attendancedto.getCheck_in_time().toLocalDateTime();
+//	    LocalDateTime endTime = attendancedto.getCheck_out_time().toLocalDateTime();
+//	    
+//	    long minutes = ChronoUnit.MINUTES.between(startTime, endTime);
+//	    double hours = minutes / 60.0;
+//	    
+//	    ActivityDTO activity = new ActivityDTO();
+//	    activity.setAttendance_id(attendanceId);
+//	    activity.setActivity_type("외근"); // 또는 "업무"
+//	    activity.setStart_time(attendancedto.getCheck_in_time());
+//	    activity.setEnd_time(attendancedto.getCheck_out_time());
+//	    activity.setActivity_hours(hours);
+//	    
+//	    return ADao.outing(activity);
+//	}
+//	
+//	public int work(AttendanceDTO attendancedto) {	// 업무e
+//		// 출근 기록이 있다는 가정 하에 그 기록의 ID를 가져옴.
+//		Integer attendanceId = ADao.findTodayAttendanceId(attendancedto.getEmp_loginId());
+//
+//		if (attendanceId == null) {
+//		    throw new IllegalArgumentException("출근 기록이 없습니다.");
+//		}
+//		LocalDateTime startTime = attendancedto.getCheck_in_time().toLocalDateTime();
+//	    LocalDateTime endTime = attendancedto.getCheck_out_time().toLocalDateTime();
+//	    
+//	    long minutes = ChronoUnit.MINUTES.between(startTime, endTime);
+//	    double hours = minutes / 60.0;
+//	    
+//	    ActivityDTO activity = new ActivityDTO();
+//	    activity.setAttendance_id(attendanceId);
+//	    activity.setActivity_type("업무"); // 또는 "업무"
+//	    activity.setStart_time(attendancedto.getCheck_in_time());
+//	    activity.setEnd_time(attendancedto.getCheck_out_time());
+//	    activity.setActivity_hours(hours);
+//	    
+//	    return ADao.work(activity);
+//	}
 
 }

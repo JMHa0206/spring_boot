@@ -1,72 +1,75 @@
 package com.kedu.study.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kedu.study.dao.InsaDAO;
+import com.kedu.study.dto.AbsentDTO;
+import com.kedu.study.dto.AdminSummaryDTO;
+import com.kedu.study.dto.LeaveDTO;
+import com.kedu.study.dto.TripDTO;
 import com.kedu.study.dto.WorkSummaryDTO;
 
 @Service
 public class InsaService {
-    
-    @Autowired
-    private InsaDAO IDao;
-    
-    public WorkSummaryDTO getWeeklySummary(String userId) {
-        WorkSummaryDTO dto = new WorkSummaryDTO();
-        System.out.println("1");
-        // 출근한 날 수, 총 근무 시간, 초과 근무 시간 (null-safe)
-        Map<String, Object> workStats = IDao.getWeeklyStats(userId);
-        if (workStats != null) {
-            dto.setWeeklyWorkedDays(
-                workStats.get("worked_days") != null ? (int) workStats.get("worked_days") : 0
-            );
-            dto.setWeeklyWorkHours(
-                workStats.get("total_hours") != null ? (double) workStats.get("total_hours") : 0.0
-            );
-            dto.setTotalOvertime(
-                workStats.get("overtime_hours") != null ? (double) workStats.get("overtime_hours") : 0.0
-            );
-        } else {
-            dto.setWeeklyWorkedDays(0);
-            dto.setWeeklyWorkHours(0.0);
-            dto.setTotalOvertime(0.0);
-        }
 
-        // 평균 출근/퇴근 시간
-        String avgIn = IDao.getAvgCheckIn(userId);
-        String avgOut = IDao.getAvgCheckOut(userId);
-        dto.setAverageCheckIn(avgIn != null ? avgIn : "-");
-        dto.setAverageCheckOut(avgOut != null ? avgOut : "-");
+	@Autowired
+	private InsaDAO IDao;
 
-        // 연속 근무 일수
-        Integer consecutive = IDao.getConsecutiveWorkDays(userId);
-        dto.setConsecutiveDays(consecutive != null ? consecutive : 0);
+	public WorkSummaryDTO getWeeklySummary(String userId) {
+		WorkSummaryDTO dto = new WorkSummaryDTO();
 
-        // 연차 요약 정보 (null-safe)
-        Map<String, Object> annual = IDao.getAnnualSummary(userId);
-        if (annual != null) {
-            dto.setTotalAnnual(
-                annual.get("total") != null ? (int) annual.get("total") : 0
-            );
-            dto.setUsedAnnual(
-                annual.get("used") != null ? (int) annual.get("used") : 0
-            );
-            dto.setRemainingAnnual(
-                annual.get("remaining") != null ? (int) annual.get("remaining") : 0
-            );
-            dto.setExpiringThisYear(
-                annual.get("expiring") != null ? (int) annual.get("expiring") : 0
-            );
-        } else {
-            dto.setTotalAnnual(0);
-            dto.setUsedAnnual(0);
-            dto.setRemainingAnnual(0);
-            dto.setExpiringThisYear(0);
-        }
+		// 주간 근무 현황
+		Map<String, Object> stats = IDao.getWeeklyStats(userId);
+		if (stats != null) {
+			dto.setWeeklyWorkedDays(((Number) stats.getOrDefault("WORKED_DAYS", 0)).intValue());
+			dto.setWeeklyWorkHours(((Number) stats.getOrDefault("TOTAL_HOURS", 0)).doubleValue());
+			dto.setTotalOvertime(((Number) stats.getOrDefault("OVERTIME_HOURS", 0)).doubleValue());
+		}
 
-        return dto;
-    }
+		// 평균 출퇴근
+		dto.setAverageCheckIn(IDao.getAvgCheckIn(userId));
+		dto.setAverageCheckOut(IDao.getAvgCheckOut(userId));
+
+		// 연속 근무
+		dto.setConsecutiveDays(IDao.getConsecutiveWorkDays(userId));
+
+		// 연차
+		Map<String, Object> annual = IDao.getAnnualSummary(userId);
+		if (annual != null) {
+		    dto.setTotalAnnual(((Number) annual.getOrDefault("totalAnnual", 0)).intValue());
+		    dto.setUsedAnnual(((Number) annual.getOrDefault("usedAnnual", 0)).intValue());
+		    dto.setRemainingAnnual(((Number) annual.getOrDefault("remainingAnnual", 0)).intValue());
+		    dto.setExpiringThisYear(((Number) annual.getOrDefault("expiringThisYear", 0)).intValue());
+		
+		}
+
+
+		return dto;
+	}
+
+	public AdminSummaryDTO getAdminSummary() {
+		AdminSummaryDTO dto = new AdminSummaryDTO();
+
+		List<TripDTO> trips = IDao.getTodayTrips();
+		List<LeaveDTO> leaves = IDao.getTodayLeaves(); // 추후 구현 or dummy
+		List<AbsentDTO> absents = IDao.getAbsentEmployees();
+
+		dto.setPersonalBusinessTrips(trips);
+		dto.setDepartmentLeaves(leaves);
+		dto.setNotCheckedInToday(absents);
+		System.out.println("📋 휴가자 수: " + leaves.size());
+		for (LeaveDTO leave : leaves) {
+		    System.out.println(" - " + leave.getEmpName() + " | " + leave.getLeaveDate() + " | " + leave.getType());
+		}
+
+		
+		
+
+		return dto;
+	}
+
 }

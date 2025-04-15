@@ -53,8 +53,15 @@ public class BoardDAO {
         return mybatis.update("board.increaseLikeCount", post_id); 
     }
     
-    //네비게이터
+    // 게시글 목록 조회
     public List<BoardDTO> selectBoardList(Map<String, Object> paramMap) {
         return mybatis.selectList("board.selectBoardList", paramMap);
     }
+
+    // 게시글 개수 조회
+    public int countBoard(int parentBoard) {
+        return mybatis.selectOne("board.countBoard", parentBoard);
+    }
+    
+  
 }
