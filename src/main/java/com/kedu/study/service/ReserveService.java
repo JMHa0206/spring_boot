@@ -10,6 +10,7 @@ import com.kedu.study.dto.RescTypeDTO;
 import com.kedu.study.dto.ReserveDTO;
 import com.kedu.study.dto.ResourceDTO;
 
+
 @Service
 public class ReserveService {
 	@Autowired
@@ -38,5 +39,12 @@ public class ReserveService {
 	public List<ReserveDTO> getMyResv(int id){
 		return rDao.getMyResv(id);
 	}
+	
+	public boolean isOverlapping(ReserveDTO reservation) {
+		int count = rDao.isOverlapping(reservation);
+		System.out.println(count);
+	    return count > 0;
+	}
+
 
 }

@@ -39,5 +39,9 @@ public class ReserveDAO {
 	public List<ReserveDTO> getMyResv(int id){
 		return mybatis.selectList("reserve.getMyResv", id);
 	}
+	
+	public int isOverlapping(ReserveDTO reservation) {
+		return mybatis.selectOne("reserve.isOverlapping", reservation);
+	}
 
 }
