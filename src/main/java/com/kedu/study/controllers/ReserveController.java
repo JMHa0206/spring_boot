@@ -3,6 +3,7 @@ package com.kedu.study.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,12 +39,16 @@ public class ReserveController {
 	
 	@PostMapping("/addReserve")
 	public ResponseEntity<?> addReserve(@RequestBody ReserveDTO reservation){
+		if (rServ.isOverlapping(reservation)) {
+		    return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 해당 시간대에 예약이 존재합니다.");
+		}
 		rServ.addReserve(reservation);
 		return ResponseEntity.ok().build();
 	}
 	
 	@GetMapping("/reservations")
 	public ResponseEntity<List<ReserveDTO>> getAllResv(){
+		
 		List<ReserveDTO> list = rServ.getAllResv();
 		return ResponseEntity.ok(list);
 	}
