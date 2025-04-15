@@ -10,6 +10,7 @@ import com.kedu.study.dao.InsaDAO;
 import com.kedu.study.dto.AbsentDTO;
 import com.kedu.study.dto.AdminSummaryDTO;
 import com.kedu.study.dto.LeaveDTO;
+import com.kedu.study.dto.OvertimeDTO;
 import com.kedu.study.dto.TripDTO;
 import com.kedu.study.dto.WorkSummaryDTO;
 
@@ -61,15 +62,12 @@ public class InsaService {
 		dto.setPersonalBusinessTrips(trips);
 		dto.setDepartmentLeaves(leaves);
 		dto.setNotCheckedInToday(absents);
-		System.out.println("📋 휴가자 수: " + leaves.size());
-		for (LeaveDTO leave : leaves) {
-		    System.out.println(" - " + leave.getEmpName() + " | " + leave.getLeaveDate() + " | " + leave.getType());
-		}
-
-		
-		
 
 		return dto;
+	}
+
+	public List<OvertimeDTO> getMonthlyOvertimeList(){
+		return IDao.getMonthlyOvertimeList();
 	}
 
 }
