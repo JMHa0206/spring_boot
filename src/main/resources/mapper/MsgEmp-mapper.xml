@@ -145,12 +145,14 @@ ORDER BY m1.SEND_DATE DESC
 		insert into msg values(chatroom_seq.nextval,#{mergedStr},#{myId},#{mergedStr},#{numMembers})
 	</insert>
 	
-	<delete id="deleteRoom" parameterType="java.lang.Integer">
-		delete from msg where msg_group_id = #{msgGroupId}
-	</delete>
+	<update id="quitRoom" parameterType="java.util.Map">
+		update msg 
+		set  
+			group_member = TRIM(',' FROM REPLACE(CONCAT(CONCAT(',', group_member), ','), CONCAT(CONCAT(',', #{myId}), ','), '')), 
+		msg_group_name = TRIM(',' FROM REPLACE(CONCAT(CONCAT(',', msg_group_name), ','), CONCAT(CONCAT(',', #{myId}), ','), '')), 
+        	num_members = num_members-1 
+        	where msg_group_id = #{msgGroupId}
+	</update>
 	
-	<delete id="deleteMessages" parameterType="java.lang.Integer">
-		delete from messages where msg_group_id = #{msgGroupId}
-	</delete>
 		
 </mapper>
