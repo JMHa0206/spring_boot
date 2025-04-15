@@ -67,5 +67,11 @@
 	    #{target_id}
 	  )
 	</insert>
+	
+	<delete id="deleteCalendar" parameterType="int">
+		DELETE 
+		  FROM calendar
+		 WHERE c_id = ${id}
+	</delete>
 
 </mapper>
