@@ -71,5 +71,9 @@ public class MsgEmpService {
 	public int inviteToChat(Map<String,Object> data,List<Integer> mergedList) {
 		return eDao.inviteToChat(data,mergedList);
 	}
+	
+	public int deleteRoom(Integer msgGroupId) {
+		return eDao.deleteRoom(msgGroupId);
+	}
 
 }

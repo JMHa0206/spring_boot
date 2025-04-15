@@ -61,7 +61,8 @@
 	e.EMP_NAME,
 	e.EMP_CODE_ID,
 	m1.SEND_DATE LAST_SEND_DATE,
-	m1.MSG_CONTENT LAST_MSG
+	m1.MSG_CONTENT LAST_MSG,
+	m1.MSG_GROUP_ID
 FROM (
 	SELECT 
 		REGEXP_SUBSTR(g.GROUP_MEMBER, '[^,]+', 1, LEVEL) EMP_ID,
@@ -144,5 +145,12 @@ ORDER BY m1.SEND_DATE DESC
 		insert into msg values(chatroom_seq.nextval,#{mergedStr},#{myId},#{mergedStr},#{numMembers})
 	</insert>
 	
+	<delete id="deleteRoom" parameterType="java.lang.Integer">
+		delete from msg where msg_group_id = #{msgGroupId}
+	</delete>
+	
+	<delete id="deleteMessages" parameterType="java.lang.Integer">
+		delete from messages where msg_group_id = #{msgGroupId}
+	</delete>
 		
 </mapper>
