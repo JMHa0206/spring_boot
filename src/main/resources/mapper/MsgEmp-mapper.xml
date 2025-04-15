@@ -146,13 +146,13 @@ ORDER BY m1.SEND_DATE DESC
 	</insert>
 	
 	<update id="quitRoom" parameterType="java.util.Map">
-		update msg 
-		set  
-			group_member = TRIM(',' FROM REPLACE(CONCAT(CONCAT(',', group_member), ','), CONCAT(CONCAT(',', #{myId}), ','), '')), 
-		msg_group_name = TRIM(',' FROM REPLACE(CONCAT(CONCAT(',', msg_group_name), ','), CONCAT(CONCAT(',', #{myId}), ','), '')), 
-        	num_members = num_members-1 
-        	where msg_group_id = #{msgGroupId}
-	</update>
+  UPDATE msg
+  SET 
+    group_member = TRIM(',' FROM REGEXP_REPLACE(',' || group_member || ',', ',' || #{myId, jdbcType=VARCHAR} || ',', ',')),
+    msg_group_name = TRIM(',' FROM REGEXP_REPLACE(',' || msg_group_name || ',', ',' || #{myId, jdbcType=VARCHAR} || ',', ',')),
+    num_members = num_members - 1
+  WHERE msg_group_id = #{msgGroupId}
+</update>
 	
 		
 </mapper>
