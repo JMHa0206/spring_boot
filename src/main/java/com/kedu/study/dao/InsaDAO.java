@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kedu.study.dto.AbsentDTO;
 import com.kedu.study.dto.LeaveDTO;
+import com.kedu.study.dto.OvertimeDTO;
 import com.kedu.study.dto.TripDTO;
 
 @Repository
@@ -56,6 +57,9 @@ public class InsaDAO {
 	public List<AbsentDTO> getAbsentEmployees() {
 	    return mybatis.selectList(nameSpace+".getAbsentEmployees");
 	}
-	
+	public List<OvertimeDTO> getWeeklyOvertimeRecords(){
+		return mybatis.selectList(nameSpace+".getWeeklyOvertimeRecords");
+	};
+
 
 }
