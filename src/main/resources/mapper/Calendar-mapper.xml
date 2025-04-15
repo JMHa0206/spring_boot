@@ -73,5 +73,12 @@
 		  FROM calendar
 		 WHERE c_id = ${id}
 	</delete>
+	
+	<update id="updateCalendar">
+		UPDATE calendar
+		   SET c_title = #{c_title},
+        	   color = #{color}
+    	 WHERE c_id = #{c_id}
+	</update>
 
 </mapper>

@@ -45,5 +45,9 @@ public class CalendarService {
 		cDao.deleteCalendar(id);
 	}
 	
+	public void updateCalendar(CalendarDTO calendar) {
+		cDao.updateCalendar(calendar);
+	}
+	
 
 }

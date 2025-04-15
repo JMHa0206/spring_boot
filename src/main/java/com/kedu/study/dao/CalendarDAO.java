@@ -41,6 +41,10 @@ public class CalendarDAO {
 	public void deleteCalendar(int id) {
 		mybatis.delete("calendar.deleteCalendar", id);
 	}
+	
+	public void updateCalendar(CalendarDTO calendar) {
+		mybatis.update("calender.updateCalendar", calendar);
+	}
 
 
 }
