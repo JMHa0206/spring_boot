@@ -72,8 +72,8 @@ public class MsgEmpService {
 		return eDao.inviteToChat(data,mergedList);
 	}
 	
-	public int deleteRoom(Integer msgGroupId) {
-		return eDao.deleteRoom(msgGroupId);
+	public int quitRoom(Integer myId,Integer msgGroupId) {
+		return eDao.quitRoom(myId,msgGroupId);
 	}
 
 }
