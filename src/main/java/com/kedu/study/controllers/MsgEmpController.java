@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -147,6 +148,15 @@ public class MsgEmpController {
 		int seq = eServ.inviteToChat(data,mergedList);
 		
 		return ResponseEntity.ok(seq);
+	}
+	
+	@PutMapping("/quitRoom")
+	public ResponseEntity<?> quitRoom(@RequestBody Map<String,Object> data){
+		Integer myId = (Integer)data.get("myId");
+	    Integer msgGroupId = (Integer)data.get("msgGroupId"); 
+		eServ.quitRoom(myId,msgGroupId);
+		
+		return ResponseEntity.ok(null);
 	}
 
 	

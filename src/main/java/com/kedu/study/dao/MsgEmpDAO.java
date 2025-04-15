@@ -96,4 +96,13 @@ public class MsgEmpDAO {
 		mybatis.insert("MsgEmp.inviteToChat",data);
 		return (int)data.get("seq");
 	}
+	
+	public int quitRoom(Integer myId,Integer msgGroupId) {
+			Map<String,Object> map = new HashMap<>();
+			map.put("myId", myId);
+			map.put("msgGroupId", msgGroupId);
+		
+		return mybatis.update("MsgEmp.quitRoom",map);
+		
+	}
 }
