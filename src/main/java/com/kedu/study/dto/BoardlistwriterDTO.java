@@ -2,7 +2,7 @@ package com.kedu.study.dto;
 
 import java.util.Date;
 
-public class BoardDTO {
+public class BoardlistwriterDTO {
 	private Integer post_id; 
     private Integer parent_board;//
     private Integer post_writer;
@@ -80,9 +80,10 @@ public class BoardDTO {
 	public void setEmp_name(String emp_name) {
 		this.emp_name = emp_name;
 	}
-	public BoardDTO(){}
-	public BoardDTO(Integer post_id, Integer parent_board, Integer post_writer, String post_title, String post_content,
-			Date post_date, Integer post_view, Integer post_like, String post_per, String post_tag, String emp_name) {
+	BoardlistwriterDTO(){}
+	public BoardlistwriterDTO(Integer post_id, Integer parent_board, Integer post_writer, String post_title,
+			String post_content, Date post_date, Integer post_view, Integer post_like, String post_per, String post_tag,
+			String emp_name) {
 		super();
 		this.post_id = post_id;
 		this.parent_board = parent_board;
@@ -96,10 +97,8 @@ public class BoardDTO {
 		this.post_tag = post_tag;
 		this.emp_name = emp_name;
 	}
-	
-	
-	
-	
-
-	
+    
+    
+    
+    
 }
