@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.kedu.study.dao.InsaDAO;
 import com.kedu.study.dto.AbsentDTO;
 import com.kedu.study.dto.AdminSummaryDTO;
+import com.kedu.study.dto.DepartmentAttendanceDTO;
+import com.kedu.study.dto.Departsimple;
 import com.kedu.study.dto.LeaveDTO;
 import com.kedu.study.dto.OvertimeDTO;
 import com.kedu.study.dto.TripDTO;
@@ -68,6 +70,16 @@ public class InsaService {
 
 	public List<OvertimeDTO> getMonthlyOvertimeList(){
 		return IDao.getMonthlyOvertimeList();
+	}
+	// 부서별 출/퇴근 및 근무 기록 에서 부서 선택
+	public List<Departsimple> getAllDepartments(){
+		return IDao.getAllDepartments();
+	}
+	
+	// 부서별 출퇴근 
+	public List<DepartmentAttendanceDTO> getDepartments(int deptId, int page, int size){
+		int offset = (page -1 ) * size;
+		return IDao.getDepartments(deptId, offset, size);
 	}
 
 }
