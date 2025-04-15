@@ -137,6 +137,12 @@ ORDER BY m1.SEND_DATE DESC
         ON m.msg_group_id = mg.msg_group_id
 	</select>
 	
+	<insert id="inviteToChat" parameterType="map">
+	<selectKey keyProperty="seq" resultType="int" order="AFTER">
+        SELECT chatroom_seq.currval FROM dual
+    </selectKey>
+		insert into msg values(chatroom_seq.nextval,#{mergedStr},#{myId},#{mergedStr},#{numMembers})
+	</insert>
 	
 		
 </mapper>

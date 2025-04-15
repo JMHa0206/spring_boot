@@ -25,9 +25,16 @@ import com.kedu.study.service.MsgEmpService;
 @RequestMapping("/Employee")
 public class MsgEmpController {
 
+    private final BoardController boardController;
+
 
 	@Autowired
 	private MsgEmpService eServ;
+
+
+    MsgEmpController(BoardController boardController) {
+        this.boardController = boardController;
+    }
 
 
 	@GetMapping("/SelectEmp")
@@ -126,10 +133,20 @@ public class MsgEmpController {
 		return ResponseEntity.ok(list);
 	}
 	
-	@GetMapping("/existGroupRoom")
-	public ResponseEntity<?> existGroupRoom(){
+	@PostMapping("/inviteToChat")
+	public ResponseEntity<?> inviteToChat(@RequestBody Map<String,Object> data){
+		Integer myId = (Integer)data.get("myId");
+		List<Integer> selected = (List<Integer>)data.get("selected");
+		List<Integer> empId = (List<Integer>)data.get("empId");
 		
-		return ResponseEntity.ok(null);
+		List<Integer> mergedList = new ArrayList<>();
+		mergedList.add(myId);
+		mergedList.addAll(selected);
+		mergedList.addAll(empId);
+		
+		int seq = eServ.inviteToChat(data,mergedList);
+		
+		return ResponseEntity.ok(seq);
 	}
 
 	
