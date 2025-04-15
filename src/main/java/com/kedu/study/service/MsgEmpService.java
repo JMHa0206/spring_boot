@@ -68,5 +68,12 @@ public class MsgEmpService {
 		return eDao.getGroupInfo(groupId);
 	}
 	
+	public int inviteToChat(Map<String,Object> data,List<Integer> mergedList) {
+		return eDao.inviteToChat(data,mergedList);
+	}
+	
+	public int quitRoom(Integer myId,Integer msgGroupId) {
+		return eDao.quitRoom(myId,msgGroupId);
+	}
 
 }

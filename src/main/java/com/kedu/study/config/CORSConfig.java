@@ -15,4 +15,5 @@ public class CORSConfig implements WebMvcConfigurer {
             .allowedHeaders("*");
 
     }
+
 }

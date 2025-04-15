@@ -99,33 +99,28 @@
 
 
 	<!-- ✅ 오늘 외근 조회 -->
-	<select
-		id="getTodayTrips" resultType="com.kedu.study.dto.TripDTO">
+	<select id="getTodayTrips" resultType="com.kedu.study.dto.TripDTO">
 		SELECT
-		e.emp_name AS empName,
-		TO_CHAR(a.start_time, 'YYYY-MM-DD') AS date,
-		'출장지' AS location
-		FROM activity a
-		JOIN attendance t ON a.attendance_id = t.attendance_id
-		JOIN employee e ON t.emp_loginId = e.emp_loginId
-		WHERE a.activity_type = '외근'
-		AND TRUNC(a.start_time) = TRUNC(SYSDATE)
+		e.emp_name AS empName, TO_CHAR(a.start_time, 'YYYY-MM-DD') AS tripDate,
+		'출장지' AS location FROM activity a JOIN attendance t ON a.attendance_id =
+		t.attendance_id JOIN employee e ON t.emp_loginId = e.emp_loginId WHERE
+		a.activity_type = '외근' AND TRUNC(a.start_time) = TRUNC(SYSDATE)
 	</select>
 
+
 	<!-- ✅ 오늘 휴가자 조회 -->
-	<select
-		id="getTodayLeaves" resultType="com.kedu.study.dto.LeaveDTO">
+	<select id="getTodayLeaves" resultType="com.kedu.study.dto.LeaveDTO">
 		SELECT
 		e.emp_name AS empName,
-		TO_CHAR(u.start_date, 'YYYY-MM-DD') AS date,
+		TO_CHAR(u.start_date, 'YYYY-MM-DD') AS leaveDate,
 		t.type_code AS type
 		FROM LEAVE_USAGE u
 		JOIN LEAVE_TYPE t ON u.type_id = t.type_id
-		JOIN employee e ON u.parent_emp_id = e.emp_code_id
-		WHERE TRUNC(u.start_date) &lt;= TRUNC(SYSDATE)
-		AND TRUNC(u.end_date) &gt;= TRUNC(SYSDATE)
-		AND u.approval_status = 'APPROVED'
+		JOIN employee e ON u.employee_id = e.emp_code_id
+		WHERE TRUNC(SYSDATE) BETWEEN TRUNC(u.start_date) AND TRUNC(u.end_date)
+		AND TRIM(UPPER(u.approval_status)) = 'APPROVED'
 	</select>
+
 
 	<!-- ✅ 오늘 출근 안 한 인원 -->
 	<select
@@ -141,5 +136,58 @@
 		WHERE TRUNC(record_date) = TRUNC(SYSDATE)
 		)
 	</select>
+	<!-- 이 달 초과근무s -->
+	<select id="getMonthlyOvertimeList"
+		resultType="com.kedu.study.dto.OvertimeDTO">
+		SELECT
+		e.emp_name AS empName,
+		d.dept_name AS deptName,
+		ROUND(SUM(a.work_hours), 1) AS workHours,
+		ROUND(SUM(a.overtime_hours), 1) AS overtimeHours
+		FROM attendance a
+		JOIN employee e ON a.emp_loginId = e.emp_loginId
+		JOIN department d ON e.emp_dept_id = d.dept_id
+		WHERE TRUNC(a.record_date, 'MM') = TRUNC(SYSDATE, 'MM')
+		AND a.overtime_hours > 0
+		GROUP BY e.emp_name, d.dept_name
+		ORDER BY overtimeHours DESC
+	</select>
+	<!--부서출력-->
+	<select id="getAllDepartments" resultType="com.kedu.study.dto.Departsimple">
+		SELECT dept_id, dept_name
+		FROM department
+		ORDER BY dept_id ASC
+	</select>
+	<!-- 부서 출근 출력-->
+	<select id="getDepartments" parameterType="map" resultType="com.kedu.study.dto.DepartmentAttendanceDTO">
+ 	 SELECT *
+  	FROM (
+    SELECT
+      TO_CHAR(a.record_date, 'YYYY-MM-DD') AS workDate, <!-- ✅ 날짜 추가 -->
+      a.emp_name AS empName,
+      a.dept_name AS deptName,
+      TO_CHAR(a.check_in_time, 'HH24:MI') AS checkInTime,
+      TO_CHAR(a.check_out_time, 'HH24:MI') AS checkOutTime,
+      a.work_hours AS workHours,
+      ROWNUM AS rnum
+    FROM (
+      SELECT
+        a.record_date,
+        e.emp_name,
+        d.dept_name,
+        a.check_in_time,
+        a.check_out_time,
+        a.work_hours
+      FROM attendance a
+      JOIN employee e ON a.emp_loginId = e.emp_loginId
+      JOIN department d ON e.emp_dept_id = d.dept_id
+      WHERE d.dept_id = #{deptId}
+      ORDER BY a.record_date DESC
+    ) a
+    WHERE ROWNUM &lt;= #{offset} + #{size}
+  	)
+ 	 WHERE rnum > #{offset}
+</select>
+
 
 </mapper>
