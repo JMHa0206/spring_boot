@@ -96,4 +96,10 @@ public class MsgEmpDAO {
 		mybatis.insert("MsgEmp.inviteToChat",data);
 		return (int)data.get("seq");
 	}
+	
+	public int deleteRoom(Integer msgGroupId) {
+		int deleteMsg = mybatis.delete("MsgEmp.deleteRoom",msgGroupId);
+		int deleteMessages = mybatis.delete("MsgEmp.deleteMessages",msgGroupId);
+		return deleteMsg + deleteMessages;
+	}
 }
