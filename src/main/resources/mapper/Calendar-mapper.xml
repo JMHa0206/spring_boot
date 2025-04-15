@@ -69,12 +69,12 @@
 	</insert>
 	
 	<delete id="deleteCalendar" parameterType="int">
-		DELETE 
-		  FROM calendar
-		 WHERE c_id = ${id}
+	{
+		CALL PROC_DELETE_CALENDAR (${id})
+	}
 	</delete>
 	
-	<update id="updateCalendar">
+	<update id="updateCalendar" parameterType="com.kedu.study.dto.CalendarDTO">
 		UPDATE calendar
 		   SET c_title = #{c_title},
         	   color = #{color}

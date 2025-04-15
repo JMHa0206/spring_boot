@@ -43,7 +43,7 @@ public class CalendarDAO {
 	}
 	
 	public void updateCalendar(CalendarDTO calendar) {
-		mybatis.update("calender.updateCalendar", calendar);
+		mybatis.update("calendar.updateCalendar", calendar);
 	}
 
 
