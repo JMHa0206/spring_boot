@@ -152,5 +152,42 @@
 		GROUP BY e.emp_name, d.dept_name
 		ORDER BY overtimeHours DESC
 	</select>
+	<!--부서출력-->
+	<select id="getAllDepartments" resultType="com.kedu.study.dto.Departsimple">
+		SELECT dept_id, dept_name
+		FROM department
+		ORDER BY dept_id ASC
+	</select>
+	<!-- 부서 출근 출력-->
+	<select id="getDepartments" parameterType="map" resultType="com.kedu.study.dto.DepartmentAttendanceDTO">
+ 	 SELECT *
+  	FROM (
+    SELECT
+      TO_CHAR(a.record_date, 'YYYY-MM-DD') AS workDate, <!-- ✅ 날짜 추가 -->
+      a.emp_name AS empName,
+      a.dept_name AS deptName,
+      TO_CHAR(a.check_in_time, 'HH24:MI') AS checkInTime,
+      TO_CHAR(a.check_out_time, 'HH24:MI') AS checkOutTime,
+      a.work_hours AS workHours,
+      ROWNUM AS rnum
+    FROM (
+      SELECT
+        a.record_date,
+        e.emp_name,
+        d.dept_name,
+        a.check_in_time,
+        a.check_out_time,
+        a.work_hours
+      FROM attendance a
+      JOIN employee e ON a.emp_loginId = e.emp_loginId
+      JOIN department d ON e.emp_dept_id = d.dept_id
+      WHERE d.dept_id = #{deptId}
+      ORDER BY a.record_date DESC
+    ) a
+    WHERE ROWNUM &lt;= #{offset} + #{size}
+  	)
+ 	 WHERE rnum > #{offset}
+</select>
+
 
 </mapper>
