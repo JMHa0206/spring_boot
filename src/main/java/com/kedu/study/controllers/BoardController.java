@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.kedu.study.controllers.EDMS.EDMSCategoryController;
 import com.kedu.study.dto.BoardDTO;
+import com.kedu.study.dto.BoardlistwriterDTO;
 import com.kedu.study.service.BoardService;
 
 
@@ -84,7 +86,8 @@ public class BoardController {
 	    //네비게이터
 	    @GetMapping("/navigator")
 	    public ResponseEntity<Map<String, Object>> getPagedList(
-	        @RequestParam("page") int page,
+
+	    	@RequestParam("page") int page,
 	        @RequestParam("size") int size,
 	        @RequestParam("parent_board") int parentBoard 
 	    ) {
@@ -103,7 +106,16 @@ public class BoardController {
 	        return ResponseEntity.ok(result);
 	    }
 	    
-	  
+//	    @GetMapping("/board/{postId}")
+//	    public ResponseEntity<BoardDTO> getBoard(@PathVariable Integer postId) {
+//	        BoardDTO boardDTO = boardService.getBoardById(postId);
+//	        
+//	        if (boardDTO != null) {
+//	            return ResponseEntity.ok(boardDTO);
+//	        } else {
+//	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+//	        }
+//	    }
 
 }
 

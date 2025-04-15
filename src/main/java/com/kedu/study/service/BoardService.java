@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.kedu.study.dao.BoardDAO;
 import com.kedu.study.dto.BoardDTO;
+import com.kedu.study.dto.BoardlistwriterDTO;
 
 @Service
 public class BoardService {
@@ -69,7 +70,8 @@ public class BoardService {
 	        return bdao.countBoard(parentBoard); 
 	    }
 	    
+	 
+	    }
 	   
 	    
 	    
-}

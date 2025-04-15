@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kedu.study.dto.BoardDTO;
+import com.kedu.study.dto.BoardlistwriterDTO;
 
 
 
