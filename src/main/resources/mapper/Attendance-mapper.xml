@@ -69,7 +69,7 @@
 		WHERE ROWNUM = 1
 	</select>
 
-	<!-- 활동 기록 (출근/퇴근/외근/업무 공통) -->
+	<!-- 활동 기록 (출근/퇴근/외근/업무 공통)e -->
 	<insert id="insertActivity" parameterType="com.kedu.study.dto.ActivityDTO">
 		INSERT INTO activity (
 		activity_id, attendance_id, activity_type, start_time, end_time,
