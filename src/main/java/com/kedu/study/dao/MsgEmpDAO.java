@@ -97,9 +97,12 @@ public class MsgEmpDAO {
 		return (int)data.get("seq");
 	}
 	
-	public int deleteRoom(Integer msgGroupId) {
-		int deleteMsg = mybatis.delete("MsgEmp.deleteRoom",msgGroupId);
-		int deleteMessages = mybatis.delete("MsgEmp.deleteMessages",msgGroupId);
-		return deleteMsg + deleteMessages;
+	public int quitRoom(Integer myId,Integer msgGroupId) {
+			Map<String,Object> map = new HashMap<>();
+			map.put("myId", myId);
+			map.put("msgGroupId", msgGroupId);
+		
+		return mybatis.update("MsgEmp.quitRoom",map);
+		
 	}
 }
