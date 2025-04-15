@@ -136,5 +136,21 @@
 		WHERE TRUNC(record_date) = TRUNC(SYSDATE)
 		)
 	</select>
+	<!-- 이 달 초과근무s -->
+	<select id="getMonthlyOvertimeList"
+		resultType="com.kedu.study.dto.OvertimeDTO">
+		SELECT
+		e.emp_name AS empName,
+		d.dept_name AS deptName,
+		ROUND(SUM(a.work_hours), 1) AS workHours,
+		ROUND(SUM(a.overtime_hours), 1) AS overtimeHours
+		FROM attendance a
+		JOIN employee e ON a.emp_loginId = e.emp_loginId
+		JOIN department d ON e.emp_dept_id = d.dept_id
+		WHERE TRUNC(a.record_date, 'MM') = TRUNC(SYSDATE, 'MM')
+		AND a.overtime_hours > 0
+		GROUP BY e.emp_name, d.dept_name
+		ORDER BY overtimeHours DESC
+	</select>
 
 </mapper>
