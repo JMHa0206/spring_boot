@@ -57,9 +57,9 @@ public class InsaDAO {
 	public List<AbsentDTO> getAbsentEmployees() {
 	    return mybatis.selectList(nameSpace+".getAbsentEmployees");
 	}
-	public List<OvertimeDTO> getWeeklyOvertimeRecords(){
-		return mybatis.selectList(nameSpace+".getWeeklyOvertimeRecords");
-	};
+	public List<OvertimeDTO> getMonthlyOvertimeList(){
+		return mybatis.selectList(nameSpace+".getMonthlyOvertimeList");
+	}
 
 
 }

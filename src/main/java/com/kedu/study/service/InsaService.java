@@ -65,9 +65,9 @@ public class InsaService {
 
 		return dto;
 	}
-	public List<OvertimeDTO> getWeeklyOvertimeRecords() {
-	    return IDao.getWeeklyOvertimeRecords();
-	}
 
+	public List<OvertimeDTO> getMonthlyOvertimeList(){
+		return IDao.getMonthlyOvertimeList();
+	}
 
 }
