@@ -1,7 +1,7 @@
 package com.kedu.study.dto;
 
 import java.sql.Timestamp;
-
+// 조휘영
 public class ActivityDTO {
 	private int activity_id;
 	private int attendance_id;

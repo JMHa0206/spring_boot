@@ -79,5 +79,10 @@ public class InsaDAO {
 		
 		return mybatis.selectList(nameSpace+".getDepartments", params);
 	}
+	
+	public void generateAnnualForAllEmployees() {
+	    mybatis.insert(nameSpace+".insertAnnualForAll");
+	}
+
 
 }

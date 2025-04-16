@@ -29,58 +29,61 @@
 	<select
 		id="getAvgCheckIn" parameterType="string" resultType="string">
 		SELECT
-		LPAD(FLOOR(AVG_MINS / 60), 2, '0') || ':' || LPAD(FLOOR(MOD(AVG_MINS,
-		60)), 2, '0') AS avg_check_in
+		LPAD(FLOOR(AVG(MIN_MINS) / 60), 2, '0') || ':' ||
+		LPAD(FLOOR(MOD(AVG(MIN_MINS), 60)), 2, '0') AS avg_check_in
 		FROM (
 		SELECT
-		AVG(TO_NUMBER(TO_CHAR(start_time, 'HH24')) * 60 +
-		TO_NUMBER(TO_CHAR(start_time, 'MI'))) AS AVG_MINS
-		FROM activity
-		WHERE activity_type = '출근'
-		AND start_time &gt;= TRUNC(SYSDATE, 'IW')
-		AND start_time &lt; TRUNC(SYSDATE, 'IW') + 7
-		AND attendance_id IN (
-		SELECT attendance_id FROM attendance WHERE emp_loginId = #{userId}
-		))
+		MIN(TO_NUMBER(TO_CHAR(a.start_time, 'HH24')) * 60 +
+		TO_NUMBER(TO_CHAR(a.start_time, 'MI'))) AS MIN_MINS
+		FROM activity a
+		JOIN attendance t ON a.attendance_id = t.attendance_id
+		WHERE a.activity_type = '출근'
+		AND t.emp_loginId = #{userId}
+		AND a.start_time BETWEEN TRUNC(SYSDATE, 'IW') AND TRUNC(SYSDATE, 'IW') +
+		6
+		GROUP BY TRUNC(a.start_time)
+		)
 	</select>
 
 	<!-- ✅ 평균 퇴근 시간 d-->
 	<select
 		id="getAvgCheckOut" parameterType="string" resultType="string">
 		SELECT
-		LPAD(FLOOR(AVG_MINS / 60), 2, '0') || ':' || LPAD(FLOOR(MOD(AVG_MINS,
-		60)), 2, '0') AS avg_check_out
+		LPAD(FLOOR(AVG(MAX_MINS) / 60), 2, '0') || ':' ||
+		LPAD(FLOOR(MOD(AVG(MAX_MINS), 60)), 2, '0') AS avg_check_out
 		FROM (
 		SELECT
-		AVG(TO_NUMBER(TO_CHAR(end_time, 'HH24')) * 60 +
-		TO_NUMBER(TO_CHAR(end_time, 'MI'))) AS AVG_MINS
-		FROM activity
-		WHERE activity_type = '퇴근'
-		AND end_time &gt;= TRUNC(SYSDATE, 'IW')
-		AND end_time &lt; TRUNC(SYSDATE, 'IW') + 7
-		AND attendance_id IN (
-		SELECT attendance_id FROM attendance WHERE emp_loginId = #{userId}
-		)
+		MAX(TO_NUMBER(TO_CHAR(a.end_time, 'HH24')) * 60 +
+		TO_NUMBER(TO_CHAR(a.end_time, 'MI'))) AS MAX_MINS
+		FROM activity a
+		JOIN attendance t ON a.attendance_id = t.attendance_id
+		WHERE a.activity_type = '퇴근'
+		AND t.emp_loginId = #{userId}
+		AND a.end_time BETWEEN TRUNC(SYSDATE, 'IW') AND TRUNC(SYSDATE, 'IW') + 6
+		GROUP BY TRUNC(a.end_time)
 		)
 	</select>
 
 	<!-- ✅ 연속 근속일 계산 (수정된 버전) -->
-	<select
-		id="getConsecutiveWorkDays" parameterType="string" resultType="int">
+	<select id="getConsecutiveWorkDays" parameterType="string" resultType="int">
 		SELECT MAX(CNT) AS consecutive_days
 		FROM (
 		SELECT COUNT(*) AS CNT
 		FROM (
-		SELECT record_date,
-		record_date - ROW_NUMBER() OVER (ORDER BY record_date) AS grp
+		SELECT work_date,
+		work_date - ROW_NUMBER() OVER (ORDER BY work_date) AS grp
+		FROM (
+		SELECT DISTINCT TRUNC(record_date) AS work_date
 		FROM attendance
 		WHERE emp_loginId = #{userId}
 		AND check_in_time IS NOT NULL
-		AND record_date &gt;= TRUNC(SYSDATE) - 14
+		AND TRUNC(record_date) >= TRUNC(SYSDATE) - 14
+		)
 		)
 		GROUP BY grp
 		)
 	</select>
+
 	<!-- ✅ 연차 요약 (완전 수정본) -->
 	<select id="getAnnualSummary" parameterType="string"
 		resultMap="annualSummaryMap">
@@ -159,35 +162,49 @@
 		ORDER BY dept_id ASC
 	</select>
 	<!-- 부서 출근 출력-->
-	<select id="getDepartments" parameterType="map" resultType="com.kedu.study.dto.DepartmentAttendanceDTO">
- 	 SELECT *
-  	FROM (
-    SELECT
-      TO_CHAR(a.record_date, 'YYYY-MM-DD') AS workDate, <!-- ✅ 날짜 추가 -->
-      a.emp_name AS empName,
-      a.dept_name AS deptName,
-      TO_CHAR(a.check_in_time, 'HH24:MI') AS checkInTime,
-      TO_CHAR(a.check_out_time, 'HH24:MI') AS checkOutTime,
-      a.work_hours AS workHours,
-      ROWNUM AS rnum
-    FROM (
-      SELECT
-        a.record_date,
-        e.emp_name,
-        d.dept_name,
-        a.check_in_time,
-        a.check_out_time,
-        a.work_hours
-      FROM attendance a
-      JOIN employee e ON a.emp_loginId = e.emp_loginId
-      JOIN department d ON e.emp_dept_id = d.dept_id
-      WHERE d.dept_id = #{deptId}
-      ORDER BY a.record_date DESC
-    ) a
-    WHERE ROWNUM &lt;= #{offset} + #{size}
-  	)
- 	 WHERE rnum > #{offset}
-</select>
+	<select id="getDepartments" parameterType="map"
+		resultType="com.kedu.study.dto.DepartmentAttendanceDTO"> SELECT * FROM (
+		SELECT TO_CHAR(a.record_date, 'YYYY-MM-DD') AS workDate, <!-- ✅ 날짜 추가 --> a.emp_name AS
+		empName, a.dept_name AS deptName, TO_CHAR(a.check_in_time, 'HH24:MI') AS
+		checkInTime, TO_CHAR(a.check_out_time, 'HH24:MI') AS checkOutTime,
+		a.work_hours AS workHours, ROWNUM AS rnum FROM ( SELECT a.record_date,
+		e.emp_name, d.dept_name, a.check_in_time, a.check_out_time, a.work_hours
+		FROM attendance a JOIN employee e ON a.emp_loginId = e.emp_loginId JOIN
+		department d ON e.emp_dept_id = d.dept_id WHERE d.dept_id = #{deptId}
+		ORDER BY a.record_date DESC ) a WHERE ROWNUM &lt;= #{offset} + #{size} )
+		WHERE rnum > #{offset} </select>
+	<!-- 매년 휴가 생성 -->
+	<insert id="insertAnnualForAll">
+		INSERT INTO EMPLOYEE_ANNUAL (
+		leave_id,
+		parent_emp_id,
+		year,
+		total_days,
+		used_days,
+		remaining_date,
+		expired_date
+		)
+		SELECT
+		EMPLOYEE_ANNUAL_SEQ.NEXTVAL,
+		e.emp_code_id,
+		EXTRACT(YEAR FROM SYSDATE),
+		ar.leave_days,
+		0,
+		TO_CHAR(ar.leave_days),
+		TO_DATE(EXTRACT(YEAR FROM SYSDATE) || '-12-31', 'YYYY-MM-DD')
+		FROM employee e
+		JOIN (
+		SELECT years_of_service, leave_days
+		FROM ANNUAL_RULE
+		WHERE emp_code IS NULL
+		) ar ON ar.years_of_service = TRUNC(MONTHS_BETWEEN(SYSDATE, e.HIRE_DATE)
+		/ 12)
+		WHERE NOT EXISTS (
+		SELECT 1 FROM EMPLOYEE_ANNUAL ea
+		WHERE ea.parent_emp_id = e.emp_code_id
+		AND ea.year = EXTRACT(YEAR FROM SYSDATE)
+		)
+	</insert>
 
 
 </mapper>
