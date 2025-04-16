@@ -6,12 +6,13 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kedu.study.dto.CalendarDTO;
@@ -45,23 +46,35 @@ public class CalendarController {
 	}
 	
 	@GetMapping("/sharedList/{emp_code_id}")
-	public ResponseEntity<List<CalendarDTO>> sharedList(@PathVariable("emp_code_id") int emp_code_id){
+	public ResponseEntity<List<CalendarDTO>> sharedList(@PathVariable int emp_code_id){
 		System.out.println("공유캘린더 사원 코드 : " + emp_code_id);
 		List<CalendarDTO> sharedList = cServ.sharedList(emp_code_id);
 		return ResponseEntity.ok(sharedList);
 	}
 	
 	@GetMapping("/myCal/{emp_code_id}")
-	public ResponseEntity<List<CalendarDTO>> myCalendar(@PathVariable("emp_code_id") int emp_code_id){
+	public ResponseEntity<List<CalendarDTO>> myCalendar(@PathVariable int emp_code_id){
 		List<CalendarDTO> myCalList = cServ.selectMyCal(emp_code_id);
 		return ResponseEntity.ok(myCalList);
 	}
 	
 
 	@GetMapping("/comCal/{emp_code_id}")
-	public ResponseEntity<List<CalendarDTO>> companyCalendar(@PathVariable("emp_code_id") int emp_code_id){
+	public ResponseEntity<List<CalendarDTO>> companyCalendar(@PathVariable int emp_code_id){
 		List<CalendarDTO> companyCalendar = cServ.selectComCal(emp_code_id);
 		return ResponseEntity.ok(companyCalendar);
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> deleteCalendar(@PathVariable int id){
+		cServ.deleteCalendar(id);
+		return ResponseEntity.ok().build();
+	}
+	
+	@PutMapping("/update")
+	public ResponseEntity<?> updateCalendar(@RequestBody CalendarDTO calendar){
+		cServ.updateCalendar(calendar);
+		return ResponseEntity.ok().build();
 	}
 	
 	

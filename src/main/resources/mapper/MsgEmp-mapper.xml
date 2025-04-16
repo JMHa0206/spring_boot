@@ -69,6 +69,7 @@ FROM (
 		g.MSG_GROUP_ID
 	FROM MSG g
 	WHERE g.NUM_MEMBERS = 2
+		AND g.MSG_GROUP_NAME NOT LIKE '%,%'
 		AND CONCAT(CONCAT(',', g.GROUP_MEMBER), ',') LIKE CONCAT(CONCAT('%,', #{myId}), ',%')
 	CONNECT BY REGEXP_SUBSTR(g.GROUP_MEMBER, '[^,]+', 1, LEVEL) IS NOT NULL
 		AND PRIOR g.MSG_GROUP_ID = g.MSG_GROUP_ID
@@ -102,7 +103,8 @@ ORDER BY m1.SEND_DATE DESC
     	FROM msg m
     	JOIN messages ms ON m.msg_group_id = ms.msg_group_id
     	WHERE INSTR(',' || group_member || ',', ',' || #{myId} || ',') > 0
-    	AND num_members >= 3
+    	AND num_members >= 2
+    	AND msg_group_name like '%,%'
     	group by m.msg_group_id,m.group_member
     	having count(ms.msg_id) >= 1
 	</select>
