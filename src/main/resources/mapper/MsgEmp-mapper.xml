@@ -61,7 +61,8 @@
 	e.EMP_NAME,
 	e.EMP_CODE_ID,
 	m1.SEND_DATE LAST_SEND_DATE,
-	m1.MSG_CONTENT LAST_MSG
+	m1.MSG_CONTENT LAST_MSG,
+	m1.MSG_GROUP_ID
 FROM (
 	SELECT 
 		REGEXP_SUBSTR(g.GROUP_MEMBER, '[^,]+', 1, LEVEL) EMP_ID,
@@ -137,6 +138,21 @@ ORDER BY m1.SEND_DATE DESC
         ON m.msg_group_id = mg.msg_group_id
 	</select>
 	
+	<insert id="inviteToChat" parameterType="map">
+	<selectKey keyProperty="seq" resultType="int" order="AFTER">
+        SELECT chatroom_seq.currval FROM dual
+    </selectKey>
+		insert into msg values(chatroom_seq.nextval,#{mergedStr},#{myId},#{mergedStr},#{numMembers})
+	</insert>
+	
+	<update id="quitRoom" parameterType="java.util.Map">
+  UPDATE msg
+  SET 
+    group_member = TRIM(',' FROM REGEXP_REPLACE(',' || group_member || ',', ',' || #{myId, jdbcType=VARCHAR} || ',', ',')),
+    msg_group_name = TRIM(',' FROM REGEXP_REPLACE(',' || msg_group_name || ',', ',' || #{myId, jdbcType=VARCHAR} || ',', ',')),
+    num_members = num_members - 1
+  WHERE msg_group_id = #{msgGroupId}
+</update>
 	
 		
 </mapper>

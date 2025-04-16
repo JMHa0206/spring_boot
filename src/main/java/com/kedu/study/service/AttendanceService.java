@@ -90,51 +90,6 @@ public class AttendanceService {
 	    dto.setActivity_hours(0.0);
 	    ADao.insertActivity(dto);
 	}
-	
-//	public int outing(AttendanceDTO attendancedto) {	// 외근
-//		// 출근 기록이 있다는 가정 하에 그 기록의 ID를 가져옴.
-//		Integer attendanceId = ADao.findTodayAttendanceId(attendancedto.getEmp_loginId());
-//
-//		if (attendanceId == null) {
-//		    throw new IllegalArgumentException("출근 기록이 없습니다.");
-//		}
-//		LocalDateTime startTime = attendancedto.getCheck_in_time().toLocalDateTime();
-//	    LocalDateTime endTime = attendancedto.getCheck_out_time().toLocalDateTime();
-//	    
-//	    long minutes = ChronoUnit.MINUTES.between(startTime, endTime);
-//	    double hours = minutes / 60.0;
-//	    
-//	    ActivityDTO activity = new ActivityDTO();
-//	    activity.setAttendance_id(attendanceId);
-//	    activity.setActivity_type("외근"); // 또는 "업무"
-//	    activity.setStart_time(attendancedto.getCheck_in_time());
-//	    activity.setEnd_time(attendancedto.getCheck_out_time());
-//	    activity.setActivity_hours(hours);
-//	    
-//	    return ADao.outing(activity);
-//	}
-//	
-//	public int work(AttendanceDTO attendancedto) {	// 업무e
-//		// 출근 기록이 있다는 가정 하에 그 기록의 ID를 가져옴.
-//		Integer attendanceId = ADao.findTodayAttendanceId(attendancedto.getEmp_loginId());
-//
-//		if (attendanceId == null) {
-//		    throw new IllegalArgumentException("출근 기록이 없습니다.");
-//		}
-//		LocalDateTime startTime = attendancedto.getCheck_in_time().toLocalDateTime();
-//	    LocalDateTime endTime = attendancedto.getCheck_out_time().toLocalDateTime();
-//	    
-//	    long minutes = ChronoUnit.MINUTES.between(startTime, endTime);
-//	    double hours = minutes / 60.0;
-//	    
-//	    ActivityDTO activity = new ActivityDTO();
-//	    activity.setAttendance_id(attendanceId);
-//	    activity.setActivity_type("업무"); // 또는 "업무"
-//	    activity.setStart_time(attendancedto.getCheck_in_time());
-//	    activity.setEnd_time(attendancedto.getCheck_out_time());
-//	    activity.setActivity_hours(hours);
-//	    
-//	    return ADao.work(activity);
-//	}
+
 
 }

@@ -9,7 +9,10 @@ import org.springframework.stereotype.Service;
 import com.kedu.study.dao.InsaDAO;
 import com.kedu.study.dto.AbsentDTO;
 import com.kedu.study.dto.AdminSummaryDTO;
+import com.kedu.study.dto.DepartmentAttendanceDTO;
+import com.kedu.study.dto.Departsimple;
 import com.kedu.study.dto.LeaveDTO;
+import com.kedu.study.dto.OvertimeDTO;
 import com.kedu.study.dto.TripDTO;
 import com.kedu.study.dto.WorkSummaryDTO;
 
@@ -61,15 +64,22 @@ public class InsaService {
 		dto.setPersonalBusinessTrips(trips);
 		dto.setDepartmentLeaves(leaves);
 		dto.setNotCheckedInToday(absents);
-		System.out.println("📋 휴가자 수: " + leaves.size());
-		for (LeaveDTO leave : leaves) {
-		    System.out.println(" - " + leave.getEmpName() + " | " + leave.getLeaveDate() + " | " + leave.getType());
-		}
-
-		
-		
 
 		return dto;
+	}
+
+	public List<OvertimeDTO> getMonthlyOvertimeList(){
+		return IDao.getMonthlyOvertimeList();
+	}
+	// 부서별 출/퇴근 및 근무 기록 에서 부서 선택
+	public List<Departsimple> getAllDepartments(){
+		return IDao.getAllDepartments();
+	}
+	
+	// 부서별 출퇴근 
+	public List<DepartmentAttendanceDTO> getDepartments(int deptId, int page, int size){
+		int offset = (page -1 ) * size;
+		return IDao.getDepartments(deptId, offset, size);
 	}
 
 }

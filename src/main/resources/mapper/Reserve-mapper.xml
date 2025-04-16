@@ -56,5 +56,15 @@
 		  FROM reservation 
 		 WHERE resv_id = ${id}
 	</delete>
+	
+	<select id="isOverlapping" parameterType="com.kedu.study.dto.ReserveDTO" resultType="int">
+	  SELECT COUNT(*)
+	    FROM reservation
+	   WHERE resource_id = #{resource_id}
+	     AND resv_date = #{resv_date}
+	     AND (
+				(resv_stime <![CDATA[ < ]]> #{resv_etime} AND resv_etime <![CDATA[ > ]]> #{resv_stime})
+		     )
+	</select>
 
 </mapper>

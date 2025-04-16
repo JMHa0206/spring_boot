@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,9 +26,16 @@ import com.kedu.study.service.MsgEmpService;
 @RequestMapping("/Employee")
 public class MsgEmpController {
 
+    private final BoardController boardController;
+
 
 	@Autowired
 	private MsgEmpService eServ;
+
+
+    MsgEmpController(BoardController boardController) {
+        this.boardController = boardController;
+    }
 
 
 	@GetMapping("/SelectEmp")
@@ -126,8 +134,27 @@ public class MsgEmpController {
 		return ResponseEntity.ok(list);
 	}
 	
-	@GetMapping("/existGroupRoom")
-	public ResponseEntity<?> existGroupRoom(){
+	@PostMapping("/inviteToChat")
+	public ResponseEntity<?> inviteToChat(@RequestBody Map<String,Object> data){
+		Integer myId = (Integer)data.get("myId");
+		List<Integer> selected = (List<Integer>)data.get("selected");
+		List<Integer> empId = (List<Integer>)data.get("empId");
+		
+		List<Integer> mergedList = new ArrayList<>();
+		mergedList.add(myId);
+		mergedList.addAll(selected);
+		mergedList.addAll(empId);
+		
+		int seq = eServ.inviteToChat(data,mergedList);
+		
+		return ResponseEntity.ok(seq);
+	}
+	
+	@PutMapping("/quitRoom")
+	public ResponseEntity<?> quitRoom(@RequestBody Map<String,Object> data){
+		Integer myId = (Integer)data.get("myId");
+	    Integer msgGroupId = (Integer)data.get("msgGroupId"); 
+		eServ.quitRoom(myId,msgGroupId);
 		
 		return ResponseEntity.ok(null);
 	}

@@ -3,6 +3,7 @@ package com.kedu.study.dao;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,5 +85,24 @@ public class MsgEmpDAO {
 		return mybatis.selectList("MsgEmp.getGroupInfo",groupId);
 	}
 	
+	public int inviteToChat(Map<String,Object> data,List<Integer> mergedList) {
+		Integer numMembers = mergedList.size();
+		String mergedStr = mergedList.stream()
+				.map(String::valueOf)
+				.collect(Collectors.joining(","));
+		data.put("mergedStr", mergedStr);
+		data.put("numMembers", numMembers);
+		
+		mybatis.insert("MsgEmp.inviteToChat",data);
+		return (int)data.get("seq");
+	}
 	
+	public int quitRoom(Integer myId,Integer msgGroupId) {
+			Map<String,Object> map = new HashMap<>();
+			map.put("myId", myId);
+			map.put("msgGroupId", msgGroupId);
+		
+		return mybatis.update("MsgEmp.quitRoom",map);
+		
+	}
 }

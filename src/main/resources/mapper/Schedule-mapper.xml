@@ -50,26 +50,29 @@
 	</select>
 	
 	<select id="shareEvents" resultType="com.kedu.study.dto.ScheduleDTO">
-	SELECT s.id
-		 , s.c_id
- 		 , s.title
-		 , s.content
-		 , s.emp_id
-		 , s.start_date
-		 , s.end_date
-		 , s.startTime
-		 , s.endTime
-		 , c.color 
-	  FROM SCHEDULE s
-	  JOIN calendar c ON s.c_id = c.c_id 
-	 WHERE c.C_ID IN (
-	SELECT C_ID 
-	  FROM CALENDAR_SHARE
-	 WHERE TARGET_TYPE = 'EMP' AND TARGET_ID = #{emp_code_id}
-	UNION ALL
-	SELECT C_ID 
-	  FROM CALENDAR_SHARE
-	 WHERE TARGET_TYPE = 'DEPT' AND TARGET_ID = (SELECT EMP_DEPT_ID FROM EMPLOYEE WHERE EMP_CODE_ID = #{emp_code_id}))
+	SELECT 
+	    s.id,
+	    s.c_id,
+	    s.title,
+	    s.content,
+	    s.emp_id,
+	    s.start_date,
+	    s.end_date,
+	    s.startTime,
+	    s.endTime,
+	    c.color 
+	FROM SCHEDULE s
+	JOIN CALENDAR c ON s.c_id = c.c_id
+	WHERE c.c_id IN (
+	    SELECT cs.c_id
+	    FROM CALENDAR_SHARE cs
+	    JOIN EMPLOYEE e ON e.emp_code_id = #{emp_code_id}
+	    WHERE 
+	        (cs.target_type = 'emp' AND cs.target_id = e.emp_code_id)
+	        OR
+	        (cs.target_type = 'dept' AND cs.target_id = e.emp_dept_id)
+	)
+
 
 	</select>
 	

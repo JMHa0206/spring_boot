@@ -67,5 +67,18 @@
 	    #{target_id}
 	  )
 	</insert>
+	
+	<delete id="deleteCalendar" parameterType="int">
+	{
+		CALL PROC_DELETE_CALENDAR (${id})
+	}
+	</delete>
+	
+	<update id="updateCalendar" parameterType="com.kedu.study.dto.CalendarDTO">
+		UPDATE calendar
+		   SET c_title = #{c_title},
+        	   color = #{color}
+    	 WHERE c_id = #{c_id}
+	</update>
 
 </mapper>

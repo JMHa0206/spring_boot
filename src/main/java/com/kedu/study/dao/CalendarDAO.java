@@ -37,6 +37,14 @@ public class CalendarDAO {
 	public void caledarShare(CalendarShareDTO calendarShare) {
 		mybatis.update("calendar.calendarShare", calendarShare);
 	}
+	
+	public void deleteCalendar(int id) {
+		mybatis.delete("calendar.deleteCalendar", id);
+	}
+	
+	public void updateCalendar(CalendarDTO calendar) {
+		mybatis.update("calendar.updateCalendar", calendar);
+	}
 
 
 }
