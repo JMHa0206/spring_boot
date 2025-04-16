@@ -1,5 +1,6 @@
 package com.kedu.study.dto;
 
+// 조휘영
 public class DepartmentAttendanceDTO {
 	private String empName;
     private String deptName;

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +18,7 @@ import com.kedu.study.dto.WorkSummaryDTO;
 import com.kedu.study.service.InsaService;
 
 import jakarta.servlet.http.HttpServletRequest;
-
+// 조휘영
 @RestController
 @RequestMapping("/insa")
 public class InsaController {
@@ -28,7 +29,9 @@ public class InsaController {
 	//근태관리
 	@GetMapping("/summary")
 	public ResponseEntity<WorkSummaryDTO> getSummary(HttpServletRequest request) {
+		System.out.println("123");
 		String userId = (String) request.getAttribute("userId"); // JwtFilter에서 주입
+		System.out.println(userId);
 		WorkSummaryDTO summary = IServ.getWeeklySummary(userId);
 		return ResponseEntity.ok(summary);
 	}
@@ -62,4 +65,8 @@ public class InsaController {
 		System.out.println("2");
 		return ResponseEntity.ok(list);
 	}
+	
+	// 여러가지 신청하기
+//	@PostMapping("/apply")
+//	public ResponseEntity<>
 }

@@ -1,5 +1,7 @@
 package com.kedu.study.dto;
 
+
+// 조휘영
 public class Departsimple {
 	private Integer dept_id;
     private String dept_name;
