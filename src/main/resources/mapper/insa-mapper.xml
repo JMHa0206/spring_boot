@@ -25,7 +25,7 @@
 		6
 	</select>
 
-	<!-- ✅ 평균 출근 시간 -->
+	<!-- ✅ 평균 출근 시간ㄷ -->
 	<select
 		id="getAvgCheckIn" parameterType="string" resultType="string">
 		SELECT
