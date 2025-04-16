@@ -158,6 +158,24 @@ public class MsgEmpController {
 		
 		return ResponseEntity.ok(null);
 	}
+	
+	@GetMapping("/ProfileImg")
+	public ResponseEntity<String> ProfileImg(@RequestParam("empId")int empId ){
+			String profilePath = eServ.ProfileImg(empId);
+			
+			if(profilePath != null) {
+				return ResponseEntity.ok(profilePath);
+			} else {
+				return ResponseEntity.ok("/files/upload/profile/default.png");
+			}
+			
+	}
+	
+	@GetMapping("/AllProfileImg")
+	public ResponseEntity<List<Map<String,Object>>> AllProfileImg(){
+			List<Map<String,Object>> list = eServ.AllProfileImg();
+		return ResponseEntity.ok(list);
+	}
 
 	
 

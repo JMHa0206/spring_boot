@@ -105,4 +105,13 @@ public class MsgEmpDAO {
 		return mybatis.update("MsgEmp.quitRoom",map);
 		
 	}
+	
+	public String ProfileImg(int empId) {
+		return mybatis.selectOne("MsgEmp.ProfileImg",empId);
+	}
+	
+	public List<Map<String,Object>> AllProfileImg(){
+		return mybatis.selectList("MsgEmp.AllProfileImg");
+	}
+	
 }
