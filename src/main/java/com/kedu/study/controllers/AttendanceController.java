@@ -33,7 +33,7 @@ public class AttendanceController {
 	@GetMapping("/checkInTime")
 	public ResponseEntity<Map<String, Timestamp>> getTodayCheckInTime(HttpServletRequest request) {
 	    String userId = (String) request.getAttribute("userId");
-
+	    System.out.println(userId+": userID 오냐?");
 	    Timestamp checkInTime = AServ.getTodayCheckIn(userId);
 	    Timestamp checkOutTime = AServ.getTodayCheckOut(userId); // 새로 추가 필요
 
@@ -53,7 +53,7 @@ public class AttendanceController {
 			HttpServletRequest request){
 		
 		String userId = (String)request.getAttribute("userId");
-		System.out.println(userId+" : userId");
+		System.out.println(userId+": userID 오냐?123");
 		
 		attendancedto.setEmp_loginId(userId); // 로그인 아이디
 		LocalDateTime now = LocalDateTime.now().withNano(0); // 나노초 제거

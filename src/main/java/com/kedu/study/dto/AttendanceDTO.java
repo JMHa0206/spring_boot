@@ -1,7 +1,7 @@
 package com.kedu.study.dto;
 
 import java.sql.Timestamp;
-
+// 조휘영
 public class AttendanceDTO {
 	private int attendance_id;
 	private String emp_loginId;	//사원아이디
