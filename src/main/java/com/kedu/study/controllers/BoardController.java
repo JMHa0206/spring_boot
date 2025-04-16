@@ -5,9 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,11 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.kedu.study.controllers.EDMS.EDMSCategoryController;
+
 import com.kedu.study.dto.BoardDTO;
-import com.kedu.study.dto.BoardlistwriterDTO;
 import com.kedu.study.service.BoardService;
 
 
@@ -84,13 +80,14 @@ public class BoardController {
 	    }
 	    
 	    //네비게이터
-	    @GetMapping("/navigator")
-	    public ResponseEntity<Map<String, Object>> getPagedList(
-
-	    	@RequestParam("page") int page,
-	        @RequestParam("size") int size,
-	        @RequestParam("parent_board") int parentBoard 
-	    ) {
+	    @PostMapping("/navigator")
+	    public ResponseEntity<Map<String, Object>> getPagedList(@RequestBody Map<String,Object> request) {
+	    	System.out.println(request);
+	    	int page = (int)request.get("page");
+	    	int size = (int)request.get("size");
+	    	int parentBoard = (int)request.get("parent_board");
+	    	
+	    	
 	        int offset = (page - 1) * size;
 
 	        // ✅ 여기! parentBoard를 포함한 버전으로 호출해야 함!
