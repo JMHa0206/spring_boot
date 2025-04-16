@@ -75,5 +75,13 @@ public class MsgEmpService {
 	public int quitRoom(Integer myId,Integer msgGroupId) {
 		return eDao.quitRoom(myId,msgGroupId);
 	}
-
+	
+	public String ProfileImg(int empId) {
+		return eDao.ProfileImg(empId);
+	}
+	
+	public List<Map<String,Object>> AllProfileImg(){
+		return eDao.AllProfileImg();
+	}
+	
 }

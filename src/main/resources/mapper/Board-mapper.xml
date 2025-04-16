@@ -49,23 +49,26 @@
 	</update>
 	
 	<!--네비게이터-->
-	
-  		<select id="selectBoardList" resultType="com.kedu.study.dto.BoardDTO" parameterType="map">
-    SELECT A.*, e.emp_name
-    FROM (
-        SELECT p.*, ROWNUM RNUM
-        FROM post p
-        WHERE p.parent_board = #{parent_board}
-        ORDER BY p.post_id DESC
+<select id="selectBoardList" resultType="com.kedu.study.dto.BoardDTO" parameterType="map">
+  SELECT * FROM (
+    SELECT A.*, ROWNUM RNUM FROM (
+      SELECT p.*, e.emp_name
+      FROM post p
+      JOIN employee e ON p.post_writer = e.emp_code_id
+      WHERE p.parent_board = #{parent_board}
+      ORDER BY p.post_id DESC
     ) A
-    JOIN employee e ON A.post_writer = e.emp_code_id  <!-- emp_code_id를 기준으로 JOIN -->
-    WHERE ROWNUM &lt;= #{offset} + #{size}
-    AND RNUM &gt; #{offset}
+    WHERE ROWNUM &lt; #{offset} + #{size}
+  )
+  WHERE RNUM &gt; #{offset}
 </select>
 
 	
 	<select id="countBoard" resultType="int">
-	  SELECT COUNT(*) FROM post WHERE parent_board = #{parent_board}
+	  SELECT COUNT(*) 
+  FROM post p
+  JOIN employee e ON p.post_writer = e.emp_code_id
+  WHERE p.parent_board = #{parent_board}
 	</select>
 
 
