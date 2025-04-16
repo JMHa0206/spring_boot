@@ -166,7 +166,7 @@ public class MsgEmpController {
 			if(profilePath != null) {
 				return ResponseEntity.ok(profilePath);
 			} else {
-				return ResponseEntity.ok("/files/upload/profile/default.png");
+				return ResponseEntity.ok("/files/upload/profile/Default2.png");
 			}
 			
 	}
