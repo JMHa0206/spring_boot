@@ -26,6 +26,8 @@ public class JwtFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
+    	
+
         String path = request.getRequestURI();
         if (path.startsWith("/auth/login")) {
             filterChain.doFilter(request, response); // 로그인은 무조건 통과

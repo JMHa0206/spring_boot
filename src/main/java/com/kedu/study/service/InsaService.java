@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.kedu.study.dao.InsaDAO;
@@ -81,5 +82,11 @@ public class InsaService {
 		int offset = (page -1 ) * size;
 		return IDao.getDepartments(deptId, offset, size);
 	}
-
+	
+	// 매년 1월 1일 00시 00분 00초에 실행
+	@Scheduled(cron = "0 0 0 1 1 *")
+	public void generateAnnualLeaveForAllEmployees() {
+		IDao.generateAnnualForAllEmployees();
+        System.out.println("🎉 연차 자동 생성 완료: " + java.time.LocalDate.now());
+    }
 }
