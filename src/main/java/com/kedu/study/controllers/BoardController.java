@@ -106,16 +106,6 @@ public class BoardController {
 	        return ResponseEntity.ok(result);
 	    }
 	    
-//	    @GetMapping("/board/{postId}")
-//	    public ResponseEntity<BoardDTO> getBoard(@PathVariable Integer postId) {
-//	        BoardDTO boardDTO = boardService.getBoardById(postId);
-//	        
-//	        if (boardDTO != null) {
-//	            return ResponseEntity.ok(boardDTO);
-//	        } else {
-//	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-//	        }
-//	    }
 
 }
 
