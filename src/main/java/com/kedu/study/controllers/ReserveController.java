@@ -19,6 +19,7 @@ import com.kedu.study.dto.ResourceDTO;
 import com.kedu.study.service.ReserveService;
 
 
+
 @RestController
 @RequestMapping("/reserve")
 public class ReserveController {
@@ -71,9 +72,11 @@ public class ReserveController {
 		return ResponseEntity.ok(empName);
 	}
 	
-	@GetMapping("getDetail/{id}")
+	@GetMapping("/getDetail/{resvId}")
 	public ResponseEntity<ReserveDTO> getDetail(@PathVariable int resvId){
+		System.out.println(resvId);
 		ReserveDTO resvDetail = rServ.getDetail(resvId);
+		System.out.println("날짜 : " + resvDetail.getResv_date() + " 시작 : " + resvDetail.getResv_stime() + " 시작 : " + resvDetail.getResv_etime());
 		return ResponseEntity.ok(resvDetail);
 	}
 	

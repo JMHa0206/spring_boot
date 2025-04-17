@@ -76,7 +76,7 @@
 	<select id="getDetail" resultType="com.kedu.study.dto.ReserveDTO" parameterType="int">
 		SELECT *
 		  FROM reservation
-		 WHERE id = ${id}
+		 WHERE resv_id = ${id}
 	</select>
 
 </mapper>
