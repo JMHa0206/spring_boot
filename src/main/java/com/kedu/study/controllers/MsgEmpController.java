@@ -41,6 +41,7 @@ public class MsgEmpController {
 
 	@GetMapping("/SelectMine")
 	public ResponseEntity<MsgEmpMineDTO> selectMine(@RequestParam String userId) {
+		System.out.println("응답");
 		MsgEmpMineDTO result = eServ.selectMine(userId);
 		return ResponseEntity.ok(result);
 	}
