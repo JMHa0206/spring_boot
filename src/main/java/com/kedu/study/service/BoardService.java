@@ -58,11 +58,12 @@ public class BoardService {
 	    }
 	    
 	    //네비게이터
-	    public List<BoardDTO> getBoardList(int offset, int size, int parentBoard) {
+	    public List<BoardDTO> getBoardList(int offset, int size, int parentBoard, Integer userDeptId) {
 	        Map<String, Object> paramMap = new HashMap<>();
 	        paramMap.put("offset", offset);
 	        paramMap.put("size", size);
 	        paramMap.put("parent_board", parentBoard);
+	        paramMap.put("userDeptId", userDeptId );
 	        return bdao.selectBoardList(paramMap);
 	    }
 
