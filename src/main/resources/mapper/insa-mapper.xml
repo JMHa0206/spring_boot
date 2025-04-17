@@ -25,12 +25,15 @@
 		6
 	</select>
 
-	<!-- ✅ 평균 출근 시간ㄷ -->
-	<select
-		id="getAvgCheckIn" parameterType="string" resultType="string">
+	<!-- ✅ 평균 출근 시간 -->
+	<select id="getAvgCheckIn" parameterType="string" resultType="string">
 		SELECT
+		CASE
+		WHEN AVG(MIN_MINS) IS NOT NULL THEN
 		LPAD(FLOOR(AVG(MIN_MINS) / 60), 2, '0') || ':' ||
-		LPAD(FLOOR(MOD(AVG(MIN_MINS), 60)), 2, '0') AS avg_check_in
+		LPAD(FLOOR(MOD(AVG(MIN_MINS), 60)), 2, '0')
+		ELSE '00:00'
+		END AS averageCheckIn
 		FROM (
 		SELECT
 		MIN(TO_NUMBER(TO_CHAR(a.start_time, 'HH24')) * 60 +
@@ -45,12 +48,15 @@
 		)
 	</select>
 
-	<!-- ✅ 평균 퇴근 시간 d-->
-	<select
-		id="getAvgCheckOut" parameterType="string" resultType="string">
+	<!-- ✅ 평균 퇴근 시간 -->
+	<select id="getAvgCheckOut" parameterType="string" resultType="string">
 		SELECT
+		CASE
+		WHEN AVG(MAX_MINS) IS NOT NULL THEN
 		LPAD(FLOOR(AVG(MAX_MINS) / 60), 2, '0') || ':' ||
-		LPAD(FLOOR(MOD(AVG(MAX_MINS), 60)), 2, '0') AS avg_check_out
+		LPAD(FLOOR(MOD(AVG(MAX_MINS), 60)), 2, '0')
+		ELSE '00:00'
+		END AS averageCheckOut
 		FROM (
 		SELECT
 		MAX(TO_NUMBER(TO_CHAR(a.end_time, 'HH24')) * 60 +
@@ -58,11 +64,13 @@
 		FROM activity a
 		JOIN attendance t ON a.attendance_id = t.attendance_id
 		WHERE a.activity_type = '퇴근'
+		AND a.end_time IS NOT NULL
 		AND t.emp_loginId = #{userId}
 		AND a.end_time BETWEEN TRUNC(SYSDATE, 'IW') AND TRUNC(SYSDATE, 'IW') + 6
 		GROUP BY TRUNC(a.end_time)
 		)
 	</select>
+
 
 	<!-- ✅ 연속 근속일 계산 (수정된 버전) -->
 	<select id="getConsecutiveWorkDays" parameterType="string" resultType="int">
@@ -101,7 +109,7 @@
 	</select>
 
 
-	<!-- ✅ 오늘 외근 조회 -->
+	<!-- ✅ 오늘 외근 조회 e-->
 	<select id="getTodayTrips" resultType="com.kedu.study.dto.TripDTO">
 		SELECT
 		e.emp_name AS empName, TO_CHAR(a.start_time, 'YYYY-MM-DD') AS tripDate,
