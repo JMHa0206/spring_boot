@@ -158,8 +158,13 @@ ORDER BY m1.SEND_DATE DESC
 
 	<select id="ProfileImg" resultType="string">
 		SELECT PROFILE_PATH
- 	 	FROM PROFILEIMG
-  		WHERE PROFILE_EMP_ID = #{empId}
+	FROM (
+		SELECT * 
+		FROM PROFILEIMG 
+		WHERE PROFILE_EMP_ID = #{empId}
+		ORDER BY PROFILE_ID DESC
+	)
+	WHERE ROWNUM = 1
 	</select>
 	
 	<select id="AllProfileImg" resultType="map">
