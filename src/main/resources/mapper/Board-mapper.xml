@@ -11,7 +11,22 @@
     
     
     <select id="findBoardid" parameterType="int" resultType="com.kedu.study.dto.BoardDTO">
-        SELECT * FROM post WHERE post_id = #{post_id}
+        SELECT
+       p.post_id,
+       p.parent_board,
+       p.post_writer,
+       p.post_title,
+       p.post_content,
+       p.post_date,
+       p.post_view,
+       p.post_like,
+       p.post_per,
+       p.post_tag,
+       e.emp_name
+     FROM post p
+     JOIN employee e
+       ON p.post_writer = e.emp_code_id
+     WHERE p.post_id = #{post_id}
     </select>
 
 
