@@ -66,5 +66,11 @@
 				(resv_stime <![CDATA[ < ]]> #{resv_etime} AND resv_etime <![CDATA[ > ]]> #{resv_stime})
 		     )
 	</select>
+	
+	<select id="getEmpName" resultType="String">
+		select emp_name
+		  from employee
+		 where emp_code_id = ${empId}
+	</select>
 
 </mapper>
