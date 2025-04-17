@@ -50,6 +50,11 @@ public class ReserveService {
 		String empName = rDao.getEmpName(empId);
 		return empName;
 	}
+	
+	public ReserveDTO getDetail(int resvID) {
+		ReserveDTO resvDetail = rDao.getDetail(resvID);
+		return resvDetail;
+	}
 
 
 }

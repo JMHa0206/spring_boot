@@ -72,5 +72,11 @@
 		  from employee
 		 where emp_code_id = ${empId}
 	</select>
+	
+	<select id="getDetail" resultType="com.kedu.study.dto.ReserveDTO" parameterType="int">
+		SELECT *
+		  FROM reservation
+		 WHERE id = ${id}
+	</select>
 
 </mapper>

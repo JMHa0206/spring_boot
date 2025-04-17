@@ -71,4 +71,10 @@ public class ReserveController {
 		return ResponseEntity.ok(empName);
 	}
 	
+	@GetMapping("getDetail/{id}")
+	public ResponseEntity<ReserveDTO> getDetail(@PathVariable int resvId){
+		ReserveDTO resvDetail = rServ.getDetail(resvId);
+		return ResponseEntity.ok(resvDetail);
+	}
+	
 }

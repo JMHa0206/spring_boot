@@ -88,9 +88,41 @@
 		UPDATE schedule SET title=#{title}, content=#{content}, start_date=#{start_date}, end_date=#{end_date}, startTime=#{startTime}, endTime=#{endTime} WHERE id=#{id}
 	</update>
 	
-	<select id="todaySchedule" resultType="com.kedu.study.dto.ScheduleDTO">
-		SELECT * from schedule
-  		 WHERE start_date = to_date(to_char(sysdate,'yyyy-mm-dd'),'yyyy-mm-dd')
+	<select id="todaySchedule" resultType="com.kedu.study.dto.ScheduleDTO" parameterType="int">
+		<![CDATA[
+		    SELECT *
+		    FROM schedule
+		    WHERE start_date <= TRUNC(SYSDATE)
+		      AND end_date >= TRUNC(SYSDATE)
+		      AND emp_id = #{empId}
+		      
+		    UNION
+		    
+		    SELECT s.* 
+		    FROM schedule s
+		    JOIN calendar c ON s.c_id = c.c_id
+		    WHERE c.c_id IN (
+		        SELECT cs.c_id
+		        FROM calendar_share cs
+		        JOIN employee e ON e.emp_code_id = #{empId}
+		        WHERE 
+		            (cs.target_type = 'emp' AND cs.target_id = e.emp_code_id)
+		            OR
+		            (cs.target_type = 'dept' AND cs.target_id = e.emp_dept_id)
+		    ) 
+		    AND start_date <= TRUNC(SYSDATE)
+		    AND end_date >= TRUNC(SYSDATE)
+		    
+		    UNION
+		    
+		    SELECT s.* 
+		    FROM schedule s 
+		    JOIN calendar c ON s.c_id = c.c_id 
+		    WHERE c.public_code = 30 
+		      AND start_date <= TRUNC(SYSDATE)
+		      AND end_date >= TRUNC(SYSDATE)
+		  ]]>
+
 	</select>
 	
 	
