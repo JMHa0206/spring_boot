@@ -19,7 +19,7 @@ import com.kedu.study.service.AttendanceService;
 import com.kedu.study.utils.JWTUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
-// 조휘영
+// 조휘영ㄷ
 @RestController
 @RequestMapping("/work")
 public class AttendanceController {
