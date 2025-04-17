@@ -103,6 +103,23 @@ public class BoardController {
 	        return ResponseEntity.ok(result);
 	    }
 	    
+	    
+//	    @PostMapping("/increaseLikeCount/{post_Id}")
+//	    public ResponseEntity<String> increaseLikeCount(
+//	            @PathVariable int post_Id,
+//	            @RequestBody LikeRequest likeRequest) {
+//	        int userId = likeRequest.getUserId();
+//
+//	        boolean alreadyLiked = likeService.hasUserLikedPost(userId, post_Id);
+//
+//	        if (alreadyLiked) {
+//	            return ResponseEntity.status(HttpStatus.CONFLICT).body("Already liked");
+//	        }
+//
+//	        likeService.addLike(userId, post_Id); // insert into post_like + update post.like_count
+//	        return ResponseEntity.ok("Like added");
+//	    }
+//	    
 
 }
 
