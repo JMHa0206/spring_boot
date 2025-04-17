@@ -26,16 +26,10 @@ import com.kedu.study.service.MsgEmpService;
 @RequestMapping("/Employee")
 public class MsgEmpController {
 
-    private final BoardController boardController;
 
 
 	@Autowired
 	private MsgEmpService eServ;
-
-
-    MsgEmpController(BoardController boardController) {
-        this.boardController = boardController;
-    }
 
 
 	@GetMapping("/SelectEmp")
@@ -47,6 +41,7 @@ public class MsgEmpController {
 
 	@GetMapping("/SelectMine")
 	public ResponseEntity<MsgEmpMineDTO> selectMine(@RequestParam String userId) {
+		System.out.println("응답");
 		MsgEmpMineDTO result = eServ.selectMine(userId);
 		return ResponseEntity.ok(result);
 	}
@@ -176,7 +171,6 @@ public class MsgEmpController {
 			List<Map<String,Object>> list = eServ.AllProfileImg();
 		return ResponseEntity.ok(list);
 	}
-
 	
 
 }

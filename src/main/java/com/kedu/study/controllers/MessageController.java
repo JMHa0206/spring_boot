@@ -21,7 +21,7 @@ public class MessageController {
     @SendTo("/topic/messages/{seq}") // 메시지를 구독하는 경로
     public MessageDTO sendMessage(@DestinationVariable int seq ,MessageDTO message) {
         message.setSend_date(new Timestamp(System.currentTimeMillis()));
-   
+        System.out.println(seq);
         mServ.saveMessage(message);
         
         return message; // 클라이언트에게 다시 전송
