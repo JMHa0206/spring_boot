@@ -45,6 +45,11 @@ public class ReserveService {
 		System.out.println(count);
 	    return count > 0;
 	}
+	
+	public String getEmpName(int empId) {
+		String empName = rDao.getEmpName(empId);
+		return empName;
+	}
 
 
 }

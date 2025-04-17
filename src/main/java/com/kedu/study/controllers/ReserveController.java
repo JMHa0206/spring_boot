@@ -65,4 +65,10 @@ public class ReserveController {
 		return ResponseEntity.ok(list);
 	}
 	
+	@GetMapping("/getEmpName/{empId}")
+	public ResponseEntity<String> getEmpName(@PathVariable int empId){
+		String empName = rServ.getEmpName(empId);
+		return ResponseEntity.ok(empName);
+	}
+	
 }

@@ -43,5 +43,10 @@ public class ReserveDAO {
 	public int isOverlapping(ReserveDTO reservation) {
 		return mybatis.selectOne("reserve.isOverlapping", reservation);
 	}
+	
+	public String getEmpName(int empId) {
+		String empName = mybatis.selectOne("reserve.getEmpName", empId);
+				return empName;
+	}
 
 }
