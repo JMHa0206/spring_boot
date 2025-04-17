@@ -82,16 +82,19 @@ public class BoardController {
 	    //네비게이터
 	    @PostMapping("/navigator")
 	    public ResponseEntity<Map<String, Object>> getPagedList(@RequestBody Map<String,Object> request) {
-	    	System.out.println(request);
-	    	int page = (int)request.get("page");
-	    	int size = (int)request.get("size");
-	    	int parentBoard = (int)request.get("parent_board");
+	    	 System.out.println("navigator request: " + request);
+	    	 int page        = (int) request.getOrDefault("page",          1);
+	         int size        = (int) request.getOrDefault("size",         10);
+	         int parentBoard = (int) request.getOrDefault("parent_board",  0);
+	    	Integer userDeptId = request.containsKey("userDeptId")
+	                 ? (Integer) request.get("userDeptId")
+	                 : null;
 	    	
 	    	
 	        int offset = (page - 1) * size;
 
 	        // ✅ 여기! parentBoard를 포함한 버전으로 호출해야 함!
-	        List<BoardDTO> list = boardService.getBoardList(offset, size, parentBoard);
+	        List<BoardDTO> list = boardService.getBoardList(offset, size, parentBoard,userDeptId);
 	        
 	        int totalCount = boardService.getBoardCount(parentBoard);
 	        int totalPages = (int) Math.ceil((double) totalCount / size);
@@ -104,23 +107,6 @@ public class BoardController {
 	    }
 	    
 	    
-//	    @PostMapping("/increaseLikeCount/{post_Id}")
-//	    public ResponseEntity<String> increaseLikeCount(
-//	            @PathVariable int post_Id,
-//	            @RequestBody LikeRequest likeRequest) {
-//	        int userId = likeRequest.getUserId();
-//
-//	        boolean alreadyLiked = likeService.hasUserLikedPost(userId, post_Id);
-//
-//	        if (alreadyLiked) {
-//	            return ResponseEntity.status(HttpStatus.CONFLICT).body("Already liked");
-//	        }
-//
-//	        likeService.addLike(userId, post_Id); // insert into post_like + update post.like_count
-//	        return ResponseEntity.ok("Like added");
-//	    }
-//	    
-
 }
 
 

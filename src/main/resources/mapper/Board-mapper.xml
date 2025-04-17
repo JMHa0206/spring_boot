@@ -67,10 +67,14 @@
 	<select id="selectBoardList" resultType="com.kedu.study.dto.BoardDTO" parameterType="map">
   		SELECT * FROM (
     		SELECT A.*, ROWNUM RNUM FROM (
-      		SELECT p.*, e.emp_name
+      		SELECT p.*, e.emp_name, e.emp_dept_id
       		FROM post p
-      		JOIN employee e ON p.post_writer = e.emp_code_id
+      		JOIN employee e 
+      		ON p.post_writer = e.emp_code_id
       		WHERE p.parent_board = #{parent_board}
+      		<if test="parent_board == 109 and userDeptId != null">
+               AND e.emp_dept_id = #{userDeptId}
+             </if>
       		ORDER BY p.post_id DESC
     	) A
     	WHERE ROWNUM &lt; #{offset} + #{size}
@@ -79,11 +83,14 @@
 	</select>
 
 	
-	<select id="countBoard" resultType="int">
+	<select id="countBoard" parameterType="map" resultType="int">
 	  SELECT COUNT(*) 
   FROM post p
   JOIN employee e ON p.post_writer = e.emp_code_id
   WHERE p.parent_board = #{parent_board}
+    <if test="parent_board == 109 and userDeptId != null">
+       AND e.emp_dept_id = #{userDeptId}
+     </if>
 	</select>
 
 
