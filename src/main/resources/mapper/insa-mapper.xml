@@ -85,7 +85,6 @@
 		FROM attendance
 		WHERE emp_loginId = #{userId}
 		AND check_in_time IS NOT NULL
-		AND TRUNC(record_date) >= TRUNC(SYSDATE) - 14
 		)
 		)
 		GROUP BY grp
