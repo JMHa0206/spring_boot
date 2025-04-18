@@ -63,7 +63,7 @@ public class InsaService {
 		AdminSummaryDTO dto = new AdminSummaryDTO();
 
 		List<TripDTO> trips = IDao.getTodayTrips();
-		List<LeaveDTO> leaves = IDao.getTodayLeaves(); // 추후 구현 or dummy
+		List<LeaveDTO> leaves = IDao.getTodayLeaves();
 		List<AbsentDTO> absents = IDao.getAbsentEmployees();
 
 		dto.setPersonalBusinessTrips(trips);
