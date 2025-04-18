@@ -216,16 +216,12 @@
 
 <select id="getCompletedDocs" parameterType="int" resultMap="edmsDetailMap">
   SELECT * FROM edms
-  WHERE state_code = 4 AND (
-    level1 = #{empCodeId} OR level2 = #{empCodeId} OR level3 = #{empCodeId} OR level4 = #{empCodeId} OR final_level = #{empCodeId}
-  )
+  WHERE state_code = 4 AND com_id = #{empCodeId}
 </select>
 
 <select id="getRejectedDocs" parameterType="int" resultMap="edmsDetailMap">
   SELECT * FROM edms
-  WHERE state_code = 3 AND (
-    level1 = #{empCodeId} OR level2 = #{empCodeId} OR level3 = #{empCodeId} OR level4 = #{empCodeId} OR final_level = #{empCodeId}
-  )
+  WHERE state_code = 3 AND com_id = #{empCodeId}
 </select>
 
 <select id="getDeptRefDocs" parameterType="int" resultMap="edmsDetailMap">
