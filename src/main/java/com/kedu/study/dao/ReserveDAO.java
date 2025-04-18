@@ -48,5 +48,10 @@ public class ReserveDAO {
 		String empName = mybatis.selectOne("reserve.getEmpName", empId);
 				return empName;
 	}
+	
+	public ReserveDTO getDetail(int resvId) {
+		ReserveDTO resvDetail = mybatis.selectOne("reserve.getDetail",resvId);
+		return resvDetail;
+	}
 
 }
