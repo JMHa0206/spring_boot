@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.kedu.study.dao.InsaDAO;
 import com.kedu.study.dto.AbsentDTO;
 import com.kedu.study.dto.AdminSummaryDTO;
+import com.kedu.study.dto.BirtdaylistDTO;
 import com.kedu.study.dto.DepartmentAttendanceDTO;
 import com.kedu.study.dto.Departsimple;
 import com.kedu.study.dto.LeaveDTO;
@@ -85,6 +86,14 @@ public class InsaService {
 	public List<DepartmentAttendanceDTO> getDepartments(int deptId, int page, int size) {
 		int offset = (page - 1) * size;
 		return IDao.getDepartments(deptId, offset, size);
+	}
+	// 메인 페이지에서 생일자 뽑기 
+	public List<BirtdaylistDTO> getbirtday(){
+		List<BirtdaylistDTO> list = IDao.getbirtday();
+	    for (BirtdaylistDTO dto : list) {
+	        System.out.println("👤 " + dto.getEmpname() + " | " + dto.getDeptname() + " | 생일: " + dto.getEmprrn() + " | istoday: " + dto.getIstoday());
+	    }
+	    return list;
 	}
 
 	// 매년 1월 1일 00시 00분 00초에 실행

@@ -11,7 +11,7 @@
 	</resultMap>
 
 
-	<!-- ✅ 주간 근무 통계 -->
+	<!-- 주간 근무 통계 -->
 	<select
 		id="getWeeklyStats" parameterType="string"
 		resultType="java.util.Map">
@@ -25,7 +25,7 @@
 		6
 	</select>
 
-	<!-- ✅ 평균 출근 시간 -->
+	<!-- 평균 출근 시간 -->
 	<select id="getAvgCheckIn" parameterType="string" resultType="string">
 		SELECT
 		CASE
@@ -48,7 +48,7 @@
 		)
 	</select>
 
-	<!-- ✅ 평균 퇴근 시간 -->
+	<!-- 평균 퇴근 시간 -->
 	<select id="getAvgCheckOut" parameterType="string" resultType="string">
 		SELECT
 		CASE
@@ -72,7 +72,7 @@
 	</select>
 
 
-	<!-- ✅ 연속 근속일 계산 (수정된 버전) -->
+	<!-- 연속 근속일 계산 -->
 	<select id="getConsecutiveWorkDays" parameterType="string" resultType="int">
 		SELECT MAX(CNT) AS consecutive_days
 		FROM (
@@ -85,13 +85,11 @@
 		FROM attendance
 		WHERE emp_loginId = #{userId}
 		AND check_in_time IS NOT NULL
-		)
-		)
-		GROUP BY grp
-		)
+		))
+		GROUP BY grp)
 	</select>
 
-	<!-- ✅ 연차 요약 (완전 수정본) -->
+	<!-- ✅ 연차 요약 -->
 	<select id="getAnnualSummary" parameterType="string"
 		resultMap="annualSummaryMap">
 		SELECT total_days, used_days,
@@ -108,7 +106,7 @@
 	</select>
 
 
-	<!-- ✅ 오늘 외근 조회 e-->
+	<!-- 오늘 외근 조회 e-->
 	<select id="getTodayTrips" resultType="com.kedu.study.dto.TripDTO">
 		SELECT
 		e.emp_name AS empName, TO_CHAR(a.start_time, 'YYYY-MM-DD') AS tripDate,
@@ -118,7 +116,7 @@
 	</select>
 
 
-	<!-- ✅ 오늘 휴가자 조회 -->
+	<!-- 오늘 휴가자 조회 -->
 	<select id="getTodayLeaves" resultType="com.kedu.study.dto.LeaveDTO">
 		SELECT
 		e.emp_name AS empName,
@@ -132,7 +130,7 @@
 	</select>
 
 
-	<!-- ✅ 오늘 출근 안 한 인원 -->
+	<!-- 오늘 출근 안 한 인원 -->
 	<select
 		id="getAbsentEmployees" resultType="com.kedu.study.dto.AbsentDTO">
 		SELECT
@@ -146,6 +144,8 @@
 		WHERE TRUNC(record_date) = TRUNC(SYSDATE)
 		)
 	</select>
+
+
 	<!-- 이 달 초과근무s -->
 	<select id="getMonthlyOvertimeList"
 		resultType="com.kedu.study.dto.OvertimeDTO">
@@ -162,6 +162,8 @@
 		GROUP BY e.emp_name, d.dept_name
 		ORDER BY overtimeHours DESC
 	</select>
+
+
 	<!--부서출력-->
 	<select id="getAllDepartments" resultType="com.kedu.study.dto.Departsimple">
 		SELECT dept_id, dept_name
@@ -180,6 +182,7 @@
 		department d ON e.emp_dept_id = d.dept_id WHERE d.dept_id = #{deptId}
 		ORDER BY a.record_date DESC ) a WHERE ROWNUM &lt;= #{offset} + #{size} )
 		WHERE rnum > #{offset} </select>
+
 	<!-- 매년 휴가 생성 -->
 	<insert id="insertAnnualForAll">
 		INSERT INTO EMPLOYEE_ANNUAL (
@@ -212,6 +215,27 @@
 		AND ea.year = EXTRACT(YEAR FROM SYSDATE)
 		)
 	</insert>
+	<!--// 메인 페이지에서 생일자 뽑기 -->
+	<select id="getbirtday" resultType="com.kedu.study.dto.BirtdaylistDTO">
+		SELECT
+		e.EMP_NAME AS empname,
+		d.DEPT_NAME AS deptname,
+		TO_CHAR(TO_DATE(SUBSTR(e.EMP_RRN, 1, 6), 'RRMMDD'), 'MM-DD') AS emprrn,
+		CASE
+		WHEN TO_CHAR(SYSDATE, 'MMDD') = TO_CHAR(TO_DATE(SUBSTR(e.EMP_RRN, 1, 6),
+		'RRMMDD'), 'MMDD')
+		THEN 'Y' ELSE 'N'
+		END AS istoday
+		FROM EMPLOYEE e
+		JOIN DEPARTMENT d ON e.EMP_DEPT_ID = d.DEPT_ID
+		WHERE
+		e.EMP_RRN IS NOT NULL
+		AND REGEXP_LIKE(SUBSTR(e.EMP_RRN, 1, 6), '^[0-9]{6}$')
+		AND SUBSTR(e.EMP_RRN, 3, 2) BETWEEN '01' AND '12'
+		AND SUBSTR(e.EMP_RRN, 5, 2) BETWEEN '01' AND '31'
+		AND TO_CHAR(TO_DATE(SUBSTR(e.EMP_RRN, 1, 6), 'RRMMDD'), 'MM') =
+		TO_CHAR(SYSDATE, 'MM')
+		ORDER BY TO_CHAR(TO_DATE(SUBSTR(e.EMP_RRN, 1, 6), 'RRMMDD'), 'MMDD')
 
-
+	</select>
 </mapper>
