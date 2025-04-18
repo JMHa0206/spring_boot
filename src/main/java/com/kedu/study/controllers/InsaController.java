@@ -26,7 +26,7 @@ public class InsaController {
 	@Autowired
 	private InsaService IServ;
 
-	//근태관리
+	//근태관리e
 	@GetMapping("/summary")
 	public ResponseEntity<WorkSummaryDTO> getSummary(HttpServletRequest request) {
 		System.out.println("123");
