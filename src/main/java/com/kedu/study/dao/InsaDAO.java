@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kedu.study.dto.AbsentDTO;
+import com.kedu.study.dto.BirtdaylistDTO;
 import com.kedu.study.dto.DepartmentAttendanceDTO;
 import com.kedu.study.dto.Departsimple;
 import com.kedu.study.dto.LeaveDTO;
@@ -78,6 +79,10 @@ public class InsaDAO {
 		System.out.println(params+": 파라미터");
 		
 		return mybatis.selectList(nameSpace+".getDepartments", params);
+	}
+	// 메인 페이지에서 생일자 뽑기 
+	public List<BirtdaylistDTO> getbirtday(){
+		return mybatis.selectList(nameSpace+".getbirtday");
 	}
 	
 	public void generateAnnualForAllEmployees() {
