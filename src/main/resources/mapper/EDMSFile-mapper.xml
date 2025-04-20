@@ -2,30 +2,76 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
-  <mapper namespace="com.kedu.study.repository.EDMSFileRepository">
 
-    <select id="findAllFiles" resultType="com.kedu.study.dto.EDMSFileDTO">
+<mapper namespace="EDMSfile">
+
+    <!-- ✅ ResultMap 정의 -->
+    <resultMap id="EDMSFileResultMap" type="com.kedu.study.dto.EDMSFileDTO">
+        <id property="edmsFileId" column="EDMS_FILE_ID"/>
+        <result property="parentSeq" column="PARENT_SEQ"/>
+        <result property="edmsOriName" column="EDMS_ORINAME"/>
+        <result property="edmsSysName" column="EDMS_SYSNAME"/>
+    </resultMap>
+
+    <!-- ✅ 전체 파일 조회 -->
+    <select id="findAllFiles" resultMap="EDMSFileResultMap">
         SELECT * FROM edms_file
     </select>
 
-    <select id="findFileById" parameterType="int" resultType="com.kedu.study.dto.EDMSFileDTO">
-        SELECT * FROM edms_file WHERE file_id = #{fileId}
+    <!-- ✅ 파일 ID로 조회 -->
+    <select id="findFileById" parameterType="int" resultMap="EDMSFileResultMap">
+        SELECT * FROM edms_file WHERE edms_file_id = #{fileId}
     </select>
 
+    <!-- ✅ 시스템 파일명으로 조회 -->
+    <select id="findBySysName" parameterType="string" resultMap="EDMSFileResultMap">
+        SELECT * FROM edms_file WHERE edms_sysname = #{sysName}
+    </select>
+
+    <!-- ✅ 문서 ID로 파일 조회 -->
+    <select id="getFilesByParentSeq" parameterType="long" resultMap="EDMSFileResultMap">
+        SELECT * FROM edms_file WHERE parent_seq = #{parentSeq}
+    </select>
+
+    <!-- ✅ 파일 등록 (컬럼명 수정됨) -->
     <insert id="insertFile" parameterType="com.kedu.study.dto.EDMSFileDTO">
-        INSERT INTO edms_file (file_name, file_path, form_id, uploaded_at)
-        VALUES (#{fileName}, #{filePath}, #{formId}, NOW())
+        INSERT INTO edms_file (
+            edms_file_id, parent_seq, edms_oriname, edms_sysname
+        ) VALUES (
+            edms_file_seq.NEXTVAL,
+            #{parentSeq},
+            #{edmsOriName},
+            #{edmsSysName}
+        )
     </insert>
 
+    <!-- ✅ 파일 수정 -->
     <update id="updateFile" parameterType="com.kedu.study.dto.EDMSFileDTO">
         UPDATE edms_file
-        SET file_name = #{fileName}, file_path = #{filePath}, form_id = #{formId}
-        WHERE file_id = #{fileId}
+        SET edms_oriname = #{edmsOriName},
+            edms_sysname = #{edmsSysName},
+            parent_seq = #{parentSeq}
+        WHERE edms_file_id = #{edmsFileId}
     </update>
 
+    <!-- ✅ 파일 삭제 -->
     <delete id="deleteFile" parameterType="int">
-        DELETE FROM edms_file WHERE file_id = #{fileId}
+        DELETE FROM edms_file WHERE edms_file_id = #{fileId}
     </delete>
+
+    <!-- ✅ 전체 시스템 파일명 리스트 -->
+    <select id="getAllSysFileNames" resultType="string">
+        SELECT edms_sysname FROM edms_file
+    </select>
+
+    <!-- ✅ parent_seq 업데이트 -->
+<update id="updateFileParentSeq">
+    UPDATE edms_file
+    SET parent_seq = #{parentSeq}
+    WHERE EDMS_SYSNAME IN
+    <foreach item="sysName" collection="sysNames" open="(" separator="," close=")">
+        #{sysName}
+    </foreach>
+</update>
 
 </mapper>
