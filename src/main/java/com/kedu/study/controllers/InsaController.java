@@ -5,12 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kedu.study.dto.AdminSummaryDTO;
+import com.kedu.study.dto.BirtdaylistDTO;
 import com.kedu.study.dto.DepartmentAttendanceDTO;
 import com.kedu.study.dto.Departsimple;
 import com.kedu.study.dto.OvertimeDTO;
@@ -26,7 +26,7 @@ public class InsaController {
 	@Autowired
 	private InsaService IServ;
 
-	//근태관리
+	//근태관리e
 	@GetMapping("/summary")
 	public ResponseEntity<WorkSummaryDTO> getSummary(HttpServletRequest request) {
 		System.out.println("123");
@@ -66,7 +66,10 @@ public class InsaController {
 		return ResponseEntity.ok(list);
 	}
 	
-	// 여러가지 신청하기
-//	@PostMapping("/apply")
-//	public ResponseEntity<>
+	// 메인 페이지에서 생일자 뽑기 
+	@GetMapping("/birtdaylist")
+	public ResponseEntity<List<BirtdaylistDTO>> getbirtday(){
+		List <BirtdaylistDTO> list = IServ.getbirtday();
+		return ResponseEntity.ok(list);
+	}
 }
