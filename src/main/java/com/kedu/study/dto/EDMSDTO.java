@@ -1,6 +1,7 @@
 package com.kedu.study.dto;
 
 import java.util.Date;
+import java.util.List;
 
 public class EDMSDTO {
     private Long edmsId;
@@ -26,6 +27,35 @@ public class EDMSDTO {
     
     private String drafterName;
     private String formName;
+    
+    private List<String> attachments;
+    
+    private List<Integer> refDeptList;
+    private List<Integer> recvDeptList;
+
+    public List<Integer> getRefDeptList() {
+		return refDeptList;
+	}
+
+	public void setRefDeptList(List<Integer> refDeptList) {
+		this.refDeptList = refDeptList;
+	}
+
+	public List<Integer> getRecvDeptList() {
+		return recvDeptList;
+	}
+
+	public void setRecvDeptList(List<Integer> recvDeptList) {
+		this.recvDeptList = recvDeptList;
+	}
+
+	public List<String> getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(List<String> attachments) {
+        this.attachments = attachments;
+    }
 
     public String getFormName() {
         return formName;
